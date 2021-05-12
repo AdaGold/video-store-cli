@@ -6,9 +6,9 @@ You have already built a [Video Store API](https://github.com/AdaGold/retro-vide
 
 In keeping with our retro vibe, for this part of the project we will build a Command Line Interface (CLI) for the front end.
 
-## Manual Tests
+## Review
 
-We will be testing your CLI manually to see how it performs all of the required behaviors.  We recommend that you find a partner to "play-test" your CLI and put it through it's paces. 
+There are no tests for the CLI. Have fun with it! You use use the [user stories](ada-project-docs/part-2/user_stories.md) to guide its functionality. Instructors will review the CLI and provide feedback on how it addresses the user stories and user experience. We recommend that you find a partner to "play-test" your CLI and put it through its paces. 
 
 ## Timeline
 
