@@ -8,7 +8,7 @@ In keeping with our retro vibe, for this part of the project we will build a Com
 
 ## Review
 
-There are no tests for the CLI. Have fun with it! You use use the [user stories](ada-project-docs/part-2/user_stories.md) to guide its functionality. Instructors will review the CLI and provide feedback on how it addresses the user stories and user experience. We recommend that you find a partner to "play-test" your CLI and put it through its paces. 
+There are no tests for the CLI. Have fun with it! You use use the [user stories](ada-project-docs/user_stories.md) to guide its functionality. Instructors will review the CLI and provide feedback on how it addresses the user stories and user experience. We recommend that you find a partner to "play-test" your CLI and put it through its paces. 
 
 
 ## Skills Assessed
@@ -42,4 +42,4 @@ At submission time, no matter where you are, submit the project via Learn.
 
 ## Project Directions
 
-1.  [User Stories](ada-project-docs/part-2/user_stories.md)
+1.  [User Stories](ada-project-docs/user_stories.md)
