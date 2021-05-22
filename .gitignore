@@ -3,3 +3,7 @@
 
 # Ada Library Information
 *.ali
+
+readme.pdf
+ada-project-docs/user_stories.pdf
+.DS_Store
