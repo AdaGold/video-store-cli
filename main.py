@@ -94,6 +94,10 @@ def run_video_store_cli(active=True):
 
             if choice == '1':
                 print("Add a video")
+                # employee.add_video(title="test cli",
+        #                    release_date="1981-01-01",
+        #                    total_inventory=100)
+
             elif choice == '2':
                 print("Edit a video")
             elif choice == '3':
@@ -132,10 +136,6 @@ def run_video_store_cli(active=True):
         else:
             active = False
             print("\nYou just stopped using the Retro Video Store CLI!")
-
-        # employee.add_video(title="test cli",
-        #                    release_date="1981-01-01",
-        #                    total_inventory=100)
 
 
 run_video_store_cli()
