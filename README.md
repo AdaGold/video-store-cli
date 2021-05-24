@@ -13,7 +13,7 @@
 
 Once upon a time in ye olden days to watch a movie a person had to head down to their local video store and rent a video.  We are going to step into the shoes of this old timey retro video store owner and build for ourselves all of the tools that we need in order to run our successful corner video store. 
 
-You have already built a [Video Store API](https://github.com/AdaGold/retro-video-store) for the backend in Part 1 of the project.
+You have already built a [Video Store API](https://github.com/AdaGold/retro-video-store) for the backend in Part 1 of the project. 
 
 In keeping with our retro vibe, for this part of the project we will build a Command Line Interface (CLI) for the front end with the following minimum functionality:
 
@@ -26,7 +26,7 @@ In keeping with our retro vibe, for this part of the project we will build a Com
 - [Optional] List videos checked out to a customer
 - [Optional] List all customers who have currently checked out a video
 
-Go through the user stories and build the features of the CLI.
+You can make requests using your own API via `localhost:5000` or our deployed version using `https://calm-ridge-59728.herokuapp.com`. Go through the user stories and build the features of the CLI.
 
 ## Review
 
