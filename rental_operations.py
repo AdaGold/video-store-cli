@@ -1,5 +1,5 @@
 import requests
 import datetime
 
-class VideoStore:
+class RentalOperations:
     pass
