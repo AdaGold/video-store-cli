@@ -1,13 +1,12 @@
-import requests 
-def main():
-    url = "https://calm-ridge-59728.herokuapp.com"
-    response = requests.get(url)
-    name = response.json()['name']
-    greeting = response.json()['message']
-    
-    print("********************")
-    print(f"Welcome to {name}")
-    print(greeting)
-    print("********************")
+import requests
 
-main()
+URL = "http://127.0.0.1:5000"
+BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
+
+def main():
+    print("WELCOME TO RETRO VIDEO STORE")
+    pass
+
+
+if __name__ == "__main__":
+    main()

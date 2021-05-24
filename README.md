@@ -26,7 +26,7 @@ In keeping with our retro vibe, for this part of the project we will build a Com
 - [Optional] List videos checked out to a customer
 - [Optional] List all customers who have currently checked out a video
 
-You can make requests using your own API via `localhost:5000` or our deployed version using `https://calm-ridge-59728.herokuapp.com`. Go through the user stories and build the features of the CLI.
+You can make requests using your own API via `localhost:5000` or our deployed version using `https://retro-video-store-api.herokuapp.com`. Go through the user stories and build the features of the CLI.
 
 ## Review
 
@@ -40,3 +40,12 @@ At submission time, no matter where you are, submit the project via Learn.
 ## Project Directions
 
 1.  [User Stories](ada-project-docs/user_stories.md)
+
+## Potential Resources
+
+1. [Task List CLI](https://github.com/AdaGold/task-list-cli)
+1. [Seven Wonders-Rock](https://learn-2.galvanize.com/cohorts/2496/blocks/1310/content_files/requests-and-responses/problem-set-requests-with-python.md)
+1. [Seven Wonders-Paper](https://learn-2.galvanize.com/cohorts/2497/blocks/1310/content_files/requests-and-responses/problem-set-requests-with-python.md)
+1. [Seven Wonders-Scissors](https://learn-2.galvanize.com/cohorts/2498/blocks/1310/content_files/requests-and-responses/problem-set-requests-with-python.md)
+
+
