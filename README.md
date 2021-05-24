@@ -47,5 +47,7 @@ At submission time, no matter where you are, submit the project via Learn.
 1. [Seven Wonders-Rock](https://learn-2.galvanize.com/cohorts/2496/blocks/1310/content_files/requests-and-responses/problem-set-requests-with-python.md)
 1. [Seven Wonders-Paper](https://learn-2.galvanize.com/cohorts/2497/blocks/1310/content_files/requests-and-responses/problem-set-requests-with-python.md)
 1. [Seven Wonders-Scissors](https://learn-2.galvanize.com/cohorts/2498/blocks/1310/content_files/requests-and-responses/problem-set-requests-with-python.md)
+1. [Slack CLI (a past Ada Project)](https://github.com/AdaGold/slack-cli)
+    * [Slack CLI Design Activity](https://github.com/AdaGold/slack-cli/blob/master/design_activity.md)
 
 
