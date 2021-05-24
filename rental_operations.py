@@ -7,5 +7,8 @@ class RentalOperations:
         self.url = url
         self.selected_rental = None
     
-    def checkout_vid_to_customer(self):
+    def checkout_vid_to_customer(self, customer_id=None, video_id=None):
+        pass
+    
+    def checkin_vid_from_customer(self, customer_id=None, video_id=None):
         pass

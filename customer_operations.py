@@ -1,4 +1,4 @@
-from datetime import datetime
+
 import requests
 
 class CustomerOperations:
@@ -52,7 +52,6 @@ class CustomerOperations:
     
     
     def get_one_customer_info(self, name=None, customer_id=None):
-        
         for customer in self.get_all_customer_information():
             if name:
                 if customer["name"]== name:
