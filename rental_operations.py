@@ -2,4 +2,10 @@ import requests
 import datetime
 
 class RentalOperations:
-    pass
+    
+    def __init__(self, url="http://localhost:5000"):
+        self.url = url
+        self.selected_rental = None
+    
+    def checkout_vid_to_customer(self):
+        pass

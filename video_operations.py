@@ -38,7 +38,7 @@ class VideoOperations:
 
     def delete_video(self):
         response = requests.delete(self.url+f"/videos/{self.selected_video['video_id']}")
-        self.selected_task = None
+        self.selected_video = None
         return response.json()
     
     def get_all_video_information(self):
@@ -56,7 +56,7 @@ class VideoOperations:
                 self.selected_video = video
 
         if self.selected_video == None:
-            return "Could not find video by that name or id"
+            return "Could not find video by that title or id"
 
         response = requests.get(self.url+f"/videos/{video_id}")
         return response.json()

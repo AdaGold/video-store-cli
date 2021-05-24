@@ -7,57 +7,62 @@ class CustomerOperations:
         self.url = url
         self.selected_customer = None
          
-    def add_customer(self, title="default customer name", phone="default phone number", postal_code=0):
+         
+    def add_customer(self, name="default customer name", phone="default phone number", postal_code=0):
         query_params = {
             "name": name,
             "phone": phone,
             "postal_code": postal_code
         }
-        response = requests.post(self.url+"/videos",json=query_params)
+        response = requests.post(self.url+"/customers",json=query_params)
         return response.json()
     
-    def edit_video(self, title=None, release_date=datetime.now(), total_inventory=0):
-        if not title:
-            title = self.selected_video["title"]
-        if not release_date:
-            release_date = self.selected_video["release_date"]
-        if not total_inventory:
-            total_inventory = self. selected_video["total_inventory"]
+    
+    def edit_customer(self, name=None, phone=None, postal_code=None): # not sure if this needs none value?
+        if not name:
+            name = self.selected_customer["name"]
+        if not phone:
+            phone = self.selected_customer["phone"]
+        if not postal_code:
+            postal_code = self. selected_customer["postal_code"]
 
         query_params = {
-        "title": title,
-        "release_date": release_date,
-        "total_inventory": total_inventory}
+        "name": name,
+        "postal_code": postal_code,
+        "phone": phone}
         
         response = requests.put(
-            self.url+f"/videos/{self.selected_video['video_id']}",
+            self.url+f"/cusstomers/{self.selected_customer['customer_id']}",
             json=query_params
             )
         print("response:", response)
-        self.selected_video = response.json()["videos"]
+        self.selected_customer = response.json()["customers"]
         return response.json()
 
-    def delete_video(self):
-        response = requests.delete(self.url+f"/videos/{self.selected_video['video_id']}")
-        self.selected_task = None
+
+    def delete_customer(self):
+        response = requests.delete(self.url+f"/customer/{self.selected_customer['customer_id']}")
+        self.selected_customer = None
         return response.json()
     
-    def get_all_video_information(self):
-        response = requests.get(self.url+"/videos")
+    
+    def get_all_customer_information(self):
+        response = requests.get(self.url+"/customers")
         return response.json()
     
-    def get_one_video_info(self, title=None, video_id=None):
+    
+    def get_one_customer_info(self, name=None, customer_id=None):
         
-        for video in self.get_all_video_information():
-            if title:
-                if video["title"]==title:
-                    video_id = video["video_id"]
-                    self.selected_video = video
-            elif video_id == video["video_id"]:
-                self.selected_video = video
+        for customer in self.get_all_customer_information():
+            if name:
+                if customer["name"]== name:
+                    customer_id = customer["customer_id"]
+                    self.selected_customer = customer
+            elif customer_id == customer["customer_id"]:
+                self.selected_customer = customer
 
-        if self.selected_video == None:
-            return "Could not find video by that name or id"
+        if self.selected_customer == None:
+            return "Could not find customer by that name or id"
 
-        response = requests.get(self.url+f"/videos/{video_id}")
+        response = requests.get(self.url+f"/customer/{customer_id}")
         return response.json()
