@@ -1,12 +1,12 @@
 import requests
-import datetime
+from datetime import datetime
 
 class VideoOperations:
     def __init__(self, url="http://localhost:5000"):
         self.url = url
         self.selected_video = None
          
-    def add_video(self, title="default video title", release_date=datetime.now(), total_inventory=0):
+    def add_video(self, title="default video title", release_date=str(datetime.now()), total_inventory=0):
         query_params = {
             "title": title,
             "release_date": release_date,
@@ -45,20 +45,22 @@ class VideoOperations:
         response = requests.get(self.url+"/videos")
         return response.json()
     
-    def get_one_video_info(self, title=None, video_id=None):
+    def get_one_video_information(self, video_id=None):
         
-        for video in self.get_all_video_information():
-            if title:
-                if video["title"]==title:
-                    video_id = video["video_id"]
-                    self.selected_video = video
-            elif video_id == video["video_id"]:
-                self.selected_video = video
+        # for video in self.get_all_video_information():
+        #     if title:
+        #         if video["title"]==title:
+        #             video_id = video["video_id"]
+        #             #self.selected_video = video
+        #     elif video_id == video["video_id"]:
+        #         self.selected_video = video
 
-        if self.selected_video == None:
-            return "Could not find video by that title or id"
+        # if self.selected_video == None:
+        #     return "Could not find video by that title or id"
 
         response = requests.get(self.url+f"/videos/{video_id}")
         return response.json()
-    
-    
+
+    def print_selected(self):
+        if self.selected_video:
+            print(f"Video with id {self.selected_video['video_id']} is currently selected\n")

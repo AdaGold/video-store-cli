@@ -17,22 +17,22 @@ class CustomerOperations:
         response = requests.post(self.url+"/customers",json=query_params)
         return response.json()
     
-    
     def edit_customer(self, name=None, phone=None, postal_code=None): # not sure if this needs none value?
-        if not name:
+        if not name and self.selected_customer != None:
             name = self.selected_customer["name"]
         if not phone:
             phone = self.selected_customer["phone"]
         if not postal_code:
             postal_code = self. selected_customer["postal_code"]
-
+        #check the validity of the input
+        #check for the customer Id
         query_params = {
         "name": name,
         "postal_code": postal_code,
         "phone": phone}
         
         response = requests.put(
-            self.url+f"/cusstomers/{self.selected_customer['customer_id']}",
+            self.url+f"/customers/{self.selected_customer['customer_id']}", #edit based on customer id and what if there is no customer id
             json=query_params
             )
         print("response:", response)
@@ -40,9 +40,9 @@ class CustomerOperations:
         return response.json()
 
 
-    def delete_customer(self):
-        response = requests.delete(self.url+f"/customer/{self.selected_customer['customer_id']}")
-        self.selected_customer = None
+    def delete_customer(self, customer_id):
+        response = requests.delete(self.url+f"/customers/{customer_id}")
+        #self.selected_customer = None
         return response.json()
     
     
@@ -51,7 +51,7 @@ class CustomerOperations:
         return response.json()
     
     
-    def get_one_customer_info(self, name=None, customer_id=None):
+    def get_one_customer_information(self, name=None, customer_id=None):
         for customer in self.get_all_customer_information():
             if name:
                 if customer["name"]== name:
@@ -63,5 +63,9 @@ class CustomerOperations:
         if self.selected_customer == None:
             return "Could not find customer by that name or id"
 
-        response = requests.get(self.url+f"/customer/{customer_id}")
+        response = requests.get(self.url+f"/customers/{customer_id}")
         return response.json()
+
+    def print_selected(self):
+        if self.selected_customer:
+            print(f"Customer with id {self.selected_customer['customer_id']} is currently selected\n")
