@@ -33,8 +33,5 @@ options = {
     "13": "Quit"
     }
 
-
-
-
 #feel free to use Class 
 # ada Resources - Slack CLI 
