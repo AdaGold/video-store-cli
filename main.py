@@ -17,6 +17,7 @@ def run_cli(play=True):
 
         choice = make_choice(options, video_store)
 
+        # "1": "Add a Video" 
         if choice == '1':
 
             print("Ok! Let's record a new video.")
@@ -27,6 +28,7 @@ def run_cli(play=True):
             response = video_store.create_video(title=title, release_date=release_date, total_inventory=total_inventory)
             print(f"New video ID: {response['id']}")
 
+        # "2": "Edit a Video"
         elif choice=='2':
             
             video = select_video(video_store)
@@ -49,6 +51,7 @@ def run_cli(play=True):
                 print(f">>>Total Inventory: {response['total_inventory']}")
                 print(f">>>Available Inventory: {response['available_inventory']}")
         
+        # "3": "Delete a Video"
         elif choice=='3':
             video = select_video(video_store)
             if video == None:
@@ -62,10 +65,12 @@ def run_cli(play=True):
                     print(f"Video #{video['id']} successfully deleted.")
                 # do something if they select N, don't want to delete
         
+        # "4": "Get all Videos"
         elif choice=='4':
             for video in video_store.list_videos():
                 print(video)
         
+        # "5": "Get One Video"
         elif choice=='5':
             video = select_video(video_store)
             if video == None:
@@ -77,6 +82,81 @@ def run_cli(play=True):
                 print(f">>>Total Inventory: {video['total_inventory']}")
                 print(f">>>Available Inventory: {video['available_inventory']}")
 
+        #Option 6: Add a Customer
+        elif choice=='6':
+
+            print("Ok! Let's add a new customer.")
+            name=input("What is the customer's name? ")
+            postal_code=input("What is the customer's postal code? ")
+            phone=input("What is the customer's phone number? ")
+
+            response = video_store.create_customer(name=name, postal_code=postal_code, phone=phone)
+            print(f"New customer ID: {response['id']}")
+        
+        #Option 7: Edit a Customer
+        elif choice=='7':
+
+            customer = select_customer(video_store)
+            if customer == None:
+                print("No customer with that ID or name found.")
+            else:
+                # potential place to add more elements of choice for user
+                # ask if they want to update each attribute of the customer
+                name=input("What is the customer's name? ")
+                postal_code=input("What is the customer's postal code? ")
+                phone=input("What is the customer's phone number? ")
+                #not a place to adjust registration OR videos checked out (managed in rentals)
+                response = video_store.update_customer(
+                                            name=name, 
+                                            postal_code=postal_code, 
+                                            phone=phone)
+                print(f"Updates successfully made to customer ID: {response['id']}")
+                print(f">>>Name: {response['name']}")
+                print(f">>>Postal Code: {response['postal_code']}")
+                print(f">>>Phone: {response['phone']}")
+                print(f">>>Registered At: {response['registered_at']}")
+                print(f">>>Videos Checked Out: {response['videos_checked_out_count']}")
+
+        #Option 8: Delete a Customer
+        elif choice=='8':
+
+            customer = select_customer(video_store)
+            if customer == None:
+                print("No customer with that ID or name found.")
+            else:
+                print(f"You selected this video to delete: {customer}")
+                print(f"Are you sure you want to delete?")
+                certainty = input(f"Select Y or N: ")
+                if certainty == "Y":
+                    video_store.delete_customer()
+                    print(f"Customer #{customer['id']} successfully deleted.")
+                # do something if they select N, don't want to delete
+
+        #Option 9: Get info for ONE Customer
+        elif choice=='9':
+            customer = select_customer(video_store)
+            if customer == None:
+                print("No customer with that ID or name found.")
+            else:
+                print(f"Information for customer #{customer['id']}:")
+                print(f">>>Name: {customer['name']}")
+                print(f">>>Postal Code: {customer['postal_code']}")
+                print(f">>>Phone: {customer['phone']}")
+                print(f">>>Registered At: {customer['registered_at']}")
+                print(f">>>Videos Checked Out: {customer['videos_checked_out_count']}")
+
+        #Option 10: Get info for ALL Customers
+        elif choice=='10':
+            for customer in video_store.list_customers():
+                print(customer)
+
+        #Option 11: Check OUT a Video
+        elif choice=='11':
+            pass
+        
+        #Option 12: Check IN a Video
+        elif choice=='12':
+            pass
 
         elif choice=='13':
             play=False
@@ -154,9 +234,21 @@ def select_video(video_store):
             id = int(id)
             video_store.get_video(id=id)
     # need a way to catch dumb user who doesn't enter 1 or 2 
-
-    
     return video_store.selected_video 
+
+def select_customer(video_store):
+    print("Ok, let's select a customer.")
+    select_by = input("Would you like to select by name (1) or ID (2)? ")
+    if select_by=="1":
+        name = input("Enter the name of the customer: ")
+        video_store.get_customer(name=name)
+    elif select_by=="2":
+        id = input("Enter the customer ID number: ")
+        if id.isnumeric():
+            id = int(id)
+            video_store.get_customer(id=id)
+    # need a way to catch dumb user who doesn't enter 1 or 2 
+    return video_store.selected_customer 
 
 def video_options():
     pass
