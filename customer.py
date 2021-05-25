@@ -47,9 +47,9 @@ class Customer:
             postal_code = self.selected_customer["postal_code"]
         if not phone:
             phone = self.selected_customer["phone"]
-        print("***", self.selected_customer["name"])
-        print("***", self.selected_customer["postal_code"])
-        print("***", self.selected_customer["phone"])
+        # print("***", self.selected_customer["name"])
+        # print("***", self.selected_customer["postal_code"])
+        # print("***", self.selected_customer["phone"])
 
         query_params = {
             "name": name,
@@ -61,8 +61,8 @@ class Customer:
             self.url+f"/customers/{self.selected_customer['id']}",
             json=query_params
         )
-        print("reponse:", response)
-        print("response.json", response.json())
+        # print("reponse:", response)
+        # print("response.json", response.json())
         # print("customer", response.json()["customer"])
         self.selected_customer = response.json()#["customer"]
         return response.json()

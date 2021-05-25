@@ -1,5 +1,6 @@
 import requests
 from customer import Customer
+from video import Video
 
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
@@ -92,11 +93,13 @@ def make_customer_choices(customer_choices, customer):
         name = input("What is the name of your customer? ")
         postal_code = input("What is postal code of your customer? ")
         phone = input("What is the phone number of your customer? ")
-        response = customer.create_customer(name=name, \
-                            postal_code=postal_code, phone=phone)
+        response = customer.create_customer(name=name,
+                                            postal_code=postal_code, 
+                                            phone=phone)
         # print("***** cli We're in choice !")
         print_stars()
-        print(f"New customer name: {name} \nPostal Code: {postal_code}\
+        print(f"New customer name: {name} \
+                \nPostal Code: {postal_code}\
                 \nPhone: {phone}")
 
     # Edit a Customer
@@ -115,12 +118,14 @@ def make_customer_choices(customer_choices, customer):
             new_name = input("What is the new name of your customer? ")
             postal_code = input("What is the new postal code of your customer? ")
             phone = input("What is the new phone number of your customer? ")
-            response = customer.update_customer(name=new_name, \
-                            postal_code=postal_code, phone=phone)
+            response = customer.update_customer(name=new_name, 
+                                                postal_code=postal_code, 
+                                                phone=phone)
             print_stars()
             print("Customer Updated: ", customer.selected_customer)
-            print(f"Updated customer name: {name} \nPostal Code: {postal_code} \
-                \nPhone: {phone}")
+            print(f"Updated customer name: {name} \
+                    \nPostal Code: {postal_code} \
+                    \nPhone: {phone}")
         else:
             print_stars()
             print("There is no customer by that name. Try again. ")
@@ -140,17 +145,124 @@ def make_customer_choices(customer_choices, customer):
             print("Could not select. Please enter name or id")
 
         print_stars()
-        print("Task has been deleted.")
+        print("Customer has been deleted.")
 
     # Return to Main menu
     elif customer_choices == "6":
+        list_options()
+
+def video_options():
+    options = {
+        "1": "To list all Videos, type 1",
+        "2": "To see information for one Video, type 2",
+        "3": "To add a new Video, type 3",
+        "4": "To edit a Video, type 4",
+        "5": "To delete a Video, type 5",
+        "6": "To return to the main menu, type 6"
+    }
+    print("Please choose from the following Video menu options:")
+    print_stars()
+
+    for choice_num in options:
+        print(f"Option {choice_num}. {options[choice_num]}")
+
+    print_stars()
+    return options
+
+def make_video_choices(video_choices, video):
+    # See all Videos
+    if video_choices == "1":
+        print_stars()
+        for vid in video.list_videos():
+            print(vid)
+
+    # See information for one Video
+    elif video_choices == "2":
+        select_by = input("Would you like to select by title or id?: ")
+        if select_by == "title":
+            title = input("What is the title of your video? ")
+            video.get_video(title=title)
+        elif select_by == "id":
+            id = input("What is the id of your video? ")
+            if id.isnumeric():
+                id = int(id)
+                video.get_video(id=id)
+        else:
+            print("Could not select. Please enter title or id")
+        
+        if video.selected_video:
+            print_stars()
+            print("Selected Video: ", video.selected_video)
+
+    # Add a new Video     
+    elif video_choices == "3":
+        print("Let's create a new video")
+        title = input("What is the title of your video? ")
+        release_date = input("What is the release date of your video? ")
+        total_inventory = input("What is the total inventory for your video ")
+        available_inventory = total_inventory
+        response = video.create_video(title=title, 
+                                    release_date=release_date, 
+                                    total_inventory=total_inventory,
+                                    available_inventory=available_inventory)
+        # print("***** cli We're in choice !")
+        print_stars()
+        print(f"New Video title: {title} \
+                \nRelease Date: {release_date}\
+                \nTotal Inventory: {total_inventory}\
+                \nAvailable Inventory: {available_inventory}")
+
+    # Edit a Customer
+    elif video_choices == "4":
+
+        title = input("What is the title of your video? ")
+        video.get_video(title=title)
+        
+        if video.selected_video:
+            print_stars()
+
+            print(f"Let's update the video {video.selected_video}")
+            new_title = input("What is the new title of your video? ")
+            release_date = input("What is the release date of your video? ")
+            total_inventory = input("What is the total inventory? ")
+            response = video.update_video(title=new_title,
+                                        release_date=release_date,
+                                        total_inventory=total_inventory)
+            print_stars()
+            print("Video Updated: ", video.selected_video)
+            print(f"Updated video title: {new_title} \
+                    \nRelease Date: {release_date} \
+                    \nTotal Inventory: {total_inventory}")
+        else:
+            print_stars()
+            print("There is no video by that title. Try again. ")
+
+    # Delete a Customer
+    elif video_choices == "5":
+        select_by = input("Would you like to select by title or id?: ")
+        if select_by == "title":
+            title = input("What is the title of your video? ")
+            video.delete_video(title=title)
+        elif select_by == "id":
+            id = input("What is the id of your video? ")
+            if id.isnumeric():
+                id = int(id)
+                video.delete_video(id=id)
+        else:
+            print("Could not select. Please enter title or id")
+
+        print_stars()
+        print("Video has been deleted.")
+
+    # Return to Main menu
+    elif video_choices == "6":
         list_options()
 
 
 def run_cli(play=True):
 
     customer = Customer(url="https://jen-retro-video-store.herokuapp.com")
-    # customer = Customer()
+    video = Video(url="https://jen-retro-video-store.herokuapp.com")
 
     options = list_options()
 
@@ -159,10 +271,17 @@ def run_cli(play=True):
 
         if choice == "1":
             print_stars()
-            cust_options = customer_options()
-            customer_choices = make_choices(cust_options)
 
+            customer_choices = make_choices(customer_options())
             make_customer_choices(customer_choices, customer)
+
+        elif choice == "2":
+            print_stars()
+
+            video_choices = make_choices(video_options())
+            make_video_choices(video_choices, video)
+
+
 
 
 
