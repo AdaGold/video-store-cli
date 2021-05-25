@@ -18,13 +18,12 @@ def run_cli(play=True):
 
             print("Ok! Let's record a new video.")
             title=input("What is the title of the movie? ")
-            release_date=input("What date was the movie released? ")
+            release_date=input("What date (MM-DD-YYYY) was the movie released? ")
             total_inventory=input("How many copies of this movie are being added to the store? ")
 
             response = video_store.create_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
-            print("New video:", response["title"])
-
+            print(f"New video ID: {response['id']}")
 
     # options = {
     #     "1": "Add a Video", 
@@ -78,7 +77,7 @@ def list_options():
     print("These are the actions you can perform: ")
 
     for choice_num in options:
-        print(f"Option {choice_num}. {options[choice_num]}")
+        print(f"Option {choice_num}: {options[choice_num]}")
     
     return options
 
