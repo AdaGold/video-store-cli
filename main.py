@@ -25,7 +25,9 @@ def list_options():
         "9": "get information about one customer",
         "10": "get information about all customers",
         "11": "check out a video to a customer",
-        "12": "check in a video from a customer"
+        "12": "check in a video from a customer",
+        "13": "List all options again",
+        "14" : "Quit"
         }
     
     print_stars()
@@ -56,7 +58,7 @@ def main(play=True):
         # get input and validate
         choice = make_choice(options, video_operations, customer_operations, rental_operations)
 
-        video_operations.print_selected()
+        #video_operations.print_selected()
         #customer_operations.print_selected()
         #rental_operations.print_selected()
 
@@ -64,9 +66,9 @@ def main(play=True):
             
             print_stars()
             print("Hi, let's add a video to the library")
-            title=input("What is the title of your video? ")
-            release_date=input("please provide the release date of your video (YYYY-MM-DD)")
-            total_inventory=input("how many of these videos would you like to add to the total inventory?")
+            title=input("What is the title of your video? : ")
+            release_date=input("please provide the release date of your video (YYYY-MM-DD) : ")
+            total_inventory=input("how many of these videos would you like to add to the total inventory? : ")
             response = video_operations.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
             print_stars()
             print("New video:", response["id"])
@@ -75,21 +77,23 @@ def main(play=True):
             print(f"Great! Let's update the video: {video_operations.selected_video}")
             
             title=input("What is the new title of your video? ")
-            release_date=input("What is the new release date of your video? ")
-            total_inventory=input("What is the new total inventory of this video?")
+            release_date=input("What is the new release date (YYYY-MM-DD) of your video? ")
+            total_inventory=input("What is the new total inventory of this video? ")
             
-            response = video_operations.edit_video(title=title, release_date=release_date, total_inventory=total_inventory)
-
+            response = video_operations.edit_video(video_id, title=title, release_date=release_date, total_inventory=total_inventory)
             print_stars()
-            print("Updated video:", response["video"])
+            print("Updated video : ", response["title"])
 
         elif choice=='3':
-            video_operations.delete_video()
+            del_vid = input("Which video would you like to delete, please enter the id: ")
+            if del_vid.isnumeric():
+               del_vid  = int(del_vid)
+               video_operations.delete_video(del_vid)
+               
             print_stars()
-            print("Video has been deleted.")
-
+            print("Video has been deleted. ")
             print_stars()
-            print(video_operations.get_all_video_information())
+            #print(video_operations.get_all_video_information())
         
         elif choice=='4':
             print_stars()
@@ -97,87 +101,92 @@ def main(play=True):
                 print(video)
             
         elif choice=='5':
-            print("Here are the available videos:")
+            print("Here are the available videos: ")
             all_videos = video_operations.get_all_video_information()
-            print(f"all videos = {all_videos}")
+            #print(f"all videos = {all_videos}")
             
             for vid in all_videos:
                 print(f"Id:{vid['id']}, Title:{vid['title']}")
             
-            video_id = input("Which video id would you like to select? ")
+            video_id = input("Which video id would you like to select? : ")
             if video_id.isnumeric():
                 video_id = int(video_id)
                 video_operations.selected_video = video_operations.get_one_video_information(video_id=video_id)
             else:
-                print("Could not select. Please enter valid video id")
+                print("Could not select. Please enter valid video id: ")
             
             if video_operations.selected_video:
                 print_stars()
-                print("Selected video: ", video_operations.selected_video["title"])
+                print("Selected video information is : ", video_operations.selected_video)
             
         
         elif choice =='6':
             print_stars()
             print("Hi, let's add a new customer to the register")
-            name=input("What is the name of your customer? ")
-            phone=input("please provide the phone number of your customer")
-            postal_code=input("please provide the postal code of your customer")
+            name=input("What is the name of your customer? : ")
+            phone=input("please provide the phone number (000-000-0000) of your customer : ")
+            postal_code=input("please provide the 5 digit postal code of your customer : ")
             response = customer_operations.add_customer(name=name, phone=phone, postal_code=postal_code)
             print_stars()
-            print("New customer:", response["customer"])
+            print("New customer created with id :", response["id"])
+        
         
         elif choice == '7':
             print(f"Great! Let's update the customer: {customer_operations.selected_customer}")
             
-            customer_id=input("What is the id of the customer you want to update?")
-            name=input("What is the new name of your customer? ")
-            phone=input("What is the new phone number of the customer? ")
-            postal_code=input("What is the postal code of this customer?")
-            
-            response = customer_operations.edit_customer(name=name, phone=phone, postal_code=postal_code)
-
+           #customer_id=input("What is the id of the customer you want to update?")
+            name=input("What is the new name of your customer? : ")
+            phone=input("What is the new phone number of the customer? : ")
+            postal_code=input("What is the postal code of this customer? : ")
+            response = customer_operations.edit_customer(customer_id, name=name, phone=phone, postal_code=postal_code)
             print_stars()
-            print("Updated customer:", response["customer"])
+            print("Updated customer:", response["name"])
+    
         
         elif choice == '8':
-            customer_operations.delete_customer()
+            customer_operations.delete_customer(customer_id)
             print_stars()
             print("customer has been deleted.")
-
             print_stars()
-            print(customer_operations.get_all_customer_information())
+            #print(customer_operations.get_all_customer_information())
+            
             
         elif choice == '9':
-            select_by = input("Would you like to select by? Enter name or customer_id: ")
-            if select_by=="name":
-                name = input("Which customer would you like to select? ")
-                customer_operations.get_one_customer_information(name=name)
-                
-            elif select_by=="customer_id":
-                customer_id = input("Which customer id would you like to select? ")
-                if customer_id.isnumeric():
-                    customer_id = int(customer_id)
-                    customer_operations.get_one_customer_information(customer_id=customer_id)
+            print("Here are the customers:")
+            all_customers = customer_operations.get_all_customer_information()
+            #print(f"all customers = {all_customers}")
+            
+            for customer in all_customers:
+                print(f"Id: {customer['id']}, name: {customer['name']}")
+            
+            customer_id = input("Which customer id would you like to select? : ")
+            if customer_id.isnumeric():
+                customer_id = int(customer_id)
+                customer_operations.selected_customer = customer_operations.get_one_customer_information(customer_id=customer_id)
             else:
-                print("Could not select. Please enter id or name.")
+                print("Could not select. Please enter valid customer id: ")
             
             if customer_operations.selected_customer:
                 print_stars()
                 print("Selected customer: ", customer_operations.selected_customer)
+            
         
             
         elif choice == '10':
             print_stars()
             for customer in customer_operations.get_all_customer_information():
                 print(customer)
+            
         
         # elif choice == '11':
         # elif choice == '12':
+        
         elif choice=='13':
             list_options()
+            
         elif choice=='14':
             play=False
-            print("\nThanks for using the video store CLI!")
+            print("\nYou are now exiting the video store CLI, Thank you!")
         
         else:
             print("invalid choice", choice, "please select a valid choice")
@@ -190,21 +199,21 @@ def make_choice(options, video_operations, customer_operations, rental_operation
     choice = None
 
     while choice not in valid_choices:
-        print("What would you like to do? Select 12 to see all options again")
-        choice = input("Make your selection using the option number: ")
-
+        print("What would you like to do? Select 13 to see all options again :")
+        choice = input("Make your selection using the option numbers 1 - 14 : " )
+        #--> 2 : edit a video \n3 : delete a video \n7 : edit a customer \n8 : delete a customer"
+        
     if choice in ['2', '3'] and video_operations.selected_video == None:
-        print("You must select a video before updating it, deleting it, and getting a specific video")
-        print("Let's select a video!")
+        print("You must select a video before updating it, deleting it, and getting a specific video : ")
+        print("Let's select a video! : ")
         choice = "5"
         
     elif choice in ['7','8'] and customer_operations.selected_customer == None:
-        print("You must select a customer before updating it, deleting it, and getting a specific customer")
-        print("Let's select a customer!")
+        print("You must select a customer before updating it, deleting it, and getting a specific customer : ")
+        print("Let's select a customer! : ")
         choice = "9"
         
     return choice
-
 
 if __name__ == "__main__":
     main()
