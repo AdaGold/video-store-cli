@@ -18,7 +18,26 @@ class VideoStore:
         return response.json()
 
     # "2": "Edit a Video"
-
+    def update_video(self, title=None, release_date=None, total_inventory=None):
+        if not title:
+            title = self.selected_video["title"]
+        if not release_date:
+            release_date = self.selected_video["release_date"]
+        if not total_inventory:
+            total_inventory = self.selected_video["total_inventory"]
+        query_params = {
+            "title": title,
+            "release_date": release_date,
+            "total_inventory": total_inventory
+            #available_inventory is NOT currently updating
+            }
+        response = requests.put(
+            self.url+f"/videos/{self.selected_video['id']}",
+            json=query_params
+            )
+        print("response:", response)
+        self.selected_video = response.json()["id"]
+        return response.json()
 
     # "3": "Delete a Video"
     def delete_video(self):

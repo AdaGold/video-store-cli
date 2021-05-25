@@ -4,6 +4,9 @@ from video_store import VideoStore
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
+#consider adding a check for date feature to catch errors in date entry (not string)
+
+
 def run_cli(play=True):
 
     video_store = VideoStore(url=URL)
@@ -24,14 +27,27 @@ def run_cli(play=True):
             response = video_store.create_video(title=title, release_date=release_date, total_inventory=total_inventory)
             print(f"New video ID: {response['id']}")
 
-        # elif choice=='2':
-        #     print(f"Great! Let's update the task: {task_list.selected_task}")
-        #     title=input("What is the new title of your task? ")
-        #     description=input("What is the new description of your task? ")
-        #     response = task_list.update_task(title=title, description=description)
-
-        #     print_stars()
-        #     print("Updated task:", response["task"])
+        elif choice=='2':
+            
+            video = select_video(video_store)
+            if video == None:
+                print("No video with that ID or title found.")
+            else:
+                # potential place to add more elements of choice for user
+                # ask if they want to update each attribute of the movie
+                title=input("What is the title of the movie? ")
+                release_date=input("What date (MM-DD-YYYY) was the movie released? ")
+                total_inventory=input("How many copies of this movie does the store own? ")
+                #available_inventory is NOT currently updating
+                response = video_store.update_video(
+                                            title=title, 
+                                            release_date=release_date, 
+                                            total_inventory=total_inventory)
+                print(f"Updates successfully made to video ID: {response['id']}")
+                print(f">>>Title: {response['title']}")
+                print(f">>>Release Date: {response['release_date']}")
+                print(f">>>Total Inventory: {response['total_inventory']}")
+                print(f">>>Available Inventory: {response['available_inventory']}")
         
         elif choice=='3':
             video = select_video(video_store)
@@ -46,7 +62,6 @@ def run_cli(play=True):
                     print(f"Video #{video['id']} successfully deleted.")
                 # do something if they select N, don't want to delete
         
-        
         elif choice=='4':
             for video in video_store.list_videos():
                 print(video)
@@ -56,7 +71,11 @@ def run_cli(play=True):
             if video == None:
                 print("No video with that ID or title found.")
             else:
-                print(f"Selected video: {video}")
+                print(f"Information for video #{video['id']}:")
+                print(f">>>Title: {video['title']}")
+                print(f">>>Release Date: {video['release_date']}")
+                print(f">>>Total Inventory: {video['total_inventory']}")
+                print(f">>>Available Inventory: {video['available_inventory']}")
 
 
         elif choice=='13':
@@ -134,10 +153,8 @@ def select_video(video_store):
         if id.isnumeric():
             id = int(id)
             video_store.get_video(id=id)
-    
     # need a way to catch dumb user who doesn't enter 1 or 2 
-    # else:
-    #     print("Please enter 1 for title or 2 for ID: ")
+
     
     return video_store.selected_video 
 
