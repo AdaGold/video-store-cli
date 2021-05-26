@@ -25,7 +25,6 @@ def option_list():
     options = {
         "1": "Add a video", 
         "2": "Get information about all videos",
-        "*": "Select a video",
         "3": "Get information on one video", #needs id
         "4": "Edit a video", # needs id
         "5": "Delete a video", # needs id 
@@ -99,7 +98,7 @@ def run_cli(play=True):
                 print(video) 
             
 
-        elif option=='3':
+        elif option=='3': #this selects the video 
             choose_by = input("Would you like to select by title or id?:  ")
             if choose_by=="title":
                 title = input("Which movie would you like to choose?  ")
@@ -118,7 +117,7 @@ def run_cli(play=True):
             else:
                 print("Sorry, we couldn't find a matching video.")
             pzzas()
-            
+        #show info on selected video    
 
         elif option=='4':
             if not selected_video:
@@ -141,6 +140,7 @@ def run_cli(play=True):
             
 
         elif option=='5':
+            #maybe an 'are you sure message?
             selected_video.delete()
             pzzas()
             print("Video has been deleted.")
