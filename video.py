@@ -1,5 +1,4 @@
 import requests
-from datetime import datetime
 
 class Video:
     def __init__(self, url="http://localhost:5000", selected_video=None):
