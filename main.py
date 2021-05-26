@@ -5,7 +5,7 @@ from video_info import VideoInfo
 from customer_info import CustomerInfo
 
 URL = "http://127.0.0.1:5000"
-BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
+# BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 def main():
     if __name__ == "__main__":
@@ -60,32 +60,32 @@ def main(play=True):
 
         if choice=='1':
             print_stars()
-            print("Hello, let's add a video to the video store")
-            title=input("What is the title of your video?")
-            release_date=input("What is the release date of your video YYYY-MM-DD")
-            total_inventory=input("What is the total inventory?")
+            print("Hello, let's add a video to the video store ")
+            title=input("What is the title of your video? ")
+            release_date=input("What is the release date of your video YYYY-MM-DD ")
+            total_inventory=input("What is the total inventory? ")
             response = video_info.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
             print_stars()
             print("New video:", response["id"])
             
         elif choice=='2':
             print(f"Great! Let's update the video: {video_info.selected_video}")
-            title=input("What is the new title of your video?")
-            release_date=input("What is the new release date (YYYY-MM-DD) of your video?")
-            total_inventory=input("What is the new inventory of this video?")
+            title=input("What is the new title of your video? ")
+            release_date=input("What is the new release date (YYYY-MM-DD) of your video? ")
+            total_inventory=input("What is the new inventory of this video? ")
             
             response = video_info.edit_video(video_id, title=title, release_date=release_date, total_inventory=total_inventory)
             print_stars()
             print("Updated video: ", response["title"])
 
         elif choice=='3':
-            delete_video = input("Please input the video ID you wish to delete")
+            delete_video = input("Please input the video ID you wish to delete ")
             if delete_video.isnumeric():
                 delete_video  = int(delete_video)
                 video_info.delete_video(delete_video)
     
             print_stars()
-            print("Video has successfully been deleted.")
+            print("Video has successfully been deleted. ")
             print_stars()
         
         elif choice=='4':
@@ -96,10 +96,10 @@ def main(play=True):
         elif choice=='5':
             print("Here are the available videos: ")
             all_videos = video_info.get_all_video_information()
-            print(f"all videos = {all_videos}")
+            # print(f"all videos = {all_videos}")
             
             for video in all_videos:
-                print(f"Id:{video['id']}, Title:{video['title']}")
+                print(f"Id: {video['id']}, Title: {video['title']}")
             
             video_id = input("Which video id would you like to select?: ")
             if video_id.isnumeric():
@@ -114,7 +114,7 @@ def main(play=True):
             
         elif choice =='6':
             print_stars()
-            print("Adding a new customer to the register?")
+            print("Adding a new customer to the register? ")
             name=input("What is their name?: ")
             phone=input("What is their phone number ex. 123-456-7890: ")
             postal_code=input("What is thier postal code: ")
@@ -141,7 +141,7 @@ def main(play=True):
             
             
         elif choice == '9':
-            print("Here are the customers:")
+            print("Here are the customers: ")
             all_customers = customer_info.get_all_customer_information()
             
             for customer in all_customers:
@@ -167,7 +167,7 @@ def main(play=True):
         
         elif choice == '11':
             print_stars()
-            print("Let's checkout a video!:")
+            print("Let's checkout a video!: ")
             
             video_id = input("Enter the video id: ")
             if video_id.isnumeric():
@@ -183,11 +183,11 @@ def main(play=True):
             
             checked_out_rental = rental_info.checkout_vid_to_customer(customer_id, video_id)
             print(checked_out_rental)
-            print("video sucessfully checked out! Please return in 7 days to avoid any late fees.")
+            print("video sucessfully checked out! Please return in 7 days to avoid any late fees. ")
             
         elif choice == '12':
             print_stars()
-            print("you would like to return a video from a Customer:")
+            print("you would like to return a video from a Customer: ")
             
             video_id = input("Enter the video id: ")
             if video_id.isnumeric():
@@ -203,7 +203,7 @@ def main(play=True):
             
             checked_in_rental = rental_info.checkin_vid_from_customer(customer_id, video_id)
             print(checked_in_rental)
-            print("video sucessfully checked in to total inventory!")
+            print("video sucessfully checked in to total inventory! ")
         
         elif choice=='13':
             list_options()
@@ -213,7 +213,7 @@ def main(play=True):
             print("\nThank you, Bye!!")
         
         else:
-            print("invalid choice", choice, "please select a valid choice")
+            print("invalid choice", choice, "please select a valid choice ")
 
         print_stars()
         
@@ -223,7 +223,7 @@ def make_choice(options, video_info, customer_info, rental_info):
     choice = None
 
     while choice not in valid_choices:
-        print("Select 13 to see all options again:")
+        print("Select 13 to see all options again: ")
         choice = input("Make your selection using the option numbers 1 - 14 : " )
         
     if choice in ['2', '3'] and video_info.selected_video == None:

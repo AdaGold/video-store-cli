@@ -57,4 +57,4 @@ class VideoInfo:
     # Video store employee selecting a specific video to perform future actions on
     def print_selected(self):
         if self.selected_video:
-            print(f"Video with id {self.selected_video['video_id']} is currently selected\n")
+            print(f"Video with id {self.selected_video['id']} is currently selected\n")
