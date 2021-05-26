@@ -137,6 +137,16 @@ def run_video_store_cli(active=True):
 
             elif choice == '5':
                 print("Get information about one video")
+                print("Select video.")
+                select_video(employee)
+                print(f"""
+                         ID: {employee.selected_video["id"]}
+                         Title: {employee.selected_video["title"]}
+                         Release date: {employee.selected_video["release_date"]}
+                         Total inventory: {employee.selected_video["total_inventory"]}
+                         Available inventory: {employee.selected_video["available_inventory"]}
+                         """)
+
             elif choice == '6':
                 # Quit
                 active = False
