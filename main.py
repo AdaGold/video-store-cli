@@ -26,11 +26,13 @@ def list_options():
         "3": "Select a video", # need to look further into get_video (5) 
         "4": "Update selected video", # done (2)
         "5": "Delete selected task", # done (3)
-        "6": "Mark selected task complete",
-        "7": "Mark selected task incomplete",
-        "8": "Delete all tasks",
-        "9": "List all options",
-        "10": "Quit"
+        "6": "List all customers",
+        "7": "Add a customer",
+        "8": "Select a customer",
+        "9": "Update selected customer",
+        "10": "Delete selected customer",
+        "11": "Check-out video to customer",
+        "12": "Check-in video to customer"
         }
 
     print_stars()
@@ -63,8 +65,9 @@ def make_choice(options, video_list):
 
 def run_cli(play=True):
 
-    #initialize video_list
+    #initialize lists
     video_list = VideoList(url=URL)
+    customer_list = CustomerList(url=URL)
     
     # print choices
     options = list_options()
@@ -155,5 +158,92 @@ def run_cli(play=True):
 
         print_stars()
         print("The video has been deleted from inventory.")
+
+# ---------------------------------------------------------------------------
+    # List all customers
+    elif choice=='6':
+        print_stars()
+        for customer in customer_list.list_customers():
+            print(customer)
+
+    # Add a customer
+    elif choice=='7': 
+        print("Let's register a new customer to our client list.")
+        name=input("What is the customer's name? ")
+        postal_code=input("What is the customer's postal code? ")
+        phone_num=input("What is the customer's phone number? ")
+
+        response = customer_list.add_customer(name=name, postal_code=postal_code, phone_num=phone_num)
+        print_stars()
+        print("New customer", response["name"], "registered.")
+
+    # Select a customer
+    elif choice=='8':
+        select_by = input("What would you like to search customers by?  Enter either title or id to begin: ")
+
+        if select_by=="name":
+            name = input("Please enter the customer name you are looking for: ")
+            customer_list.get_customer(name=name)
+        elif select_by=="id":
+            id = input("Please enter the customer id you are looking for: ")
+            # if id.isnumeric():
+            id = int(id)
+            customer_list.get_customer(id=id)
+        else:
+            print("Customer not found.  Please enter a different id or title.")
+        
+        if customer_list.selected_customer:
+            print_stars()
+            print("Selected task: ", customer_list.selected_customer)
+    
+    # Update selected customer
+    elif choice=="9":
+        select_by = input("What would you like to search customers by?  Enter either title or id to begin: ")
+
+        if select_by=="name":
+            name = input("Please enter the customer name you are looking for: ")
+            customer_list.get_customer(name=name)
+        elif select_by=="id":
+            id = input("Please enter the customer id you are looking for: ")
+            # if id.isnumeric():
+            id = int(id)
+            customer_list.get_customer(id=id)
+        else:
+            print("Customer not found.  Please enter a different id or title.")
+
+        if customer_list.selected_customer:
+            print(f"Great! Let's update the customer: {customer_list.selected_customer}") # didn't test w/this in
+            name=input("What is the new name of the selected customer? ")
+            postal_code=input("What is the new postal code of the selected customer? ")
+            phone_num=input("What is the new phone number of the selected customer? ")
+
+        response = customer_list.update_customer(name=name, postal_code=postal_code, phone_num=phone_num)
+
+        print_stars()
+        print("Updated customer number:", response["id"]) 
+
+    # Delete selected customer
+    elif choice=='10':
+        select_by = input("What would you like to search customers by?  Enter either name or id to begin: ")
+
+        if select_by=="name":
+            name = input("Please enter the customer name you are looking for: ")
+            customer = customer_list.get_customer(name=name)
+        elif select_by=="id":
+            id = input("Please enter the customer id you are looking for: ")
+            # if id.isnumeric():
+            id = int(id)
+            customer = customer_list.get_customer(id=id)
+        else:
+            print("Customer not found.  Please enter a different id or title.")
+
+        if customer["videos_checked_out_count"] > 0:
+            print("Customer has outstanding videos and cannot be deleted.")
+            return
+
+        customer_list.delete_customer()
+
+        print_stars()
+        print("The customer has been deleted from inventory.")
 
 run_cli()
