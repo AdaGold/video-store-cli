@@ -1,6 +1,6 @@
 import requests
 
-class VideoStore:
+class Video:
     def __init__(self, url = "https://retro-video-store-api.herokuapp.com", selected_video = None):
         self.url = url
         self.selected_video = selected_video
@@ -51,7 +51,11 @@ class VideoStore:
         response = self.get(self.url+"/videos/{id}")
         return response.json()
 
-    
+    def delete_video(self):
+        response = requests.delete(self.url+f"/videos/{self.selected_video["id"]}")
+        self.selected_video = None
+        return response.json()
+        
     def print_selected(self):
         if self.selected_video:
             print(f"Video with id {self.selected_video['id']} is currently selected.")

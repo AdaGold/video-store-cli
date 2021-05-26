@@ -1,10 +1,10 @@
 import requests
-from video_store import VideoStore
+from video import Video
 
 
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
-video_store = VideoStore()
+video = Video()
 
 def list_options():
     options = {
@@ -26,7 +26,7 @@ def list_options():
         print(f"Option {choice}: {options[choice]}")
     return options
 
-def make_choice(options, video_store):
+def make_choice(options, video):
     valid_choices = options.keys()
     choice = None
 
@@ -34,7 +34,7 @@ def make_choice(options, video_store):
         print(f"Please select from the valid options, select 0 to view them again")
         choice = input("Make your selection: ")
     
-    if choice in ["2", "3", "7", "8", "11", "12"] and video_store.selected_video == None:
+    if choice in ["2", "3", "7", "8", "11", "12"] and video.selected_video == None:
         print("You must select an item before editing!")
         choice = "3"
     return choice
@@ -45,8 +45,8 @@ def main(store_open=True):
     print("Please select from the following options")
     options = list_options()
     while store_open:
-        choice = make_choice(options, video_store)
-    video_store.print_selected()
+        choice = make_choice(options, video)
+    video.print_selected()
 
 
 
