@@ -25,14 +25,12 @@ def video_menu_options():
 
     
 def customer_menu_options():
-    customer_menu = {
-                "1": "List All Customers",
-                "2": "Select A Customer",
-                "3": "Edit Selected Customer", 
-                "4": "Delete Selected Customer"
+    
+    print("1:  List All Customers")
+    print("2:  Select A Customer To Edit")
+    print("3:  Select A Customer To Delete") 
+    
 
-    }
-    return customer_menu
 
 def rental_menu_options():
     rental_menu = {
@@ -49,18 +47,29 @@ def print_video_info(video):
     print(f"Available Inventory: {video['available_inventory']}")
     print("\n")
 
+def print_customer_info(customer):
+    print("\n")
+    print(f"Name:  {customer['name']}")
+    print(f"ID:  {customer['id']}")
+    print(f"Phone Number:  {customer['phone']}")
+    print(f"Zip Code:  {customer['postal_code']}")
+    print(f"Registration Date:  {customer['registered_at']}")
+    print(f"Videos Checked Out:  {customer['videos_checked_out_count']}")
+    print("\n")
+
+
 
 
 def main():
-
+    video_store = VideoStore()
     print("WELCOME TO RETRO VIDEO STORE")
     print_linebreaks()
-    print("PLEASE CHOOSE FROM THE FOLLOWING MENU: ")
+    print("PLEASE CHOOSE FROM THE FOLLOWING MENU:  ")
     main_menu_options()
     user_input = input("::")
     if user_input == "1":
-        video_store = VideoStore()
-        print("PLEASE CHOOSE FROM THE FOLLOWING MENU: ")
+        
+        print("PLEASE CHOOSE FROM THE FOLLOWING MENU:  ")
         video_menu_options()
         video_user_input = input("::  ")
         if video_user_input == "1":
@@ -85,7 +94,17 @@ def main():
                 if user_check.upper() == "Y":
                     video_store.delete_single_video(selected_video)
                     running_loop = False
-                
+    elif user_input == "2":
+
+        print("PLEASE CHOOSE FROM THE FOLLOWING MENU:  ")
+        customer_menu_options()
+        customer_user_input = input("::  ")
+        if customer_user_input == "1":
+            all_customers = video_store.get_all_customers()
+            for customer in all_customers:
+                print_customer_info(customer)
+
+        
 
 
 

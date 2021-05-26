@@ -11,7 +11,7 @@ class VideoStore:
         self.selected_video = selected_video
         self.selected_customer = selected_customer
 
-
+######### VIDEO STUFF ############ 
     def get_all_videos(self):
         response = requests.get(self.url+"/videos")
         return response.json()
@@ -43,7 +43,8 @@ class VideoStore:
             print("Oops! Something went wrong. ")
         self.selected_video = response.json()
         return response.json()
-    
+    # had to employ a "cascade" to delete instances of video from rental table if they are 
+    #cross referenced.  maybe come back with some logic to check for that first? 
     def delete_single_video(self, selected_video): 
         response = requests.delete(self.url+f"/videos/{selected_video['id']}")
         print(response)
@@ -51,5 +52,11 @@ class VideoStore:
             print(f"The video {selected_video['id']} has been deleted. ")
         else: 
             return "Oops, something went wrong. "
+
+######### CUSTOMER STUFF ############ 
+
+    def get_all_customers(self):
+        response = requests.get(self.url+"/customers")
+        return response.json()
             
 
