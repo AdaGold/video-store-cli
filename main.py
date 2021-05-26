@@ -81,6 +81,16 @@ def make_choice():
     return choice
 
 
+def select_video(employee):
+    video_id = input("Enter video ID >> ")
+    if video_id.isnumeric():
+        video_id = int(video_id)
+        employee.get_one_video(id=video_id)
+    else:
+        print("Could not select a video. Please, enter ID.")
+    # return selected_video
+
+
 def run_video_store_cli(active=True):
 
     employee = Employee()
@@ -109,12 +119,8 @@ def run_video_store_cli(active=True):
 
             elif choice == '3':
                 print("Delete a video")
-                video_id = input("Select video to delete. Enter video ID >> ")
-                if video_id.isnumeric():
-                    video_id = int(video_id)
-                    employee.get_one_video(id=video_id)
-                else:
-                    print("Could not select a video. Please, enter ID.")
+                print("Select video to delete.")
+                select_video(employee)
                 response = employee.delete_video()
                 print(f"Video with ID {response['id']} has been deleted.")
 
