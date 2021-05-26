@@ -71,16 +71,16 @@ class VideoStore:
 
     def check_out_video(self, customer_id, video_id):
         request_body = {
-            "customer_id": customer_id,
-            "video_id": video_id
+            "customer_id": int(customer_id),
+            "video_id": int(video_id)
         }
         response = requests.post(self.url+"/rentals/check-out", json=request_body)
         return response.json()
 
     def check_in_video(self, customer_id, video_id):
         request_body = {
-            "customer_id": customer_id,
-            "video_id": video_id
+            "customer_id": int(customer_id),
+            "video_id": int(video_id)
         }
         response = requests.post(self.url+"/rentals/check-in", json=request_body)
         return response.json()
