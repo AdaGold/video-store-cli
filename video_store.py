@@ -126,7 +126,23 @@ class VideoStore:
         return response.json()
 
     # "11": "Check OUT a Video"
+    def check_out_video_to_customer(self, customer_id=None, video_id=None):
+        query_params = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+"/rentals/check-out", json=query_params)
+        return response.json()
+
     # "12": "Check IN a Video"
+    def check_in_video_to_customer(self, customer_id=None, video_id=None):
+        query_params = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+"/rentals/check-in", json=query_params)
+        return response.json()
+    
     # "13": "QUIT"
 
 

@@ -152,11 +152,51 @@ def run_cli(play=True):
 
         #Option 11: Check OUT a Video
         elif choice=='11':
-            pass
+            # choose customer
+            customer = select_customer(video_store)
+            if customer == None:
+                print("No customer with that ID or name found.")
+
+            # choose video
+            video = select_video(video_store)
+            if video == None:
+                print("No video with that ID or title found.")
+
+            # check out video to customer
+            rental = video_store.check_out_video_to_customer(
+                customer_id=customer['id'],
+                video_id=video['id']
+            )
+            # return success message
+            if "error" in rental:
+                print(rental['error'])
+            else:
+                print(f"Video #{rental['video_id']} checked out to Customer #{rental['customer_id']}")
+                print(f"Video due back on {rental['due_date']}")
         
         #Option 12: Check IN a Video
         elif choice=='12':
-            pass
+            # choose customer
+            customer = select_customer(video_store)
+            if customer == None:
+                print("No customer with that ID or name found.")
+
+            # choose video
+            video = select_video(video_store)
+            if video == None:
+                print("No video with that ID or title found.")
+
+            # check in video to customer
+            rental = video_store.check_in_video_to_customer(
+                customer_id=customer['id'],
+                video_id=video['id']
+            )
+            # return success message
+            if "error" in rental:
+                print(rental['error'])
+            else:
+                print(f"Video #{rental['video_id']} checked in to Customer #{rental['customer_id']}")
+
 
         elif choice=='13':
             play=False
@@ -223,7 +263,7 @@ def make_choice(options, video_store):
     return choice
 
 def select_video(video_store):
-    print("Ok, first let's choose a video.")
+    print("Ok, let's select a video.")
     select_by = input("Would you like to select by title (1) or ID (2)? ")
     if select_by=="1":
         title = input("Enter the name of the movie: ")
