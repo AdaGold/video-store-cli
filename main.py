@@ -1,9 +1,11 @@
 import requests
 
-# import models n stuff
+from video_store_API_stuff import Customer, Video, Rental
 
 
 URL = "http://127.0.0.1:5000"
+# URL = "http://localhost:5000" 
+
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 
@@ -15,7 +17,8 @@ if __name__ == "__main__":
     main()
 
 def print_frogges():
-    print("\n🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸\n")
+
+    print("\n🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸\n")
 
 
 def list_options():
@@ -55,8 +58,8 @@ def list_options():
 
 def make_choice(options, task_list):
     """
-    input
-    output
+    input: the list of options from list_options()
+    output: 
     """
     valid_choices = options.keys()
     choice = None
