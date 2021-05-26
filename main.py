@@ -25,23 +25,19 @@ def option_list():
     options = {
         "1": "Add a video", 
         "2": "Get information about all videos",
-        "3": "Get information on one video", #needs id
+        "3": "Select one video", #needs id
         "4": "Edit a video", # needs id
         "5": "Delete a video", # needs id 
 
         "6": "Add a customer",
         "7": "Get information on all customers",
-        "**": "Select a customer",
-        "8": "Get information on one customer", # needs id
+        "8": "Select one customer", # needs id
         "9": "Edit a customer", # needs id
         "10": "Delete a customer", # need id
         
         "11": "Check out a video to a customer", # nedds id
         "12": "Check in a video from a customer", # needs id
-
-        "14": "List all options",
-        "15": "Quit"
-    }
+        }
 
     pzzas()
     print("The following are your options")
@@ -76,6 +72,7 @@ def run_cli(play=True):
     options = option_list()
 
     selected_video = None
+    selected_customer = None
     
     while play == True: 
         option = choose_option(options)
@@ -101,10 +98,10 @@ def run_cli(play=True):
         elif option=='3': #this selects the video 
             choose_by = input("Would you like to select by title or id?:  ")
             if choose_by=="title":
-                title = input("Which movie would you like to choose?  ")
+                title = input("Which movie title would you like to select?  ")
                 selected_video = client.info_about_one_video(title=title)
             elif choose_by=="id":
-                id = input("Which movie id would you like to choose?  ")
+                id = input("Which movie id would you like to select?  ")
                 if id.isnumeric():
                     id = int(id)
                     selected_video = client.info_about_one_video(id=id)
@@ -147,6 +144,76 @@ def run_cli(play=True):
             pzzas()
             selected_video = None
 
+            
+        elif option=='6':
+            print("Awesome!") 
+            name=input("What is the customer's name?  ")
+            postal_code=input("What is the customer's zip code?  ")
+            phone=input("Including area code. What's the customer's phone number?  ")
+            customer = client.add_customer(name=name, postal_code=postal_code, phone=phone)
+            pzzas()
+            print("New customer:", customer.name)
+            selected_video = customer
+
+        elif option=='7':
+            pzzas()
+            for customer in client.info_about_all_customers():
+                print(customer) 
+
+        elif option=='8':
+            choose_by = input("Would you like to select a customer by name or id?  ")
+            if choose_by == "name":
+                name = input("Which customer name would you like to select?  ")
+                selected_customer = client.info_about_one_customer(name=name)
+            elif choose_by == "id":
+                id = input("Which customer id would you like to select?  ")
+                if id.isnumeric():
+                    id = int(id)
+                    selected_customer = client.info_about_one_customer(id=id)
+            else:
+                print("Oops! Please try again.")
+
+            if selected_customer:
+                pzzas()
+                print("Selected customer: ", selected_customer.name) # more info?
+            else:
+                print("Sorry, we couldn't find a matching customer.")
+            pzzas()
+            #show info on selected customer  
+
+        elif option=='9':
+            if not selected_customer:
+                print("Plese select a customer")
+                continue
+            print(f"Awesome! Let's update customer: {selected_customer}")
+            name = input(f"[{selected_customer.name}] Currently. Enter to keep.\nOtherwise, what is the customer's new name?  ")
+            if len(name) > 0:
+                selected_customer.name = name
+            postal_code = input(f"[{selected_customer.postal_code}] Currently. Enter to keep.\nOtherwise, what is the customer's new postal code?  ")
+            if len(postal_code) > 0:
+                selected_customer.postal_code = postal_code
+            phone = input(f"[{selected_customer.phone}] Currently. Enter to keep.\nOtherwise, what is the customer's new phone?  ")
+            if len(phone) > 0:
+                selected_customer.phone = phone
+            selected_customer.save()
+            pzzas()
+            print("Updated customer:", selected_customer)
+            
+
+        elif option=='10':
+            #maybe an 'are you sure message?
+            selected_customer.delete()
+            pzzas()
+            print("Customer has been deleted.")
+            pzzas()
+            selected_customer = None
+
+
+        # elif option=='11':
+        #     pass
+        # elif option=='12':
+        #     pass
+
 
         elif option=='14':
             option_list()
@@ -157,36 +224,6 @@ def run_cli(play=True):
             pzzas()
             print("Thank you for using the Retro Video Store!")
             pzzas()
-            
-        elif option=='6':
-            pass
-        elif option=='7':
-            pass
-        elif option=='8':
-            pass
-        elif option=='9':
-            pass
-        elif option=='10':
-            pass
-        elif option=='11':
-            pass
-        elif option=='12':
-            pass
-        elif option=='14':
-            pass
-        elif option=='15':
-            pass
-
-
-        # elif option=='14':
-        #     option_list()
-        
-
-        # elif option=='15':
-        #     play = False
-        #     pzzas()
-        #     print("Thank you for using the Retro Video Store!")
-        #     pzzas()
         
 run_cli()
 
