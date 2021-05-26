@@ -68,6 +68,7 @@ def run_cli(play=True):
     #initialize lists
     video_list = VideoList(url=URL)
     customer_list = CustomerList(url=URL)
+    rental_list = RentalList(url=URL)
     
     # print choices
     options = list_options()
@@ -245,5 +246,29 @@ def run_cli(play=True):
 
         print_stars()
         print("The customer has been deleted from inventory.")
+
+# -----------------------------------------
+
+    elif choice=='11':
+
+        print("Ready to check-out?")
+        customer_id=int(input("What is the id of the customer? "))
+        video_id=int(input("What is the id of the video? "))
+
+        response = rental_list.check_out(customer_id=customer_id, video_id=video_id)
+
+        print_stars()
+        print("Video checked out.")
+
+    elif choice=='12':
+
+        print("Checking in a video?")
+        customer_id=int(input("What is the id of the customer? "))
+        video_id=int(input("What is the id of the video? "))
+
+        response = rental_list.check_in(customer_id=customer_id, video_id=video_id)
+
+        print_stars()
+        print("Video checked in.")
 
 run_cli()

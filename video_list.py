@@ -64,7 +64,7 @@ class VideoList:
     def delete_video(self):
 
         response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
-        self.selected_video = None
+        # self.selected_video = None
         return response.json()
 
 
