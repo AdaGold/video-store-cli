@@ -30,6 +30,28 @@ class VideoStore:
         self.selected_video = response.json()["video"]
         return response.json()
     
+    def list_videos(self):
+        response = self.get(self.url+"/videos")
+        return response.json()
+    
+    def get_video(self, title=None, id=None, release_date=None):
+        for video in self.list_videos():
+            if title:
+                if video["title"]==title:
+                    self.selected_video = video
+            elif release_date:
+                if video["release_date"]==release_date:
+                    self.selected_video = video
+            elif id == video["id"]:
+                self.selected_video = video
+
+        if self.selected_video == None:
+            return "I'm sorry, I couldn't find that video"
+        
+        response = self.get(self.url+"/videos/{id}")
+        return response.json()
+
+    
     def print_selected(self):
         if self.selected_video:
             print(f"Video with id {self.selected_video['id']} is currently selected.")
