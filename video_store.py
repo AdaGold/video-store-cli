@@ -29,3 +29,7 @@ class VideoStore:
         response = requests.put(self.url+f"/videos/{self.selected_video['id']}", json=query_params)
         self.selected_video = response.json()["video"]
         return response.json()
+    
+    def print_selected(self):
+        if self.selected_video:
+            print(f"Video with id {self.selected_video['id']} is currently selected.")
