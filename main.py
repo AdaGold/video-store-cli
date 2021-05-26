@@ -9,8 +9,9 @@ def print_stars():
 def list_actions_on():
 
     actions_on = {
-        "1": "Video",
-        "2": "Customer"
+        "1": "Videos",
+        "2": "Customers",
+        "3": "Quit"
     }
 
     print_stars()
@@ -76,7 +77,7 @@ def list_actions_customer():
 
 def make_choice():
     print_stars()
-    choice = input("Make your selection using the option number: ")
+    choice = input("Make your selection using the option number >> ")
     return choice
 
 
@@ -94,16 +95,40 @@ def run_video_store_cli(active=True):
 
             if choice == '1':
                 print("Add a video")
-                # employee.add_video(title="test cli",
-        #                    release_date="1981-01-01",
-        #                    total_inventory=100)
+                title = input("Enter the video title >> ")
+                release_date = input("Enter the video release date >> ")
+                total_inventory = input("Enter the video total inventory >> ")
+                response = employee.add_video(title=title,
+                                              release_date=release_date,
+                                              total_inventory=total_inventory)
+
+                print("New video: ", response["title"])
 
             elif choice == '2':
                 print("Edit a video")
+
             elif choice == '3':
                 print("Delete a video")
+                video_id = input("Select video to delete. Enter video ID >> ")
+                if video_id.isnumeric():
+                    video_id = int(video_id)
+                    employee.get_one_video(id=video_id)
+                else:
+                    print("Could not select a video. Please, enter ID.")
+                response = employee.delete_video()
+                print(f"Video with ID {response['id']} has been deleted.")
+
             elif choice == '4':
                 print("Get information about all videos")
+                for video in employee.list_all_videos():
+                    print(f"""
+                         ID: {video["id"]}
+                         Title: {video["title"]}
+                         Release date: {video["release_date"]}
+                         Total inventory: {video["total_inventory"]}
+                         Available inventory: {video["available_inventory"]}
+                         """)
+
             elif choice == '5':
                 print("Get information about one video")
             elif choice == '6':
@@ -138,4 +163,5 @@ def run_video_store_cli(active=True):
             print("\nYou just stopped using the Retro Video Store CLI!")
 
 
-run_video_store_cli()
+if __name__ == "__main__":
+    run_video_store_cli()
