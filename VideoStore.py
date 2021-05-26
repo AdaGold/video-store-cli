@@ -31,7 +31,6 @@ class VideoStore:
         new_release_date = input(f"Update the release date for video {selected_video['id']}:  ")
         date_time_object= maya.parse(new_release_date).datetime()
         new_total_inventory = input(f"Update the total inventory for video {selected_video['id']}:  ")
-        print(date_time_object)
         query_params = {
             "title": new_title, 
             "release_date": str(date_time_object),
@@ -44,4 +43,13 @@ class VideoStore:
             print("Oops! Something went wrong. ")
         self.selected_video = response.json()
         return response.json()
+    
+    def delete_single_video(self, selected_video): 
+        response = requests.delete(self.url+f"/videos/{selected_video['id']}")
+        print(response)
+        if response:
+            print(f"The video {selected_video['id']} has been deleted. ")
+        else: 
+            return "Oops, something went wrong. "
+            
 

@@ -62,21 +62,32 @@ def main():
         video_store = VideoStore()
         print("PLEASE CHOOSE FROM THE FOLLOWING MENU: ")
         video_menu_options()
-        video_user_input = input("::")
+        video_user_input = input("::  ")
         if video_user_input == "1":
             all_videos = video_store.get_all_videos()
             for video in all_videos:
                 print_video_info(video)
 
         elif video_user_input == "2":
-            user_input = input("Please enter the ID of the video you would like to select:  ")
+            user_input = input("Please enter the ID of the video you would like to select:   ")
             selected_video = video_store.get_single_video(id=int(user_input))
             print_video_info(selected_video)
             video_store.edit_single_video(selected_video)
 
         
         elif video_user_input == "3":
-            pass
+            running_loop = True
+            while running_loop:
+                user_input = input("Please enter the ID of the video you would like to delete:   ")
+                selected_video = video_store.get_single_video(id=int(user_input))
+                print_video_info(selected_video)
+                user_check = input("Are you sure you want to delete this video?   Y/N:    ")
+                if user_check.upper() == "Y":
+                    video_store.delete_single_video(selected_video)
+                    running_loop = False
+                
+
+
 
 
 
