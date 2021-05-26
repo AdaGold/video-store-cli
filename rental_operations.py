@@ -7,8 +7,19 @@ class RentalOperations:
         self.url = url
         self.selected_rental = None
     
-    def checkout_vid_to_customer(self, customer_id=None, video_id=None):
-        pass
+    def checkout_vid_to_customer(self, customer_id, video_id,):
+        req_body = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+f"/rentals/check-out", json=req_body)
+        return response
+        
     
-    def checkin_vid_from_customer(self, customer_id=None, video_id=None):
-        pass
+    def checkin_vid_from_customer(self, customer_id, video_id):
+        req_body = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+f"/rentals/check-in", json=req_body)
+        return response

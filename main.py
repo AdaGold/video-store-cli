@@ -119,7 +119,6 @@ def main(play=True):
                 print_stars()
                 print("Selected video information is : ", video_operations.selected_video)
             
-        
         elif choice =='6':
             print_stars()
             print("Hi, let's add a new customer to the register")
@@ -170,7 +169,6 @@ def main(play=True):
                 print_stars()
                 print("Selected customer: ", customer_operations.selected_customer)
             
-        
             
         elif choice == '10':
             print_stars()
@@ -178,8 +176,45 @@ def main(play=True):
                 print(customer)
             
         
-        # elif choice == '11':
-        # elif choice == '12':
+        elif choice == '11':
+            print_stars()
+            print("you would like to checkout a video to a Customer:")
+            
+            video_id = input("Enter the video id : ")
+            if video_id.isnumeric():
+                video_id = int(video_id)
+                video_operations.selected_video = video_operations.get_one_video_information(video_id=video_id)
+                print(video_operations.selected_video)
+                
+            customer_id = input("Enter the customer id : ")
+            if customer_id.isnumeric():
+                customer_id = int(customer_id)
+            customer_operations.selected_customer = customer_operations.get_one_customer_information(cust_id=customer_id)
+            print(customer_operations.selected_customer)
+            
+            checked_out_rental = rental_operations.checkout_vid_to_customer(customer_id, video_id)
+            print(checked_out_rental)
+            print("video sucessfully checked out to the customer!")
+            
+        elif choice == '12':
+            print_stars()
+            print("you would like to return/check-in a video from a Customer:")
+            
+            video_id = input("Enter the video id : ")
+            if video_id.isnumeric():
+                video_id = int(video_id)
+                video_operations.selected_video = video_operations.get_one_video_information(video_id=video_id)
+                print(video_operations.selected_video)
+            
+            customer_id = input("Enter the customer id : ")
+            if customer_id.isnumeric():
+                customer_id = int(customer_id)
+            customer_operations.selected_customer = customer_operations.get_one_customer_information(cust_id=customer_id)
+            print(customer_operations.selected_customer)
+            
+            checked_in_rental = rental_operations.checkin_vid_from_customer(customer_id, video_id)
+            print(checked_in_rental)
+            print("video sucessfully checked in to the library!")
         
         elif choice=='13':
             list_options()
