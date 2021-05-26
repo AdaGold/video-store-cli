@@ -9,7 +9,6 @@ def print_linebreaks():
     print("\n#############################\n")
 
 def main_menu_options(): 
-    
     print("1: Video Information")
     print("2: Customer Information")
     print("3: Rental Information")
@@ -17,7 +16,6 @@ def main_menu_options():
 
 
 def video_menu_options():
-    
     print("1:  List All Videos")
     print("2:  Select A Video To Edit")
     print("3:  Select A Video To Delete")
@@ -25,7 +23,6 @@ def video_menu_options():
 
     
 def customer_menu_options():
-    
     print("1:  List All Customers")
     print("2:  Select A Customer To Edit")
     print("3:  Select A Customer To Delete") 
@@ -33,11 +30,11 @@ def customer_menu_options():
 
 
 def rental_menu_options():
-    rental_menu = {
-                "1": "Check Out A Video", 
-                "2": "Check In A Video"
-    }
+    print("1:  Check Out A Video")
+    print("2:  Check In A Video")
     
+    
+
 def print_video_info(video):
     print("\n")
     print(f"Title: {video['title']}")
@@ -46,6 +43,8 @@ def print_video_info(video):
     print(f"Total Inventory: {video['total_inventory']}")
     print(f"Available Inventory: {video['available_inventory']}")
     print("\n")
+
+
 
 def print_customer_info(customer):
     print("\n")
@@ -56,6 +55,7 @@ def print_customer_info(customer):
     print(f"Registration Date:  {customer['registered_at']}")
     print(f"Videos Checked Out:  {customer['videos_checked_out_count']}")
     print("\n")
+
 
 
 
@@ -80,8 +80,10 @@ def main():
         elif video_user_input == "2":
             user_input = input("Please enter the ID of the video you would like to select:   ")
             selected_video = video_store.get_single_video(id=int(user_input))
-            print_video_info(selected_video)
-            video_store.edit_single_video(selected_video)
+
+            if selected_video:
+                print_video_info(selected_video)
+                video_store.edit_single_video(selected_video)
 
         
         elif video_user_input == "3":
@@ -103,6 +105,16 @@ def main():
             all_customers = video_store.get_all_customers()
             for customer in all_customers:
                 print_customer_info(customer)
+        
+
+        elif customer_user_input == "2":
+            user_input = input("Please enter the ID of the customer you would like to select:   ")
+            selected_customer = video_store.get_single_customer(id=int(user_input))
+            
+            if selected_customer:
+                print_customer_info(selected_customer)
+                video_store.edit_single_customer(selected_customer)
+
 
         
 
