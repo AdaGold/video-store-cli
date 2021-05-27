@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
 def print_frogges():
 
-    print("\n🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸\n")
+    print("\n🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 🐸 \n")
 
 
 def list_options():
@@ -45,7 +45,7 @@ def list_options():
         }
 
     print_frogges()
-    print("These are the actions you can perform")
+    print("These are the actions you can perform:")
     print_frogges()
     
     for choice_num in options:
@@ -57,7 +57,7 @@ def list_options():
 
 
 
-def make_choice(options, task_list):
+def make_choice(options, customer, video):
     """
     input: the list of options from list_options()
     output: 
@@ -66,15 +66,21 @@ def make_choice(options, task_list):
     choice = None
 
     while choice not in valid_choices:
-        print("What would you like to do? Select 9 to see all options again")
+        print("What would you like to do? Select 13 to see all options again, OR\n")
         choice = input("Make your selection using the option number: ")
 
-    if choice in ['4','5','6','7'] and task_list.selected_task == None:
-        print("You must select a task before updating it, deleting it, marking it complete, or marking it incomplete.")
-        print("Let's select a task!")
+    if choice in ['4','5'] and video.selected_video == None:
+        print("You must select a video before updating it or deleting it.")
+        print("Let's select a video!")
         choice = "3"
+
+    if choice in ['9', '10'] and customer.selected_customer == None:
+        print("You must select a customer record before updating it or deleting it.")
+        print("Let's select a customer!")
+        choice = "8"
     
     return choice
+    
 
 
 def run_cli(play=True):
@@ -83,8 +89,16 @@ def run_cli(play=True):
     output
     """
 
-    #initialize task_list
-    task_list = TaskList(url="https://beccas-task-list-c15.herokuapp.com/")
+    # initialize lists using the models made in the other .py file
+
+    # task_list = TaskList(url="https://beccas-task-list-c15.herokuapp.com/")
+
+    customer_list = Customer()
+
+    video_list = Video()
+    
+    # ? = Rental()
+
     
     # print choices
     options = list_options()
@@ -92,9 +106,10 @@ def run_cli(play=True):
     while play==True:
 
         # get input and validate
-        choice = make_choice(options, task_list)
+        choice = make_choice(options, customer_list, video_list)
 
-        task_list.print_selected()
+        customer_list.print_selected_customer()
+        video_list.print_selected_video()
 
         if choice=='1':
             pass
@@ -133,8 +148,11 @@ def run_cli(play=True):
             pass
 
         elif choice=='13':
+            pass
+
+        elif choice=='14':
             play=False
-            print("\nThanks for using the Task List CLI!")
+            print("\nThanks for using the FROGGE VIDEO STORE CLI")
 
         print_frogges()
 

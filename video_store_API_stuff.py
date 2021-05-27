@@ -56,7 +56,9 @@ class Video:
         response = requests.get(self.url+"/videos")
         return response.json()
 
-    
+    def print_selected_video(self):
+        if self.selected_video:
+            print(f"Video with id {self.selected_video['video_id']} is currently selected\n")
 
 
 class Customer:
@@ -134,6 +136,9 @@ class Customer:
         return response.json()
 
 
+    def print_selected_customer(self):
+        if self.selected_customer:
+            print(f"Customer with id {self.selected_customer['cust_id']} is currently selected\n")
 
 class Rental:
     def __init__(self, url="http://localhost:5000", selected_rental=None):
