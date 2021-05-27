@@ -4,8 +4,6 @@ from video_store import VideoStore
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
-#consider adding a check for date feature to catch errors in date entry (not string)
-
 
 def run_cli(play=True):
 
@@ -92,6 +90,7 @@ def run_cli(play=True):
 
             response = video_store.create_customer(name=name, postal_code=postal_code, phone=phone)
             print(f"New customer ID: {response['id']}")
+
         
         #Option 7: Edit a Customer
         elif choice=='7':
@@ -202,21 +201,7 @@ def run_cli(play=True):
             play=False
             print("Bye!")
         
-        # elif choice=='M':
-        #     list_options()
-
-    # print("WELCOME TO RETRO VIDEO STORE")
-    # print("Select the information you want to interact with: ")
-    # for choice_num in options:
-    #     print(f"Option {choice_num}. {options[choice_num]}")
-    
-    # choice = input
-    # response = requests.get(URL + "/videos")
-    # print(response.json())
-
-
-# if __name__ == "__main__":
-#     main()
+        play = continue_playing()
 
 
 def list_options():
@@ -252,15 +237,10 @@ def make_choice(options, video_store):
     choice = None
 
     while choice not in valid_choices:
-        print("What would you like to do?")
         choice = input("Make your selection using the option number: ")
-
-    # if choice in ['4','5','6','7'] and task_list.selected_task == None:
-    #     print("You must select a task before updating it, deleting it, marking it complete, or marking it incomplete.")
-    #     print("Let's select a task!")
-    #     choice = "3"
-    
+  
     return choice
+
 
 def select_video(video_store):
     print("Ok, let's select a video.")
@@ -276,6 +256,7 @@ def select_video(video_store):
     # need a way to catch dumb user who doesn't enter 1 or 2 
     return video_store.selected_video 
 
+
 def select_customer(video_store):
     print("Ok, let's select a customer.")
     select_by = input("Would you like to select by name (1) or ID (2)? ")
@@ -290,13 +271,27 @@ def select_customer(video_store):
     # need a way to catch dumb user who doesn't enter 1 or 2 
     return video_store.selected_customer 
 
-def video_options():
-    pass
 
-def customer_options():
-    pass
+def continue_playing():
+    print("Would you like to do anything else?")
+    reply = input(f"Select Y or N: ")    
+    if reply == "Y":
+        run_cli()
+    elif reply == "N":
+        print("Bye!")
+        return False
+    else:
+        print("That wasn't a choice.")
+        continue_playing()
 
-def rental_options():
-    pass 
+
+# def video_options():
+#     pass
+
+# def customer_options():
+#     pass
+
+# def rental_options():
+#     pass 
 
 run_cli()
