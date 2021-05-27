@@ -20,28 +20,22 @@ def show_users():
     "*****************************"
     return users
 
-def make_choice(options):
+def make_choice(options, video_store):
     valid_choices = options.keys()
     choice = None
 
     while choice not in valid_choices:
         print("What would you like to do? Select 9 to see all options again")
         choice = input("Make your selection using the option number: ")
-
-    if choice in ['4','5','6','7'] and task_list.selected_task == None:
-        print("You must select a task before updating it, deleting it, marking it complete, or marking it incomplete.")
-        print("Let's select a task!")
-        choice = "3"
-    
     return choice
 
 def list_options():
 
     options = {
         "1": "List all Videos", 
-        "2": "Select A Single Video",
-        "3": "Select a task", 
-        "4": "Update selected task", 
+        "2": "Single Video Info",
+        "3": "Edit Video", 
+        "4": "", 
         "5": "Delete selected task", 
         "6": "Mark selected task complete",
         "7": "Mark selected task incomplete",
@@ -62,15 +56,22 @@ def list_options():
 def admin_panel(play, video_store):
         while play == True:
             options = list_options()
-            choice = make_choice(options)
+            choice = make_choice(options, video_store)
             if choice=='1':
                 for video in video_store.get_all_videos():
                     print(video)
                 print("Scroll Up To See Videos")
-            if choice == '2':
+            elif choice == '2':
                 input_id = input("What number of video do you want? ")
                 chosen_one = video_store.get_video(id=input_id)
+                print("Selected Video:")
                 print(chosen_one)
+            elif choice == '3':
+                input_id = input("What number of video do you want? ")
+                new_title = input("New Title: ")
+                new_release_date = input("Release Date: ")
+                new_total_inventory = input("Total Inventory: ")
+                video_store.update_video(id=input_id, title=new_title, release_date=new_release_date, total_inventory=new_total_inventory)
             elif choice=='10':
                 play=False
                 print("\nThanks for using the Video Store CLI")
@@ -82,7 +83,6 @@ def run_cli(play=True):
     video_store = VideoStore()
     show_users()
     user_choice = input("Make your selection using the option number: ")
-
     if user_choice == "1":
         print ("Okay! Lets Get Started!! ;) :) ;) UwU")
         admin_panel(play, video_store)
