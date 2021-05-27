@@ -27,8 +27,8 @@ def make_choice(options, video_store):
     choice = None
 
     while choice not in valid_choices:
-        print("What would you like to do? Select 9 to see all options again")
-        choice = input("Make your selection using the option number: ")
+        print("Make a choice from the options above. ")
+        choice = input("Choose an option: ")
     return choice
 
 def list_options():
@@ -42,9 +42,10 @@ def list_options():
         "6": "View all CustDUMBers",
         "7": "View one CustDUMBer",
         "8": "Update one CustDUMBer",
-        "9": "List all options",
-        "10": "Quit",
-        "11": "Fart"
+        "9": "Remove Customer",
+        "10": "Check Out Video",
+        "11": "Check In Video",
+        "12": "Quit"
         }
 
     print("Welcome to the Video Store CLI")
@@ -83,7 +84,7 @@ def admin_panel(play, video_store):
             elif choice == '5':
                 delete_id = input("Video ID: ")
                 video_store.delete_video(id=delete_id)
-            if choice=='6':
+            elif choice=='6':
                 for bastard in video_store.all_customers_are_bastards():
                     print(bastard)
                 print("Scroll Up To See CustDUMBers")
@@ -98,7 +99,20 @@ def admin_panel(play, video_store):
                 new_postal_code = input("The Postal Code: ")
                 new_phone = input("Phone Number: ")
                 video_store.update_custo(id=input_id, name=new_name, postal_code=new_postal_code, phone=new_phone)
-            elif choice=='10':
+            elif choice == '9':
+                delete_id = input("Customer ID: ")
+                video_store.delete_custo(id=delete_id)
+            elif choice == '10':
+                print("Check Out")
+                custo_id = input("Customer ID: ")
+                video_id = input("Video ID: ")
+                video_store.check_out(custo_id=custo_id, video_id=video_id)
+            elif choice == '11':
+                print("Check In")
+                custo_id = input("Customer ID: ")
+                video_id = input("Video ID: ")
+                video_store.check_in(custo_id=custo_id, video_id=video_id)
+            elif choice=='12':
                 play=False
                 print("\nThanks for using the Video Store CLI")
 

@@ -70,3 +70,32 @@ class VideoStore:
         response = requests.put(self.url+f"/customers/{id}", headers=headers, data=query_params)
         print(response.json())
         return response.json()
+
+    def delete_custo(self, id):
+        response = requests.delete(self.url+f"/customers/{id}")
+        print("Given the boot: ")
+        print(response.json())
+        return response.json()
+
+    ## ************** rentals functions
+    def check_out(self,custo_id, video_id):
+        query_params = json.dumps({
+            "customer_id": custo_id,
+            "video_id": video_id})
+        headers = {
+            'Content-Type': 'application/json'
+            }
+        response = requests.post(self.url+f"/rentals/check-out", headers=headers, data=query_params)
+        print(response.json())
+        return response.json()
+
+    def check_in(self,custo_id, video_id):
+        query_params = json.dumps({
+            "customer_id": custo_id,
+            "video_id": video_id})
+        headers = {
+            'Content-Type': 'application/json'
+            }
+        response = requests.post(self.url+f"/rentals/check-in", headers=headers, data=query_params)
+        print(response.json())
+        return response.json()
