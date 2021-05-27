@@ -3,9 +3,9 @@ import datetime
 
 #all for customer 
 class Customer: 
-    def __init__(self, url="http://localhost:5000", selected_video=None, selected_customer=None):
+    def __init__(self, url="http://localhost:5000", selected_customer=None):
         self.url = url
-        self.selected_video = selected_video
+        # self.selected_video = selected_video
         self.selected_customer = selected_customer 
 
     #6 - add a customer so that I can check out videos to the customer
