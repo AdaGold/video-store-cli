@@ -7,6 +7,9 @@ class VideoStore:
         self.current_customer = current_customer
         self.current_video = current_video
 
+
+    #---------------------# CUSTOMER METHODS #---------------------#
+
     def create_customer(self, name="Default Name", postal_code="00000", phone="000-000-0000"):
         query_params = {
             "name": name,
@@ -49,8 +52,8 @@ class VideoStore:
             }
         response = requests.put(self.url+f"/customers/{self.current_customer['id']}",
         json=query_params)
-        # print("response:", response)
-        self.current_customer = response.json()["customer"]
+        print("response:", response)
+        self.current_customer = response.json()
         return response.json()
 
     def delete_customer(self):
@@ -59,15 +62,55 @@ class VideoStore:
         return response.json()
 
     
-    # def create_video(self,):
-
-    # def get_video(self, name=None, id=None):
+    #---------------------# VIDEO METHODS #---------------------#
     
-    # def update_video(self):
+    def create_video(self, title="Default Title", release_date=None, total_inventory=1):
+        query_params = {
+            "title": title,
+            "release_date": release_date,
+            "total_inventory": total_inventory
+        }
+        response = requests.post(self.url+"/videos",json=query_params)
+        return response.json()
 
-    # def delete_video(self):
+    def list_videos(self):
+        response = requests.get(self.url+"/videos")
+        return response.json()
 
-    # def list_videos(self):
+    def get_video(self, id=None, title=None):
+        for video in self.list_videos():
+            if id and str(video["id"]) == id:
+                self.current_video = video
+            elif title and video["title"] == title:
+                id = video["id"]
+                self.current_video = video
+        if self.current_video == None:
+            return "I'm sorry, we could not find a video by that id, or title"
+        response = requests.get(self.url+f"/videos/{id}")
+        return response.json()
+
+    def update_video(self, title=None, release_date=None, total_inventory=None):
+        if not title:
+            title = self.current_video["title"]
+        if not release_date:
+            release_date = self.current_video["release_date"]
+        if not total_inventory:
+            total_inventory = self.current_video["total_inventory"]
+        query_params = {
+            "title": title,
+            "release_date": release_date,
+            "total_inventory": total_inventory
+            }
+        response = requests.put(self.url+f"/videos/{self.current_video['id']}",
+        json=query_params)
+        #print("response:", response)
+        self.current_video = response.json()
+        return response.json()
+
+    def delete_video(self):
+        response = requests.delete(self.url+f"/videos/{self.current_video['id']}")
+        self.current_video = None
+        return response.json()
 
 
     #def checkout_video(self):
