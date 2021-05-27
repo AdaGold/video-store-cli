@@ -20,23 +20,6 @@ def show_users():
     "*****************************"
     return users
 
-def list_options():
-
-    options = {
-        "1": "Add Video", 
-        "2": "Edit Video",
-        "3": "Delete Video"
-        }
-
-    print("*****************************")
-    print("What Do You Want to Do?")
-    
-    for choice_num in options:
-        print(f"Option {choice_num}. {options[choice_num]}")
-    "*****************************"
-    return options
-
-
 def make_choice(options):
     valid_choices = options.keys()
     choice = None
@@ -56,7 +39,7 @@ def list_options():
 
     options = {
         "1": "List all Videos", 
-        "2": "Create a task",
+        "2": "Select A Single Video",
         "3": "Select a task", 
         "4": "Update selected task", 
         "5": "Delete selected task", 
@@ -76,11 +59,24 @@ def list_options():
 
     return options
 
-def admin_panel(play):
+def admin_panel(play, video_store):
         while play == True:
             options = list_options()
-            store = make_choice(options)
-            return store
+            choice = make_choice(options)
+            if choice=='1':
+                for video in video_store.get_all_videos():
+                    print(video)
+                print("Scroll Up To See Videos")
+            if choice == '2':
+                input_id = input("What number of video do you want? ")
+                chosen_one = video_store.get_video(id=input_id)
+                print(chosen_one)
+            elif choice=='10':
+                play=False
+                print("\nThanks for using the Video Store CLI")
+
+
+
 
 def run_cli(play=True):
     video_store = VideoStore()
@@ -89,7 +85,7 @@ def run_cli(play=True):
 
     if user_choice == "1":
         print ("Okay! Lets Get Started!! ;) :) ;) UwU")
-        admin_panel(play)
+        admin_panel(play, video_store)
     else:
         print ("What do you think you're doing! Get off our computer")
         play = False

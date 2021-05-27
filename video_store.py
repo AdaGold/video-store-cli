@@ -6,6 +6,15 @@ class VideoStore:
         self.url = url
         self.video = None
     
+    def get_all_videos(self):
+        response = requests.get(self.url+"/videos")
+        return response.json()
+    
+    def get_video(self, id):
+        response = requests.get(self.url+f"/videos/{id}")
+        self.video = response
+        return response.json()
+    
     def create_video(self,title="Crows at Work",description="Short Stories Featuring Crows in Various SWE Roles",completed_at=None):
         query_params = {
             "title": title,
