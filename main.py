@@ -54,7 +54,6 @@ def main(play=True):
 
     while play==True:
         choice = make_choice(options, video_info, customer_info, rental_info)
-
         video_info.print_selected()
         customer_info.print_selected()
 
@@ -69,14 +68,16 @@ def main(play=True):
             print("New video:", response["id"])
             
         elif choice=='2':
-            print(f"Great! Let's update the video: {video_info.selected_video}")
-            title=input("What is the new title of your video? ")
-            release_date=input("What is the new release date (YYYY-MM-DD) of your video? ")
-            total_inventory=input("What is the new inventory of this video? ")
+            select_video = input(f"Please select the video you wish to edit: {video_info.get_all_video_information()} ")
+            if select_video.isnumeric():
+                print(f"Great! Let's update the video: {video_info.selected_video}")
+                title=input("What is the new title of your video? ")
+                release_date=input("What is the new release date (YYYY-MM-DD) of your video? ")
+                total_inventory=input("What is the new inventory of this video? ")
             
-            response = video_info.edit_video(video_id, title=title, release_date=release_date, total_inventory=total_inventory)
-            print_stars()
-            print("Updated video: ", response["title"])
+                response = video_info.edit_video(video_id, title=title, release_date=release_date, total_inventory=total_inventory)
+                print_stars()
+                print("Updated video: ", response["title"])
 
         elif choice=='3':
             delete_video = input("Please input the video ID you wish to delete ")
@@ -216,6 +217,7 @@ def main(play=True):
             print("invalid choice", choice, "please select a valid choice ")
 
         print_stars()
+
         
         
 def make_choice(options, video_info, customer_info, rental_info):
