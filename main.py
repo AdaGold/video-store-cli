@@ -153,6 +153,12 @@ def main(store_open=True):
         elif choice == '10':
             for customer in customer.list_customers():
                 print(customer)
+        
+        elif choice == '12':
+            pass
+
+        elif choice == '13':
+            pass
 
 
 if __name__ == "__main__":

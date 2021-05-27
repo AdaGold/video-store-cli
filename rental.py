@@ -1,6 +1,13 @@
 import requests
 
 class Rental:
-    def __init__(self, url = "https://retro-video-store-api.herokuapp.com", selected_rental = None):
+    def __init__(self, url = "https://retro-video-store-api.herokuapp.com"):
         self.url = url
-        self.selected_rental = selected_rental
+
+    def check_in(self):
+        response = self.get(self.url+"/check-in")
+        return response.json()
+    
+    def check_out(self):
+        response = self.get(self.url+"/check-out")
+        return response.json()
