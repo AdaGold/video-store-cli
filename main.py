@@ -36,7 +36,7 @@ def make_choice(options):
 def option_num(choice, options):
     return (f"You selected Option {choice}: {(options[choice]).title()}")
 
-def select_video(video_store):
+def select_video(video_store): # TODO: How would it look like with selected_option?
     choice = input("Enter video title or id > ")
     if choice.isdigit():
         id = int(choice)

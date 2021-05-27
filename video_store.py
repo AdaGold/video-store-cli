@@ -5,20 +5,23 @@ class VideoStore:
         self.url = url
         self.selected_video = selected_video
         self.selected_customer = selected_customer
+        # conversation starters:
+        # is there a way to use 'option num' only?
         # self.selected_option = selected_option 
-        # what goes where?
     
     def add_video(self, title=None,release_date=None,total_inventory=None):
-        # can all be None? or "Default"?
+        # what is the difference between None and "Default"?
         """Option 1: add a video"""
-        query_params = {"title": title,"release_date": release_date,"total_inventory": total_inventory}
+        query_params = {"title":title, "release_date":release_date, "total_inventory":total_inventory}
         url = self.url+"/videos"
         response = post(url, json=query_params)
         return response.json()
 
     def update_video(self,title=None,total_inventory=None,release_date=None):
         """Option 2: edit a video"""
-        if not title: # how to simplify?
+        # what if we have not 3, but 10 parameters?
+        # how to validate them all?
+        if not title: 
             title = self.selected_video["title"]
         if not release_date:
             release_date = self.selected_video["release_date"]
@@ -26,19 +29,19 @@ class VideoStore:
             total_inventory = self.selected_video["total_inventory"]
         query_params = {"title": title,"release_date": release_date,"total_inventory": total_inventory}
         url = self.url+f"/videos/{self.selected_video['id']}"
-        response = put(url, json=query_params) # Why can't just return response?
-        self.selected_video = response.json()["id"] # Isn't it repetitive?
+        response = put(url, json=query_params) 
+        self.selected_video = response.json()["id"] # Is this line necessary? 
         return response.json()
 
     def delete_video(self):
         """Option 3: delete a video"""
         response = delete(self.url+f"/videos/{self.selected_video['id']}")
-        self.selected_video = None # what for?
-        return response.json() #is .json() needed?
+        self.selected_video = None # Is this line necessary? 
+        return response.json()
 
     def list_videos(self):
         """Option 4: get information about all videos"""
-        response = get(self.url+"/videos") # response?
+        response = get(self.url+"/videos") 
         return response.json()
 
     def get_video(self, title=None, id=None):
