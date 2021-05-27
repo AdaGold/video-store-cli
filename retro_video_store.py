@@ -33,7 +33,7 @@ class Video_Store:
         response = requests.get(self.url+f"/customers/{id}")
         return response.json()
 
-    def update_customer(self, name=None, postal_code=None, phone=None):
+    def update_customer(self, id, name=None, postal_code=None, phone=None):
         if not name:
             name = self.selected_customer["name"]
         if not postal_code:
@@ -47,20 +47,19 @@ class Video_Store:
         "phone" : phone
         }
         response = requests.put(
-            self.url+f"/customers/{self.selected_customer['id']}",
+            self.url+f"/customers/{id}",
             json=query_params
             )
         print("response:", response)
-        self.selected_customer = response.json()["customer"]
+        self.selected_customer = response.json()
         return response.json()
 
-    def delete_customer(self):
-        response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
-        self.selected_customer = None
+    def delete_customer(self, id):
+        response = requests.delete(self.url+f"/customers/{id}")
         return response.json()
 #functions for videos************************************************************************************************************************************
 
-    def create_video(self, title="Some Movie", release_date="When was this released world?", total_inventory=None):
+    def create_video(self, title="Some Movie", release_date=datetime.now(), total_inventory=None):
         query_params = {
             "title": title,
             "release_date": release_date,
@@ -85,7 +84,7 @@ class Video_Store:
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
-    def update_video(self, title=None, release_date=None, total_inventory=None):
+    def update_video(self, id, title=None, release_date=datetime.now(), total_inventory=None):
         if not title:
             title = self.selected_video["title"]
         if not release_date:
@@ -99,26 +98,31 @@ class Video_Store:
         "totsl_inventory" : total_inventory
         }
         response = requests.put(
-            self.url+f"/videos/{self.selected_video['id']}",
+            self.url+f"/videos/{id}",
             json=query_params
             )
         print("response:", response)
-        self.selected_video = response.json()["video"]
+        self.selected_video = response.json()
         return response.json()
 
-    def delete_video(self):
-        response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
-        self.selected_video = None
+    def delete_video(self, id):
+        response = requests.delete(self.url+f"/videos/{id}")
         return response.json()
     
-    def check_out_video(self):
-        response = requests.post(self.url+f"/check-out")
-        self.selected_rental = response.json()["rental"]
+    def check_out_video(self, customer_id, video_id):
+        request_body = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+f"/rentals/check-out", json=request_body)
         return response.json()
 
-    def check_in_video(self):
-        response = requests.post(self.url+f"/check-in")
-        self.selected_rental = response.json()["rental"]
+    def check_in_video(self, customer_id, video_id):
+        request_body = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+f"/rentals/check-in", json=request_body)
         return response.json()
 
     def print_selected(self):
