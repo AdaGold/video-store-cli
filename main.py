@@ -112,10 +112,12 @@ def run_cli(play=True):
             else:
                 # potential place to add more elements of choice for user
                 # ask if they want to update each attribute of the customer
-                name=input("What is the customer's name? ")
-                postal_code=input("What is the customer's postal code? ")
-                phone=input("What is the customer's phone number? ")
-                #not a place to adjust registration OR videos checked out (managed in rentals)
+
+                print(f"Ok, let's edit customer #{customer['id']}")
+                name=input(">>> Name: ")
+                postal_code=input(">>> Postal Code: ")
+                phone=input(">>> Phone Number: ")
+                #no place to adjust registration OR videos checked out (managed in rentals)
                 response = video_store.update_customer(
                                             name=name, 
                                             postal_code=postal_code, 
