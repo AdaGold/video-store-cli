@@ -19,12 +19,12 @@ def run_cli(play=True):
         if choice == '1':
 
             print("Ok! Let's record a new video.")
-            title=input("What is the title of the movie? ")
-            release_date=input("What date (MM-DD-YYYY) was the movie released? ")
-            total_inventory=input("How many copies of this movie are being added to the store? ")
+            title=input(">>> Title: ")
+            release_date=input(">>> Release Date (MM-DD-YYYY): ")
+            total_inventory=input(">>> Total Inventory: ")
 
             response = video_store.create_video(title=title, release_date=release_date, total_inventory=total_inventory)
-            print(f"New video ID: {response['id']}")
+            print(f"New video with ID# {response['id']} was successfully recorded.")
 
         # "2": "Edit a Video"
         elif choice=='2':
@@ -247,7 +247,6 @@ def list_options():
         "13": "QUIT"
         }
     
-    print("WELCOME TO RETRO VIDEO STORE")
     print("These are the actions you can perform: ")
 
     for choice_num in options:
@@ -323,4 +322,5 @@ def continue_playing():
 # def rental_options():
 #     pass 
 
+print("WELCOME TO RETRO VIDEO STORE")
 run_cli()
