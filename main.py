@@ -29,15 +29,17 @@ def run_cli(play=True):
         # "2": "Edit a Video"
         elif choice=='2':
             
+            print("Ok, first let's select a video to edit.")
             video = select_video(video_store)
             if video == None:
                 print("No video with that ID or title found.")
             else:
                 # potential place to add more elements of choice for user
                 # ask if they want to update each attribute of the movie
-                title=input("What is the title of the movie? ")
-                release_date=input("What date (MM-DD-YYYY) was the movie released? ")
-                total_inventory=input("How many copies of this movie does the store own? ")
+                print(f"Ok, let's edit video #{video['id']}")
+                title=input(">>> Title: ")
+                release_date=input(">>> Release Date (MM-DD-YYYY): ")
+                total_inventory=input(">>> Total Inventory: ")
                 #available_inventory is NOT currently updating
                 response = video_store.update_video(
                                             title=title, 
@@ -51,17 +53,23 @@ def run_cli(play=True):
         
         # "3": "Delete a Video"
         elif choice=='3':
+            
+            print("Ok, first let's select a video to delete.")
             video = select_video(video_store)
             if video == None:
                 print("No video with that ID or title found.")
             else:
-                print(f"You selected this video to delete: {video}")
+                print(f"You selected video #{video['id']} to delete: ")
+                print(f">>>Title: {video['title']}")
+                print(f">>>Release Date: {video['release_date']}")
+                print(f">>>Total Inventory: {video['total_inventory']}")
                 print(f"Are you sure you want to delete?")
                 certainty = input(f"Select Y or N: ")
                 if certainty == "Y":
                     video_store.delete_video()
                     print(f"Video #{video['id']} successfully deleted.")
-                # do something if they select N, don't want to delete
+                elif certainty == "N":
+                    print(f"Ok, video #{video['id']} was not deleted.")
         
         # "4": "Get all Videos"
         elif choice=='4':
@@ -70,6 +78,8 @@ def run_cli(play=True):
         
         # "5": "Get One Video"
         elif choice=='5':
+            
+            print("Ok, let's select a video.")
             video = select_video(video_store)
             if video == None:
                 print("No video with that ID or title found.")
@@ -95,6 +105,7 @@ def run_cli(play=True):
         #Option 7: Edit a Customer
         elif choice=='7':
 
+            print("Ok, first let's select a customer to edit.")
             customer = select_customer(video_store)
             if customer == None:
                 print("No customer with that ID or name found.")
@@ -119,6 +130,7 @@ def run_cli(play=True):
         #Option 8: Delete a Customer
         elif choice=='8':
 
+            print("Ok, first let's select a customer to delete.")
             customer = select_customer(video_store)
             if customer == None:
                 print("No customer with that ID or name found.")
@@ -129,10 +141,13 @@ def run_cli(play=True):
                 if certainty == "Y":
                     video_store.delete_customer()
                     print(f"Customer #{customer['id']} successfully deleted.")
-                # do something if they select N, don't want to delete
+                elif certainty == "N":
+                    print(f"Ok, customer #{customer['id']} was not deleted.")
 
         #Option 9: Get info for ONE Customer
         elif choice=='9':
+            
+            print("Ok, let's select a customer.")
             customer = select_customer(video_store)
             if customer == None:
                 print("No customer with that ID or name found.")
@@ -152,14 +167,18 @@ def run_cli(play=True):
         #Option 11: Check OUT a Video
         elif choice=='11':
             # choose customer
+            print("Ok, first let's select a customer.")
             customer = select_customer(video_store)
             if customer == None:
                 print("No customer with that ID or name found.")
+                customer = select_customer(video_store)
 
             # choose video
+            print(f"Ok, let's select a video to check out to {customer['name']}.")
             video = select_video(video_store)
             if video == None:
                 print("No video with that ID or title found.")
+                video = select_video(video_store)
 
             # check out video to customer
             rental = video_store.check_out_video_to_customer(
@@ -170,20 +189,24 @@ def run_cli(play=True):
             if "error" in rental:
                 print(rental['error'])
             else:
-                print(f"Video #{rental['video_id']} checked out to Customer #{rental['customer_id']}")
+                print(f"Video #{rental['video_id']} successfully checked out to Customer #{rental['customer_id']}")
                 print(f"Video due back on {rental['due_date']}")
         
         #Option 12: Check IN a Video
         elif choice=='12':
             # choose customer
+            print("Ok, first let's select a customer.")
             customer = select_customer(video_store)
             if customer == None:
                 print("No customer with that ID or name found.")
+                customer = select_customer(video_store)
 
             # choose video
+            print("Ok, let's select a video to check in.")
             video = select_video(video_store)
             if video == None:
                 print("No video with that ID or title found.")
+                video = select_video(video_store)
 
             # check in video to customer
             rental = video_store.check_in_video_to_customer(
@@ -243,22 +266,24 @@ def make_choice(options, video_store):
 
 
 def select_video(video_store):
-    print("Ok, let's select a video.")
+
     select_by = input("Would you like to select by title (1) or ID (2)? ")
     if select_by=="1":
-        title = input("Enter the name of the movie: ")
+        title = input("Enter the name of the video: ")
         video_store.get_video(title=title)
     elif select_by=="2":
-        id = input("Enter the movie ID number: ")
+        id = input("Enter the video ID number: ")
         if id.isnumeric():
             id = int(id)
             video_store.get_video(id=id)
-    # need a way to catch dumb user who doesn't enter 1 or 2 
+    else:
+        print("That wasn't a choice.")
+        select_video(video_store)  
     return video_store.selected_video 
 
 
 def select_customer(video_store):
-    print("Ok, let's select a customer.")
+
     select_by = input("Would you like to select by name (1) or ID (2)? ")
     if select_by=="1":
         name = input("Enter the name of the customer: ")
@@ -268,7 +293,9 @@ def select_customer(video_store):
         if id.isnumeric():
             id = int(id)
             video_store.get_customer(id=id)
-    # need a way to catch dumb user who doesn't enter 1 or 2 
+    else:
+        print("That wasn't a choice.")
+        select_customer(video_store)
     return video_store.selected_customer 
 
 
