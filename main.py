@@ -129,7 +129,7 @@ def main(play=True):
             name=input("Enter the new name of the customer: ")
             phone=input("What is their new phone number ex. 123-456-7890: ")
             postal_code=input("What is their new postal code?: ")
-            response = customer_info.edit_customer(customer_id, name=name, phone=phone, postal_code=postal_code)
+            response = customer_info.edit_customer(customer_id=id, name=name, phone=phone, postal_code=postal_code)
             print_stars()
             print("Updated customer:", response["name"])
     
@@ -151,7 +151,7 @@ def main(play=True):
             customer_id = input("Select a customer?: ")
             if customer_id.isnumeric():
                 customer_id = int(customer_id)
-                customer_info.selected_customer = customer_info.get_one_customer_information(customer_id=customer_id)
+                customer_info.selected_customer = customer_info.get_one_customer_information(customer_id)
             else:
                 print("Error. Please enter valid customer id: ")
             

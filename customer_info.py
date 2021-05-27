@@ -22,8 +22,8 @@ class CustomerInfo:
         return response.json()
     
     # Video store employee veiwing one customer by ID
-    def get_one_customer_information(self, single_customer_id):
-        response = requests.get(self.url+f"/customers/{single_customer_id}")
+    def get_one_customer_information(self, customer_id):
+        response = requests.get(self.url+f"/customers/{customer_id}")
         return response.json()
         
     # Video store employee deleting a customer by ID 
