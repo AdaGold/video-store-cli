@@ -47,10 +47,28 @@ def make_choice(options):
 
     return choice
 
+def print_video(video):
+    print_stars()
+    print(f"ID: {video['id']}")
+    print(f"Title: {video['title']}")
+    print(f"Release Date: {video['release_date']}")
+    print(f"Available: {video['total_inventory']}")
+    print_stars()
+
+def print_customer(customer):
+    print_stars()
+    print(f"ID: {customer['id']}")
+    print(f"Name: {customer['name']}")
+    print(f"Phone: {customer['phone']}")
+    print(f"Postal Code: {customer['postal_code']}")
+    print(f"Registered At: {customer['registered_at']}")
+    print(f"Rented Videos: {customer['videos_checked_out_count']}")
+    print_stars()
+
 def run_cli(play=True):
 
     #initialize retro video store
-    video_store = VideoStore()
+    video_store = VideoStore("https://retro-video-store-api.herokuapp.com")
     
     # print choices
     options = list_options()
@@ -61,33 +79,30 @@ def run_cli(play=True):
         choice = make_choice(options)
 
 
-        if choice=='1':
+        if choice == '1':
             print_stars()
             for video in video_store.get_videos_info():
                 # print(video)
                 print(f"ID: {video['id']} - Title: {video['title']}")
 
-        elif choice=='2':
+        elif choice == '2':
             print("Great! Let's add a new video.")
             title=input("What is the title of your video? ")
             release_date=input("What is the release date of your video? (MM/DD/YYYY): ")
             total_inventory=input("What is the total inventory? ")
             response = video_store.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
-
             print_stars()
             print("New video: ") 
             print(response)
             print_stars()
 
-        elif choice=='3':
+        elif choice == '3':
             print("Fantastic! Let's choose a video!")
             video_id = input("Enter a video id: ")
             response = video_store.get_video_info(video_id)
-            print_stars()
-            print(response)
-            print_stars()
+            print_video(response)
 
-        elif choice=='4':
+        elif choice == '4':
             print("Great! Let's update the video!")
             video_id = input("Enter a video id: ")
             title=input("What is the new title of your video? ")
@@ -100,7 +115,7 @@ def run_cli(play=True):
             print(response)
             print_stars()
 
-        elif choice=='5':
+        elif choice == '5':
             print("Which video would you like to delete?")
             video_id = input("Enter a video id: ")
             video_store.delete_video(video_id)
@@ -108,14 +123,14 @@ def run_cli(play=True):
             print("Video has been deleted.")
             print_stars()
 
-        elif choice=='6':
+        elif choice == '6':
             print_stars()
             for customer in video_store.get_customers_info():
                 # print(customer)
                 print(f"ID: {customer['id']} - {customer['name']} - Phone: {customer['phone']} - Rented Videos: {customer['videos_checked_out_count']}")
             print_stars()
 
-        elif choice=='7':
+        elif choice == '7':
             print("Wonderful! Let's add a new customer!")
             name=input("What is the name of the customer? ")
             postal_code=input("What is the postal code of the customer? ")
@@ -126,15 +141,13 @@ def run_cli(play=True):
             print(response)
             print_stars()
 
-        elif choice=='8':
+        elif choice == '8':
             print("Whohoo! Let's choose a customer!")
             customer_id = input("Enter a customer id: ")
             response = video_store.get_customer_info(customer_id)
-            print_stars()
-            print(response)
-            print_stars()
+            print_customer(response)
 
-        elif choice=='9':
+        elif choice == '9':
             print("Wonderous! Let's update the customer!")
             customer_id = input("Enter a customer id: ")
             name=input("What is the name of the customer? ")
@@ -146,7 +159,7 @@ def run_cli(play=True):
             print(response)
             print_stars()
 
-        elif choice=='10':
+        elif choice == '10':
             print("Which customer would you like to delete?")
             customer_id = input("Enter a customer id: ")
             video_store.delete_customer(customer_id)
@@ -154,7 +167,7 @@ def run_cli(play=True):
             print("The customer has been deleted.")
             print_stars()
 
-        elif choice=='11':
+        elif choice == '11':
             print("What video would you like to check out? ")
             customer_id = input("Enter the customer id: ")
             video_id = input("Enter the video id: ")
@@ -163,7 +176,7 @@ def run_cli(play=True):
             print("The video was checked out! ")
             print(response)
             print_stars()
-        elif choice=='12':
+        elif choice == '12':
             print("What video would you like to check in? ")
             customer_id = input("Enter the customer id: ")
             video_id = input("Enter the video id: ")
@@ -173,9 +186,9 @@ def run_cli(play=True):
             print(response)
             print_stars()
 
-        elif choice=='13':
+        elif choice == '13':
             list_options()
-        elif choice=='14':
+        elif choice == '14':
             play=False
             print("\nThanks for using the Retro Video Store CLI!")
 
