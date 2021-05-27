@@ -1,6 +1,7 @@
 import requests
 from video import Video 
 from customer import Customer
+from rental import Rental 
 
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
@@ -41,7 +42,7 @@ def make_choice(options, video, customer):
 
     while choice not in valid_choices:
         print("What would you like to do? Select 13 to see all options again")
-        choice = input("Make your selection using the option number: ")
+        choice = input("Make your selection using the option numbers 1-14: ")
     
     # if the choices need a video id, prompt user to select video with id 
     if choice in ["2", "3"] and video.selected_video == None: 
@@ -55,6 +56,7 @@ def make_choice(options, video, customer):
         print("Let's select a customer!")
         choice = "9"
 
+    # might not need a elif for 11 or 12
     # if the choices need a customer id, prompt user to select customer with id 
     # dont know if i need this whole thing 
     # if choice in ["11", "12"] and video_list.selected_video == None and customer_list.selected_customer == None: 
@@ -67,7 +69,7 @@ def make_choice(options, video, customer):
 def print_stars():
     print("**************************")
 
-def main():
+def main(play=True):
     # print("WELCOME TO RETRO VIDEO STORE")
     print(welcome_message())
     # response = requests.get(BACKUP_URL + "/videos")
@@ -76,6 +78,7 @@ def main():
     # initialize video.py & customer.py
     video = Video(url="https://retro-video-store-api.herokuapp.com")
     customer = Customer(url="https://retro-video-store-api.herokuapp.com")
+    rental = Rental(url="https://retro-video-store-api.herokuapp.com")
 
     #print choices 
     options = list_options()
@@ -158,12 +161,12 @@ def main():
         elif choice == '8':
             customer.delete_customer()
             print("Customer has been deleted")
-            print(customer.list_customers())
+            # print(customer.list_customers())
 
         elif choice == '9': 
             select_by = input("Would you like to select by? Enter name or id: ")
             if select_by == "name": 
-                name = input("Which video name would you like to select? ")
+                name = input("Which customer name would you like to select? ")
                 customer.get_customer_by_id(name=name)
             elif select_by == "id": 
                 id = input("Which customer id would you like to select? ")
@@ -181,6 +184,65 @@ def main():
             print_stars()
             for customer in customer.list_customers(): 
                 print(customer)
+
+        elif choice == '11': 
+            print("You are checking out a video to a customer: ")
+            video_id = input("Enter the video id: ")
+            # check if it is a valid id 
+            if video_id.isnumeric():
+                video_id = int(video_id)
+            # assign to selected_video 
+            video.selected_video = video.get_video(id=video_id)
+            print(video.selected_video)
+
+            customer_id = input("Enter the customer id: ")
+            # check if valid id 
+            if customer_id.isnumeric():
+                customer_id = int(customer_id)
+            # assign to selected_customer
+            customer.selected_customer = customer.get_customer_by_id(id=customer_id)
+            print(customer.selected_customer)
+
+            # make a post request for checking out the id and plugging the instance of video and customer on there 
+            rental = rental.check_out_video(customer_id=customer_id, video_id=video_id)
+            print(f"Rental info: {rental}")
+            print(f"{video.selected_video['title']} successfully checked out to {customer.selected_customer['name']}")
+
+        elif choice == '12':
+            print("You are checking in a video from a customer: ")
+            video_id = input("Enter the video id: ")
+            # check if it is a valid id 
+            if video_id.isnumeric():
+                video_id = int(video_id)
+            # assign to selected_video 
+            video.selected_video = video.get_video(id=video_id)
+            print(video.selected_video)
+
+            customer_id = input("Enter the customer id: ")
+            # check if valid id 
+            if customer_id.isnumeric():
+                customer_id = int(customer_id)
+            # assign to selected_customer
+            customer.selected_customer = customer.get_customer_by_id(id=customer_id)
+            print(customer.selected_customer)
+
+            rental = rental.check_in_video(customer_id=customer_id, video_id=video_id)
+            print(f"Rental info: {rental}")
+            print(f"{customer.selected_customer['name']} successfully checked in {video.selected_video['title']}")
+
+        elif choice == '13': 
+            list_options()
+
+        elif choice == '14':
+            # play=False
+            consent = input("\nDo you want to exit? select y/n: ")
+            if consent == 'y': 
+                play=False
+                print("Thank you for using the video store CLI. Good bye!")
+            
+            if consent == 'n': 
+                choice = 13
+
 
 
 
