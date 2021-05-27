@@ -22,7 +22,6 @@ class VideoStore:
             "total_inventory": total_inventory
         }
         response = requests.post(self.url+"/videos",json=query_params)
-        print(response)
         return response.json()
 
 
