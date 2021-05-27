@@ -199,7 +199,7 @@ def main(play=True):
             customer_id = input("Enter the customer id : ")
             if customer_id.isnumeric():
                 customer_id = int(customer_id)
-            customer_info.selected_customer = customer_info.get_one_customer_information(single_customer_id=customer_id)
+            customer_info.selected_customer = customer_info.get_one_customer_information(customer_id)
             print(customer_info.selected_customer)
             
             checked_in_rental = rental_info.checkin_vid_from_customer(customer_id, video_id)
