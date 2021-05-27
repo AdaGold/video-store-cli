@@ -25,11 +25,16 @@ class VideoStore:
             release_date = self.selected_video["release_date"]
         if not total_inventory:
             total_inventory = self.selected_video["total_inventory"]
+        
+        available_inventory = (int(total_inventory) - int(self.selected_video["total_inventory"])) + int(self.selected_video["available_inventory"])
+        
         query_params = {
             "title": title,
             "release_date": release_date,
-            "total_inventory": total_inventory
-            #available_inventory is NOT currently updating
+            "total_inventory": total_inventory,
+            # could get fancy and calculate available inventory
+            # available_inventory = (total_inventory - old value of total_inventory) + available_inventory
+            "available_inventory": available_inventory
             }
         response = requests.put(
             self.url+f"/videos/{self.selected_video['id']}",
