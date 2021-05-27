@@ -28,11 +28,45 @@ class VideoStore:
         print(response.json())
         return response.json()
 
-    def create_video(self,title="Crows at Work",description="Short Stories Featuring Crows in Various SWE Roles",completed_at=None):
-        query_params = {
+    def create_video(self,title,release_date,total_inventory):
+        query_params = json.dumps({
             "title": title,
-            "description": description,
-            "completed_at": completed_at
-        }
-        response = requests.post(self.url+"/tasks",json=query_params)
+            "release_date": release_date,
+            "total_inventory": total_inventory
+        })
+        headers = {
+            'Content-Type': 'application/json'
+            }
+        response = requests.post(self.url+f"/videos", headers=headers, data=query_params)
+        print(response.json())
+        return response.json()
+
+    def delete_video(self, id):
+        response = requests.delete(self.url+f"/videos/{id}")
+        print("Deleted: ")
+        print(response.json())
+        return response.json()
+
+    ## ************** customers functions
+    
+    def all_customers_are_bastards(self):
+        response = requests.get(self.url+"/customers")
+        return response.json()
+    
+    def get_custo(self, id):
+        response = requests.get(self.url+f"/customers/{id}")
+        self.video = response.json()
+        return response.json()
+
+    def update_custo(self,id,name,postal_code,phone):
+        query_params = json.dumps({
+            "name": name,
+            "postal_code": postal_code,
+            "phone": phone
+        })
+        headers = {
+            'Content-Type': 'application/json'
+            }
+        response = requests.put(self.url+f"/customers/{id}", headers=headers, data=query_params)
+        print(response.json())
         return response.json()
