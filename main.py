@@ -15,9 +15,9 @@ def list_options():
         "4" : "Browse all Videos",
         "5" : "Edit one Video",
         "6" : "Add a new customer",
-        "7" : "Update customer profile",
+        "7" : "Find a customer",
         "8" : "Remove customer",
-        "9" : "View customer profile",
+        "9" : "Update customer profile",
         "10" : "View all customers",
         "11" : "Check out a Video",
         "12" : "Return a Video", 
@@ -104,8 +104,55 @@ def main(store_open=True):
             response = video.update_video(title, release_date, total_inventory)
 
             print("Updated video:", response["video"])
+        
+        elif choice == '6':
+            print("Let's add a new customer!")
+            name = input("What's the name of the customer?")
+            phone = input("What's the customer's phone number?")
+            postal_code = input("What is the customer's postal code?")
+
+            response = customer.add_customer(name=name, phone=phone, postal_code=postal_code)
+            print("New customer:" , response["name"])
+        
+        elif choice == '7':
+            select_by = input("Would you like to find the customer by name, phone, or id?")
+            if select_by == 'name':
+                name = input("What is the customer's name?")
+                customer.get_customer(name=name)
             
-                
+            elif select_by == 'phone':
+                phone = input("What is the customer's phone number?")
+                customer.get_customer(phone=phone)
+            
+            elif select_by == 'id':
+                id = input("What is the customer id?")
+                customer.get_customer(id=id)
+
+            else:
+                print("Please enter name, phone, or id")
+            
+            if customer.select_customer:
+                print(f"Selected customer: {customer.name}")
+        
+        elif choice == '8':
+            customer.delete_customer()
+            print(customer.list_customers())
+        
+        elif choice == '9':
+            print("Great! Let's update the customer!")
+            update = input("Would you like to update the name, phone, or postal number?")
+            if update == 'name':
+                name = input("What is the customer's updated name?")
+            if update == 'phone':
+                phone = input("What is the udpated phone number?")
+            if update == 'postal code':
+                postal_code = input("what is the updated postal code?")
+            
+            response = customer.update_customer(name, phone, postal_code)
+        
+        elif choice == '10':
+            for customer in customer.list_customers():
+                print(customer)
 
 
 if __name__ == "__main__":
