@@ -78,8 +78,8 @@ def run_cli(play=True):
 
         if choice=='1':
             print_hashtags()
+            print("Here are all of the customers we have in our database.")
             for customer in retro_video_store.list_of_customers():
-                print("Here are all of the customers we have in our database.")
                 print(customer)
 
         elif choice=='2':
@@ -104,7 +104,7 @@ def run_cli(play=True):
             response = retro_video_store.update_customer(name=name, postal_code=postal_code, phone=phone)
 
             print_hashtags()
-            print("Updated customer info:", response["customer"])
+            print("Updated customer info:", response)
 
         elif choice=='5':
             retro_video_store.delete_customer()
@@ -118,8 +118,8 @@ def run_cli(play=True):
 
         if choice=='6':
             print_hashtags()
+            print("Here are all of the videos we have in the store.")
             for video in retro_video_store.list_of_videos():
-                print("Here are all of the videos we have in the store.")
                 print(video)
 
         elif choice=='7':
@@ -144,7 +144,7 @@ def run_cli(play=True):
             response = retro_video_store.update_video(name=name, postal_code=postal_code, phone=phone)
 
             print_hashtags()
-            print("Updated video info:", response["video"])
+            print("Updated video info:", response)
 
         elif choice=='10':
             retro_video_store.delete_video()
@@ -160,13 +160,13 @@ def run_cli(play=True):
             response = retro_video_store.check_out_video()
 
             print_hashtags()
-            print("Video Check-out information: ", response["rental"])
+            print("Video Check-out information: ", response)
 
         elif choice=='12':
             response = retro_video_store.check_in_video()
 
             print_hashtags()
-            print("Video Check-in information: ", response["rental"])
+            print("Video Check-in information: ", response)
 
         elif choice=='13':
             list_options()
