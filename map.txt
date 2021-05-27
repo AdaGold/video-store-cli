@@ -1,3 +1,9 @@
+select an option
+run options command
+then returns to select option
+then I will write a quit
+
+
 if user selects 1 "Add New Reel":
     post Method for Video
     params needed 
@@ -64,4 +70,20 @@ if users selects 12 Checkin Reel:
     customer_id = request_body["customer_id"]
     video_id = request_body["video_id"]
 
-what about? 
+what about? Getting checked out info:
+    def get_video_checkedout_info(video_id):
+    video = Video.query.get(video_id)
+
+    if object_is_none(video):
+        return make_response({"details": "invalid data"}, 404)
+    
+    rentals = Rental.query.filter_by(video_id=video_id).all()
+    customer_list = []
+    for rental in rentals: 
+        customer_list.append({
+            "due_date": rental.due_date,
+            "name": rental.customer.customer_name,
+            "phone": rental.customer.phone_number,
+            "postal_code": rental.customer.postal_code
+            
+        })

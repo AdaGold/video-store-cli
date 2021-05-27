@@ -41,3 +41,7 @@ class Customer:
         
         response = requests.get(self.url+f"/customers/{customer_id}")
         return response.json()
+
+    def delete_customer(self, customer_id=None):
+        response = requests.delete(self.url+f"/customers/{customer_id}")
+        return response.json()
