@@ -97,14 +97,15 @@ def run_cli(play=True):
             except Exception as e:
                 print(f"There was an issue deleting that customer: {e}")
 
-        elif choice == 5: #POST CHECK OUT VIDEO - RENTAL
+        #POST CHECK OUT VIDEO - RENTAL
+        elif choice == 5: 
             video_id = input("Enter the video id: ")
             customer_id = (input("Enter the customer id: "))
             try:
                 response = rentalApi.check_out(video_id, customer_id)
                 if response.status_code != 200:
-                    print(response.status_code)
-                    pprint(response)
+                    # print(response.status_code)
+                    # pprint(response)
                     raise Exception("Something went wrong")
                 else:
                     video = videoApi.get_video(video_id)
@@ -116,7 +117,8 @@ def run_cli(play=True):
             except Exception as e:
                 print(f"There was an issue checking_out that customer: {e}")
 
-        elif choice == 6: #POST CHECK IN VIDEO - RENTAL
+        #POST CHECK IN VIDEO - RENTAL
+        elif choice == 6:
             video_id = input("Enter the video id: ")
             customer_id = (input("Enter the customer id: "))
 
@@ -125,7 +127,11 @@ def run_cli(play=True):
                 if response.status_code != 200:
                     raise Exception("Something went wrong")
                 else:
+                    video = videoApi.get_video(video_id)
+                    customer = customerApi.get_customer(customer_id)
                     print(f"Video {video_id} was cheked_in to Customer id {customer_id} succesfully")
+                    print(f"Video {video_id}: {video['title']} was cheked in by customer id {customer_id}: {customer['name']} succesfully")
+
             except Exception as e:
                 print(f"There was an issue checking_out that customer: {e}")
 

@@ -14,7 +14,7 @@ def print_little_stars():
     print(LITTLE_STARS)
 
 def print_stars_centered():
-    print(STARS_CENTERED)
+    print(STARS_HIGHLIGHT)
 
 def show_options():
     options = [
