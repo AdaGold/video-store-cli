@@ -9,12 +9,12 @@ URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 
-def main():
-    print("WELCOME TO RETRO VIDEO STORE")
-    pass
+# def main():
+#     print("\n WELCOME TO RETRO VIDEO STORE")
+#     pass
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 def print_frogges():
 
@@ -45,6 +45,7 @@ def list_options():
         }
 
     print_frogges()
+    print("WELCOME TO RETRO VIDEO STORE\n")
     print("These are the actions you can perform:")
     print_frogges()
     
@@ -93,11 +94,11 @@ def run_cli(play=True):
 
     # task_list = TaskList(url="https://beccas-task-list-c15.herokuapp.com/")
 
-    customer_list = Customer()
+    customers_list = Customer()
 
-    video_list = Video()
+    videos_list = Video()
     
-    # ? = Rental()
+    rental = Rental()
 
     
     # print choices
@@ -106,53 +107,145 @@ def run_cli(play=True):
     while play==True:
 
         # get input and validate
-        choice = make_choice(options, customer_list, video_list)
+        choice = make_choice(options, customers_list, videos_list)
 
-        customer_list.print_selected_customer()
-        video_list.print_selected_video()
+        # customers_list.print_selected_customer()
+        # videos_list.print_selected_video()
 
+        # "List all videos"
         if choice=='1':
-            pass
+            print_frogges()
+            for video in videos_list.get_all_videos():
+                print(video)
 
+
+        # "Add a video"
         elif choice=='2':
-            pass
+            title = input("\nEnter video title:\n")
+            release_date = input("Enter video release date:\n")
+            total_inventory = input("Enter total starting inventory:\n")
+            response = videos_list.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
+            print_frogges()
+            print("Successfully added new video with ID:", response["id"])
+
+
+        # "Select a video"
         elif choice=='3':
-            pass
-
-        elif choice=='4':
-            pass
+            select_by = input("Would you like to select by? Enter title or id: ")
+            if select_by=="title":
+                title = input("Which video title would you like to select? ")
+                videos_list.get_one_video(title=title)
+            elif select_by=="id":
+                id = input("Which video id would you like to select? ")
+                if id.isnumeric():
+                    id = int(id)
+                    videos_list.get_one_video(id=id)
+            else:
+                print("Could not select. Please enter id or title.")
             
+            if videos_list.selected_video:
+                print_frogges()
+                print("Selected video: ", videos_list.selected_video)
+
+
+        # "Edit selected video"
+        elif choice=='4':
+            print(f"You've chosent to update the video: {videos_list.selected_video}")
+            title=input("What is the new title of this video? ")
+            release_date=input("What is the new release date for this video? ")
+            total_inventory=input("What is the new total inventory for this video? ")
+            response = videos_list.edit_video(title=title, release_date=release_date, total_inventory=total_inventory)
+
+            print_frogges()
+            print("Successfully updated video with ID:", response["id"])
+            
+
+        # "Delete selected video"
         elif choice=='5':
-            pass
+            videos_list.delete_video()
 
+            print_frogges()
+            print("Video has been deleted!")
+
+
+        # "List all customers"
         elif choice=='6':
-            pass
+            print_frogges()
+            for customer in customers_list.get_all_customers():
+                print(customer)
 
+
+        # "Add a customer"
         elif choice=='7':
-            pass
+            name = input("\nEnter customer name:\n")
+            postal_code = input("Enter customer's postal code:\n")
+            phone = input("Enter customer's phone number:\n")
+            response = customers_list.add_customer(name=name, postal_code=postal_code, phone=phone)
 
+            print_frogges()
+            print("Successfully added new customer with ID:", response["id"], response["registered_at"])
+
+
+        # "Select a customer"
         elif choice=='8':
-            pass
+            select_by = input("Would you like to select by? Enter name or id: ")
+            if select_by=="name":
+                title = input("Which customer would you like to select? ")
+                customers_list.get_one_customer(name=name)
+            elif select_by=="id":
+                id = input("Which customer id would you like to select? ")
+                if id.isnumeric():
+                    id = int(id)
+                    customers_list.get_one_customer(id=id)
+            else:
+                print("Could not select. Please enter id or title.")
+            
+            if customers_list.selected_customer:
+                print_frogges()
+                print("Selected customer: ", customers_list.selected_customer)
 
+
+        # "Update a customer"
         elif choice=='9':
-            pass
+            print(f"You've chosen to update customer: {customers_list.selected_customer}")
+            name=input("What is the new name of this customer? ")
+            postal_code=input("What is the new postal code of this customer? ")
+            phone=input("What is the new phone number of this customer? ")
+            response = customers_list.update_customer(name=name, postal_code=postal_code, phone=phone)
 
+
+            print_frogges()
+            print("Successfully updated customer with ID:", response["id"])
+
+
+        # "Delete a customer"
         elif choice=='10':
-            pass
+            customers_list.delete_customer()
 
+            print_frogges()
+            print("Customer has been deleted!")
+
+
+        # "Check out a video to a customer"
         elif choice=='11':
             pass
 
+
+        # "Check in a video to a customer"
         elif choice=='12':
             pass
 
-        elif choice=='13':
-            pass
 
+        # "List all options"
+        elif choice=='13':
+            list_options()
+
+
+        # "Quit"
         elif choice=='14':
             play=False
-            print("\nThanks for using the FROGGE VIDEO STORE CLI")
+            print("\n K BYE")
 
         print_frogges()
 
