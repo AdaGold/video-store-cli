@@ -18,7 +18,7 @@ class VideoStore:
 
     def update_video(self,title=None,total_inventory=None,release_date=None):
         """Option 2: edit a video"""
-        if not title: # how simplify?
+        if not title: # how to simplify?
             title = self.selected_video["title"]
         if not release_date:
             release_date = self.selected_video["release_date"]
@@ -43,15 +43,19 @@ class VideoStore:
 
     def get_video(self, title=None, id=None):
         """Option 5: get information about one video"""
+        found = False
         for video in self.list_videos():
             if id:
                 if id == video["id"]:
                     self.selected_video = video
+                    found = True
             if title:
                 if title == video["title"].lower():
                     self.selected_video = video
                     id = self.selected_video['id']
-
+                    found = True
+        if found == False:
+            return False
         response = get(self.url+f"/videos/{id}")
         return response.json()
 
@@ -84,18 +88,35 @@ class VideoStore:
 
     def get_customer(self, name=None, id=None):
         """Option 9: get information about one customer"""
+        found = False
         for customer in self.list_customers():
             if id:
                 if id == customer["id"]:
                     self.selected_customer = customer
+                    found = True
             if name:
                 if name == customer["name"].lower():
                     self.selected_customer = customer
                     id = self.selected_customer['id']
+                    found = True
+        if found == False:
+            return False
         response = get(self.url+f"/customers/{id}")
         return response.json()
 
     def list_customers(self):
         """Option 10: get information about all customers"""
         response = get(self.url+"/customers")
+        return response.json()
+
+    def check_out_video(self, customer_id=None, video_id=None):
+        """Option 11: check out a video to a customer"""
+        query_params = {"customer_id": customer_id, "video_id": video_id}
+        response = post(self.url+"/rentals/check-out", json=query_params)
+        return response.json()
+
+    def check_in_video(self, customer_id=None, video_id=None):
+        """Option 12: check in a video from a customer"""
+        query_params = {"customer_id": customer_id,"video_id": video_id}
+        response = post(self.url+"/rentals/check-in", json=query_params)
         return response.json()
