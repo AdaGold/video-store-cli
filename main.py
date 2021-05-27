@@ -83,11 +83,11 @@ def run_cli(play=True):
                 phone = input("Enter the phone number of the customer account you want to work with: ")
                 video_store.get_customer(phone=phone)
             # IF MAKING CLI MY WAY, DO I EVEN NEED TO ALLOW ID-LOOKUP? WHAT'S SIMPLEST?
-            elif choice_param == "ID": # address case issue?
+            elif choice_param == "id": # address case issue?
                 cli_id = input("Which customer ID would you like to select? ")
                 if cli_id.isnumeric(): # handle id coming in as str (from HTTP path?)
                     cli_id = int(cli_id)
-                    video_store.get_customer(cli_id=customer_id) # WHAT SHOULD CUSTOMER_ID BE? TO BE RECOGNIZED?
+                    video_store.get_customer(cli_id=video_store.customer_id) # WHAT SHOULD CUSTOMER_ID BE? TO BE RECOGNIZED?
             else:
                 print("Could not select. Please enter the name or phone number of an existing customer. ")
             
@@ -132,11 +132,11 @@ def run_cli(play=True):
                 name = input("Enter the title of the video you want to work with: ")
                 video_store.get_video(title=title)
             # IF MAKING CLI MY WAY, DO I EVEN NEED TO ALLOW ID-LOOKUP? WHAT'S SIMPLEST?
-            elif choice_param == "ID": # address case issue?
+            elif choice_param == "id": # address case issue?
                 cli_id = input("Which video ID would you like to select? ")
                 if cli_id.isnumeric(): # handle id coming in as str (from HTTP path?)
                     cli_id = int(cli_id)
-                    video_store.get_video(cli_id=video_id) # WHAT SHOULD VIDEO_ID BE? TO BE RECOGNIZED?
+                    video_store.get_video(cli_id=video_store.video_id) # WHAT SHOULD VIDEO_ID BE? TO BE RECOGNIZED?
             else:
                 print("Could not select. Please enter the title or ID of a video that's been added to the database. ")
             
