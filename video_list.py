@@ -1,5 +1,5 @@
 import requests
-import datetime
+
 
 class VideoList:
     def __init__(self, url="http://localhost:5000", selected_video=None):
@@ -38,9 +38,9 @@ class VideoList:
         if not title:
             title = self.selected_video["title"]
         if not release_date:
-            release_date = self.selected_task["release_date"]
+            release_date = self.selected_video["release_date"]
         if not total_inventory:
-            total_inventory = self.selected_task["total_inventory"]
+            total_inventory = self.selected_video["total_inventory"]
         
         query_params = {
             "title": title,
