@@ -98,14 +98,14 @@ def main(play=True):
             all_videos = video_list.list_videos()
             
             for video in all_videos:
-                print(f"Id:13 {video['id']}, Title: {video['title']}")
+                print(f"Id: {video['id']}, Title: {video['title']}")
             
             select_by = input("What would you like to select by? Enter either a title or an id: ")
             if select_by == "title":
                 title = input("Which video title would you like to select? ")
                 video_list.get_video(title=title)
             elif select_by == "id":
-                video_id = input("Which video ID would you like to select?: ")
+                video_id = input("Which video ID would you like to select? ")
                 if video_id.isnumeric():
                     video_id = int(video_id)
                     video_list.selected_video = video_list.get_video(id=video_id)
@@ -132,7 +132,7 @@ def main(play=True):
             name=input("What is the new name of the customer? ")
             phone=input("What is their new phone number? (xxx-xxx-xxxx) ")
             postal_code=input("What is their new postal code? ")
-            response = customer_list.update_customer(customer_id, name=name, phone=phone, postal_code=postal_code)
+            response = customer_list.update_customer(name=name, phone=phone, postal_code=postal_code)
             print_squiggle()
             print("Updated customer:", response["name"])
     
@@ -151,10 +151,15 @@ def main(play=True):
             for customer in all_customers:
                 print(f"Id: {customer['id']}, name: {customer['name']}")
             
-            customer_id = input("Which customer?: ")
-            if customer_id.isnumeric():
-                customer_id = int(customer_id)
-                customer_list.selected_customer = customer_list.get_customer(customer_id=customer_id)
+            select_by = input("What would you like to select by? Enter either a name or an id: ")
+            if select_by == "name":
+                name = input("Which customer name would you like to select? ")
+                customer_list.get_customer(name=name)
+            elif select_by == "id":
+                customer_id = input("Which customer ID would you like to select? ")
+                if customer_id.isnumeric():
+                    customer_id = int(customer_id)
+                    customer_list.selected_customer = customer_list.get_customer(id=customer_id)
             else:
                 print("Please enter valid customer ID: ")
             

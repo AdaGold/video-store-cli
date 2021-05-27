@@ -52,10 +52,10 @@ class CustomerList:
             json=query_params
             )
         print("response:", response)
-        self.selected_customer = response.json()["customer"]
+        self.selected_customer = response.json()
         return response.json()
 
-    def delete_customer(self):
+    def delete_customer(self, id):
         response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
         self.selected_customer = None
         return response.json()
