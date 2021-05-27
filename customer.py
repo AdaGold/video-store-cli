@@ -1,11 +1,6 @@
 import requests
 from datetime import datetime
 
-# do I need to make separate classes for customers, videos, and rental
-# like I did in my API?
-
-# do you have to "select" something before updating/deleting it? why?
-
 class Customer:
     def __init__(self, url="http://localhost:5000"):
         self.url = url
@@ -21,12 +16,6 @@ class Customer:
 
     def update_customer(self, customer_id=None, name=None,postal_code=None,
         phone=0):
-        # if not customer_id:
-        #     name = self.selected_customer["name"]
-        # if not postal_code:
-        #     postal_code = self.selected_customer["postal_code"]
-        # if not phone:
-        #     phone = self.selected_customer["phone"]
 
         query_params = {
             "name": name,
@@ -56,8 +45,3 @@ class Customer:
         if customer_id == None:
             return "Could not find customer by that id"
         return response.json()
-
-    # def print_selected_customer(self):
-    #     if self.selected_customer:
-    #         print(f"Customer with id {self.get_customer['customer_id']} is currently selected\n")
-    #         # how are we able to pull a key-value pair directly from a method here?
