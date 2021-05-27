@@ -52,7 +52,7 @@ class Video:
         return response.json()
 
     def delete_video(self):
-        response = requests.delete(self.url+f"/videos/{self.selected_video["id"]}")
+        response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
         self.selected_video = None
         return response.json()
         
