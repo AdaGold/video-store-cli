@@ -60,7 +60,7 @@ class Client:
             "postal_code": postal_code,
             "phone": phone
         }
-        response = requests.post(self.url+"/customer",json=request_body)
+        response = requests.post(self.url+"/customers",json=request_body)
         return Customer(self, response.json()['id'], name, postal_code, phone)
 
     def edit_customer(self, customer):
@@ -104,6 +104,8 @@ class Video:
         self.title = title
         self.release_date = release_date
         self.total_inventory = total_inventory
+        #self.available_inventory 
+        #rentals?
     
     def delete(self):
         return self.client.delete_video(self)
@@ -117,12 +119,15 @@ class Video:
 
 
 class Customer:
-    def __init__(self, client, id, name, postal_code, phone):
+    def __init__(self, client, id, name, postal_code, phone): #videos_checked_out_count
         self.id = id
         self.client = client
         self.name = name
         self.postal_code = postal_code
         self.phone = phone
+        #self.videos_checked_out_count = videos_checked_out_count
+        #registered_at?
+        #rentals?
 
     def delete(self):
         return self.client.delete_customer(self)
@@ -130,9 +135,19 @@ class Customer:
     def save(self):
         return self.client.edit_customer(self)
 
+    def __str__(self):
+        return f"{self.name} {self.id} ({self.postal_code} {self.phone})" 
 
 
 
+    # def add_customer(self, name, postal_code, phone):
+    #     request_body = {
+    #         "name": name,
+    #         "postal_code": postal_code,
+    #         "phone": phone
+    #     }
+    #     response = requests.post(self.url+"/customers",json=request_body)
+    #     return Customer(self, response.json()['id'], name, postal_code, phone)
 
     def check_out_video_to_customer():
         pass

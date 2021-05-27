@@ -13,7 +13,7 @@ from client import Client
 
 
 def main():
-    print("*******  WELCOME TO RETRO VIDEO STORE  *******")
+    print("*******  THANKS FOR USING RETRO VIDEO STORE  *******")
 
 
 def pzzas():
@@ -37,6 +37,8 @@ def option_list():
         
         "11": "Check out a video to a customer", # nedds id
         "12": "Check in a video from a customer", # needs id
+        "14": "To see all options",
+        "15": "To Quit"
         }
 
     pzzas()
@@ -110,7 +112,9 @@ def run_cli(play=True):
 
             if selected_video:
                 pzzas()
-                print("Selected video: ", selected_video.title) # add info like id and stuff 
+                print("Selected video: ", selected_video.title)
+                print("Total inventory:", selected_video.total_inventory)
+                print("Release date:", selected_video.release_date) 
             else:
                 print("Sorry, we couldn't find a matching video.")
             pzzas()
@@ -120,8 +124,9 @@ def run_cli(play=True):
             if not selected_video:
                 print("Please select a video")
                 continue
-
+            
             print(f"Great! Let's update video: {selected_video}") 
+            pzzas()
             title=input(f"What is updated the title of the movie?[{selected_video.title}]  ")
             if len(title) > 0:
                 selected_video.title = title
@@ -134,15 +139,18 @@ def run_cli(play=True):
             selected_video.save()
             pzzas()
             print("Updated video:", selected_video)
-            
+            pzzas()
 
         elif option=='5':
-            #maybe an 'are you sure message?
-            selected_video.delete()
-            pzzas()
-            print("Video has been deleted.")
-            pzzas()
-            selected_video = None
+            check = input(f"Are you sure you want to delete {selected_video} yes/no?  ")
+            if check == 'yes':
+                selected_video.delete()
+                pzzas()
+                print("Video has been deleted.")
+                pzzas()
+                selected_video = None
+            else:
+                continue
 
             
         elif option=='6':
@@ -175,7 +183,8 @@ def run_cli(play=True):
 
             if selected_customer:
                 pzzas()
-                print("Selected customer: ", selected_customer.name) # more info?
+                print("Selected customer: ", selected_customer.name) 
+                # I need to see how many videos they have 
             else:
                 print("Sorry, we couldn't find a matching customer.")
             pzzas()
@@ -186,6 +195,7 @@ def run_cli(play=True):
                 print("Plese select a customer")
                 continue
             print(f"Awesome! Let's update customer: {selected_customer}")
+            pzzas()
             name = input(f"[{selected_customer.name}] Currently. Enter to keep.\nOtherwise, what is the customer's new name?  ")
             if len(name) > 0:
                 selected_customer.name = name
@@ -201,16 +211,20 @@ def run_cli(play=True):
             
 
         elif option=='10':
-            #maybe an 'are you sure message?
-            selected_customer.delete()
-            pzzas()
-            print("Customer has been deleted.")
-            pzzas()
-            selected_customer = None
+            check = input(f"Are you sure you want to delete {selected_customer} yes/no?  ")
+            if check == 'yes':
+                selected_customer.delete()
+                pzzas()
+                print("Customer has been deleted.")
+                pzzas()
+                selected_customer = None
+            else:
+                continue
 
 
         # elif option=='11':
         #     pass
+
         # elif option=='12':
         #     pass
 
@@ -228,4 +242,4 @@ def run_cli(play=True):
 run_cli()
 
 if __name__ == "__main__":
-    main()
+    main() #?
