@@ -28,19 +28,20 @@ def list_options():
     """
 
     options = {
-        "1": "Add a video", 
-        "2": "Edit a video",
-        "3": "Delete a video", 
-        "4": "Get information about all videos", 
-        "5": "Get information about one video", 
-        "6": "Add a customer",
-        "7": "Edit a customer",
-        "8": "Delete a customer",
-        "9": "Get information about one customer",
-        "10": "Get information about all customers",
+        "1": "List all videos",
+        "2": "Add a video", 
+        "3": "Select a video",
+        "4": "Edit selected video",
+        "5": "Delete selected video", 
+        "6": "List all customers",
+        "7": "Add a customer",
+        "8": "Select a customer",
+        "9": "Update a customer",
+        "10": "Delete a customer",
         "11": "Check out a video to a customer",
         "12": "Check in a video to a customer",
-        "13": "Quit"
+        "13": "List all options",
+        "14": "Quit"
         }
 
     print_frogges()
