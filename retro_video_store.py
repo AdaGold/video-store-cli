@@ -1,5 +1,5 @@
 import requests
-import datetime
+from datetime import datetime
 
 class Video_Store:
     def __init__(self, url="http://127.0.0.1:5000", selected_customer=None, selected_video=None, selected_rental=None):
@@ -110,19 +110,19 @@ class Video_Store:
         return response.json()
     
     def check_out_video(self, customer_id, video_id):
-        request_body = {
+        query_params = {
             "customer_id": customer_id,
             "video_id": video_id
         }
-        response = requests.post(self.url+f"/rentals/check-out", json=request_body)
+        response = requests.post(self.url+f"/rentals/check-out", json=query_params)
         return response.json()
 
     def check_in_video(self, customer_id, video_id):
-        request_body = {
+        query_params = {
             "customer_id": customer_id,
             "video_id": video_id
         }
-        response = requests.post(self.url+f"/rentals/check-in", json=request_body)
+        response = requests.post(self.url+f"/rentals/check-in", json=query_params)
         return response.json()
 
     def print_selected(self):

@@ -83,7 +83,7 @@ def run_cli(play=True):
             postal_code=input("What is their postal code? ")
             phone=input("What's their phone number that they'll answer the most? ")
             response = retro_video_store.create_customer(name=name, postal_code=postal_code, phone=phone)
-            print("New Customer info:", response["id"])
+            print("New Customer id:", response["id"])
 
         elif choice=='4':
             print(f"Time to update someone's information!: {retro_video_store.selected_customer}")
@@ -93,7 +93,7 @@ def run_cli(play=True):
             response = retro_video_store.update_customer(id, name=name, postal_code=postal_code, phone=phone)
 
             print_hashtags()
-            print("Updated customer info:", response["name"])
+            print("Updated customer name:", response["name"])
 
         elif choice=='5':
             customer_to_delete = input("What is the id of the customer you wish to delete? ")
@@ -137,7 +137,7 @@ def run_cli(play=True):
             title=input("What is it's new name? ")
             release_date=input("What is their new release date? ")
             total_inventory=input("How many copies of this do we have? ")
-            response = retro_video_store.update_video(name=name, postal_code=postal_code, phone=phone)
+            response = retro_video_store.update_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
             print_hashtags()
             print("Updated video info:", response["title"])
