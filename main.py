@@ -1,6 +1,8 @@
 #installed request in local machine 
 import requests
 from video_store import Videostore
+from customer import Customer 
+from video_customer_relationship import Video_customer_relationship
 
 
 URL = "http://127.0.0.1:5000"
