@@ -1,11 +1,5 @@
 from client import Client
 
-#from my_store import Customer #need to make this
-#from my_store import Rental #need to make this
-
-
-
-
 #URL = "http://127.0.0.1:5000"
 #BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 #MAITES_URL = "https://maite-retro-video-store-api.heroku.com/"
@@ -13,7 +7,7 @@ from client import Client
 
 
 def main():
-    print("*******  THANKS FOR USING RETRO VIDEO STORE  *******")
+    print("******* ******* ******* ******* ******* *******")
 
 
 def pzzas():
@@ -80,7 +74,7 @@ def run_cli(play=True):
         option = choose_option(options)
         
 
-        if option=='1':
+        if option=='1': # Add video
             print("Great!") 
             title=input("What is the title of the movie?  ")
             release_date=input("In yyyy-mm-dd format. When was this movie released?  ")
@@ -91,13 +85,13 @@ def run_cli(play=True):
             selected_video = video
 
 
-        elif option=='2':
+        elif option=='2':  # Info on all videos
             pzzas()
             for video in client.info_about_all_videos():
                 print(video) 
             
 
-        elif option=='3': #this selects the video 
+        elif option=='3': # select the video 
             choose_by = input("Would you like to select by title or id?:  ")
             if choose_by=="title":
                 title = input("Which movie title would you like to select?  ")
@@ -107,8 +101,6 @@ def run_cli(play=True):
                 if id.isnumeric():
                     id = int(id)
                     selected_video = client.info_about_one_video(id=id)
-            else:
-                print("Oops! Please try again. Enter id or title.")
 
             if selected_video:
                 pzzas()
@@ -120,7 +112,7 @@ def run_cli(play=True):
             pzzas()
         #show info on selected video    
 
-        elif option=='4':
+        elif option=='4':  # edit a video
             if not selected_video:
                 print("Please select a video")
                 continue
@@ -141,7 +133,7 @@ def run_cli(play=True):
             print("Updated video:", selected_video)
             pzzas()
 
-        elif option=='5':
+        elif option=='5': # delete video
             check = input(f"Are you sure you want to delete {selected_video} yes/no?  ")
             if check == 'yes':
                 selected_video.delete()
@@ -153,7 +145,7 @@ def run_cli(play=True):
                 continue
 
             
-        elif option=='6':
+        elif option=='6':  # creates customer
             print("Awesome!") 
             name=input("What is the customer's name?  ")
             postal_code=input("What is the customer's zip code?  ")
@@ -163,12 +155,12 @@ def run_cli(play=True):
             print("New customer:", customer.name)
             selected_video = customer
 
-        elif option=='7':
+        elif option=='7':  # Info on all customers
             pzzas()
             for customer in client.info_about_all_customers():
                 print(customer) 
 
-        elif option=='8':
+        elif option=='8':   # Selects customer
             choose_by = input("Would you like to select a customer by name or id?  ")
             if choose_by == "name":
                 name = input("Which customer name would you like to select?  ")
@@ -178,19 +170,18 @@ def run_cli(play=True):
                 if id.isnumeric():
                     id = int(id)
                     selected_customer = client.info_about_one_customer(id=id)
-            else:
-                print("Oops! Please try again.")
-
+            
             if selected_customer:
                 pzzas()
-                print("Selected customer: ", selected_customer.name) 
-                # I need to see how many videos they have 
+                print("Selected customer: ", selected_customer.name)
+                print("Videos checked out:", selected_customer.videos_checked_out_count)
+                
             else:
                 print("Sorry, we couldn't find a matching customer.")
             pzzas()
-            #show info on selected customer  
+            
 
-        elif option=='9':
+        elif option=='9': # edit customer
             if not selected_customer:
                 print("Plese select a customer")
                 continue
@@ -210,7 +201,7 @@ def run_cli(play=True):
             print("Updated customer:", selected_customer)
             
 
-        elif option=='10':
+        elif option=='10': # delete customer
             check = input(f"Are you sure you want to delete {selected_customer} yes/no?  ")
             if check == 'yes':
                 selected_customer.delete()
@@ -222,11 +213,47 @@ def run_cli(play=True):
                 continue
 
 
-        # elif option=='11':
-        #     pass
+        elif option=='11': # check out video to a customer
+            if not selected_customer:
+                print("Please select a customer.")
+                continue
+            if not selected_video:
+                print("Please select a video.")
+                continue
 
-        # elif option=='12':
-        #     pass
+            try:
+                client.check_out_video_to_customer(selected_video, selected_customer)
+                pzzas()
+                print("Yay! You have successfully checked out a video!")
+                pzzas()
+            except:
+                pzzas()
+                print("Sorry, we ran out of this title.")
+                pzzas()
+
+            continue
+
+
+        elif option=='12':  # check in video from a customer
+            if not selected_customer:
+                print("Please select a customer")
+                continue
+            if not selected_video:
+                print("Please select a video")
+                continue
+
+            try:
+                client.check_in_video_from_customer(selected_video, selected_customer)
+                pzzas()
+                print("Thank you! Come again soon!")
+                pzzas()
+            except:
+                pzzas()
+                print("Sorry, we can not find a record for this rental")
+                pzzas()
+            
+            continue
+
 
 
         elif option=='14':
@@ -236,10 +263,10 @@ def run_cli(play=True):
         elif option=='15':
             play = False
             pzzas()
-            print("Thank you for using the Retro Video Store!")
+            print("*** THANK YOU FOR USING MY RETRO VIDEO STORE ***")
             pzzas()
         
 run_cli()
 
 if __name__ == "__main__":
-    main() #?
+    main() 

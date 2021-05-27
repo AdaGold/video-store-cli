@@ -18,7 +18,8 @@ class Client:
             "total_inventory": total_inventory  
         }
         response = requests.post(self.url+"/videos",json=request_body) 
-        return Video(self, response.json()['id'], title, release_date, total_inventory)
+        return Video(self, response.json()['id'], title, release_date, total_inventory, total_inventory) 
+        # positional argument gives available inventory the value of total_inventory     ^
 
     def edit_video(self, video):
         request_body = {
@@ -37,7 +38,7 @@ class Client:
         for video_json in response.json():
             video_log.append(Video(self, video_json['id'],
             video_json['title'], video_json['release_date'], 
-            video_json['total_inventory']))
+            video_json['total_inventory'], video_json['available_inventory']))
         return video_log
 
     def info_about_one_video(self,title=None,id=None):
@@ -61,7 +62,7 @@ class Client:
             "phone": phone
         }
         response = requests.post(self.url+"/customers",json=request_body)
-        return Customer(self, response.json()['id'], name, postal_code, phone)
+        return Customer(self, response.json()['id'], name, postal_code, phone, 0)
 
     def edit_customer(self, customer):
         request_body = {
@@ -80,7 +81,7 @@ class Client:
         for customer_json in response.json():
             customer_roster.append(Customer(self, customer_json['id'],
             customer_json['name'], customer_json['postal_code'],
-            customer_json['phone']))
+            customer_json['phone'], customer_json['videos_checked_out_count']))
         return customer_roster
 
     def info_about_one_customer(self, name=None,id=None):
@@ -95,16 +96,35 @@ class Client:
     def delete_customer(self, customer):
         response = requests.delete(self.url+f"/customers/{customer.id}")
 
+    def check_out_video_to_customer(self, video, customer):
+        request_body = {
+                "customer_id": customer.id,
+                "video_id": video.id
+            }
+        response = requests.post(self.url+"/rentals/check-out", json=request_body)
+        if response.status_code == 400:
+            raise Exception("Can not check out video.")
+        
 
+    def check_in_video_from_customer(self, video, customer):
+        request_body = {
+                "customer_id": customer.id,
+                "video_id": video.id
+            }
+        response = requests.post(self.url+"/rentals/check-in", json=request_body)
+        if response.status_code == 400:
+            raise Exception("Can not check in video.")
+        elif response.status_code != 200:
+            print("Something is not right.")
 
 class Video:
-    def __init__(self, client, id, title, release_date, total_inventory):
+    def __init__(self, client, id, title, release_date, total_inventory, available_inventory):
         self.id = id
         self.client = client
         self.title = title
         self.release_date = release_date
         self.total_inventory = total_inventory
-        #self.available_inventory 
+        self.available_inventory = available_inventory 
         #rentals?
     
     def delete(self):
@@ -119,13 +139,13 @@ class Video:
 
 
 class Customer:
-    def __init__(self, client, id, name, postal_code, phone): #videos_checked_out_count
+    def __init__(self, client, id, name, postal_code, phone, videos_checked_out_count): # =0
         self.id = id
         self.client = client
         self.name = name
         self.postal_code = postal_code
         self.phone = phone
-        #self.videos_checked_out_count = videos_checked_out_count
+        self.videos_checked_out_count = videos_checked_out_count
         #registered_at?
         #rentals?
 
@@ -140,18 +160,3 @@ class Customer:
 
 
 
-    # def add_customer(self, name, postal_code, phone):
-    #     request_body = {
-    #         "name": name,
-    #         "postal_code": postal_code,
-    #         "phone": phone
-    #     }
-    #     response = requests.post(self.url+"/customers",json=request_body)
-    #     return Customer(self, response.json()['id'], name, postal_code, phone)
-
-    def check_out_video_to_customer():
-        pass
-
-
-    def check_in_video_from_customer():
-        pass
