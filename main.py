@@ -74,7 +74,7 @@ def main(play=True):
             release_date=input("What is the new release date of this video? (YYYY-MM-DD) ")
             total_inventory=input("What is the new inventory of this video? ")
             
-            response = video_list.update_video(video_id, title=title, release_date=release_date, total_inventory=total_inventory)
+            response = video_list.update_video(title=title, release_date=release_date, total_inventory=total_inventory)
             print_squiggle()
             print("Updated video: ", response["title"])
 
@@ -82,7 +82,7 @@ def main(play=True):
             delete_video = input("Please input the video ID you would like to delete ")
             if delete_video.isnumeric():
                 delete_video  = int(delete_video)
-                video_list.delete_video(delete_video)
+                video_list.delete_video(id=delete_video)
     
             print_squiggle()
             print("The video has successfully been deleted. ")
@@ -98,12 +98,17 @@ def main(play=True):
             all_videos = video_list.list_videos()
             
             for video in all_videos:
-                print(f"Id: {video['id']}, Title: {video['title']}")
+                print(f"Id:13 {video['id']}, Title: {video['title']}")
             
-            video_id = input("Which video ID would you like to select?: ")
-            if video_id.isnumeric():
-                video_id = int(video_id)
-                video_list.selected_video = video_list.get_video(video_id=video_id)
+            select_by = input("What would you like to select by? Enter either a title or an id: ")
+            if select_by == "title":
+                title = input("Which video title would you like to select? ")
+                video_list.get_video(title=title)
+            elif select_by == "id":
+                video_id = input("Which video ID would you like to select?: ")
+                if video_id.isnumeric():
+                    video_id = int(video_id)
+                    video_list.selected_video = video_list.get_video(id=video_id)
             else:
                 print("Please enter a valid video ID:")
             
@@ -227,12 +232,12 @@ def make_choice(options, video_info, customer_info, rental_info):
         
     if choice in ['2', '3'] and video_info.selected_video == None:
         print("You must select a video before updating or deleting! ")
-        print("Please select a video!: ")
+        print("Please select a video! ")
         choice = "5"
         
     elif choice in ['7','8'] and customer_info.selected_customer == None:
         print("You must select a customer before updating or deleting! ")
-        print("Please select a customer!: ")
+        print("Please select a customer! ")
         choice = "9"
         
     return choice

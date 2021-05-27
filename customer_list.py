@@ -25,8 +25,8 @@ class CustomerList:
                 if customer["name"]== name:
                     id = customer["id"]
                     self.selected_customer = customer
-                elif id == customer["id"]:
-                    self.selected_customer = customer
+            elif id == customer["id"]:
+                self.selected_customer = customer
             
         if self.selected_customer == None:
             return "Sorry!! Could not find any customer by that name or id."

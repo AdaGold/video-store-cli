@@ -25,11 +25,11 @@ class VideoList:
                 if video["title"]==title:
                     id = video["id"]
                     self.selected_video = video
-                elif id == video["id"]:
-                    self.selected_video = video
+            elif id == video["id"]:
+                self.selected_video = video
             
         if self.selected_video == None:
-            return "Sorry!! Could not find any video by that name or id."
+            return "Sorry!! Could not find any video by that title or id."
         
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
@@ -51,11 +51,11 @@ class VideoList:
             self.url+f"/videos/{self.selected_video['id']}",
             json=query_params
             )
-        print("response:", response)
-        self.selected_video = response.json()["video"]
+
+        self.selected_video = response.json()
         return response.json()
 
-    def delete_video(self):
+    def delete_video(self, id):
         response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
         self.selected_video = None
         return response.json()
