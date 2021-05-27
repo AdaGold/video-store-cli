@@ -40,16 +40,18 @@ class Customer:
             if name:
                 if customer["name"]==name:
                     self.selected_customer = customer
+                    id = customer["id"]
             elif phone:
                 if customer["phone"]==phone:
                     self.selected_customer = customer
+                    id = customer["id"]
             elif id == customer["id"]:
                 self.selected_customer = customer
 
         if self.selected_customer == None:
             return "I'm sorry, I couldn't find that customer."
         
-        response = requests.get(self.url+"/customers/{id}")
+        response = requests.get(self.url+f"/customers/{id}")
         return response.json()
 
     def delete_customer(self):
@@ -59,4 +61,6 @@ class Customer:
         
     def print_selected(self):
         if self.selected_customer:
-            print(f"Customer with id {self.selected_customer['id']} is currently selected.")
+            print(f"Customer {self.selected_customer['name']} is currently selected.")
+        else:
+            print("Sorry, I couldn't find that customer.")

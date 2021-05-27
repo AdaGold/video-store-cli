@@ -21,7 +21,8 @@ def list_options():
         "10" : "View all customers",
         "11" : "Check out a Video",
         "12" : "Return a Video", 
-        "0" : "List all options"
+        "0" : "List all options",
+        "99" : "Close up for the day!"
     }
     for choice in options:
         print(f"Option {choice}: {options[choice]}")
@@ -39,6 +40,10 @@ def make_choice(options, video, customer, rental):
         print("You must select a video before editing!")
         choice = "2"
     
+    if choice in ["8", "9"] and customer.selected_customer == None:
+        print("You must select a customer before editing!")
+        chioce = "7"
+    
     return choice
 
 
@@ -52,8 +57,6 @@ def main(store_open=True):
     while store_open:
         choice = make_choice(options, video, customer, rental)
         
-        
-
         if choice == '1':
             print("Let's add a video!")
             title = input("What's the name of the video?")
@@ -70,9 +73,7 @@ def main(store_open=True):
                 video.get_video(title=title)
             elif select_by == "id":
                 id = input("Which ID?")
-                if id.isnumeric():
-                    id = int(id)
-                    video.get_video(id=id)
+                video.get_video(id=int(id))
             elif select_by == "release date":
                 release_date = input("When was it released?")
                 video.get_video(release_date=release_date)
@@ -126,17 +127,16 @@ def main(store_open=True):
             
             elif select_by == 'id':
                 id = input("What is the customer id?")
-                customer.get_customer(id=id)
-
+                customer.get_customer(id=int(id))
+            
             else:
                 print("Please enter name, phone, or id")
-            
-            if customer.select_customer:
-                customer.print_selected()
+        
+            customer.print_selected() 
         
         elif choice == '8':
             customer.delete_customer()
-            print(customer.list_customers())
+            print(f"Customer has been deleted. ")
         
         elif choice == '9':
             print("Great! Let's update the customer!")
@@ -157,14 +157,23 @@ def main(store_open=True):
         elif choice == '11':
             customer_id = input("Which customer id is renting?")
             video_id = input("Which video id are they renting?")
-            
-            response = rental.check_out(customer_id, video_id)
 
-
-
-
+            response = rental.check_out(int(customer_id), int(video_id))
+            print("Enjoy the movie!")
+        
         elif choice == '12':
-            pass
+            customer_id = input("Which customer id is returning?")
+            video_id = input("Which video id are they returning?")
+
+            response = rental.check_in(int(customer_id), int(video_id))
+            print("Thanks for bringing it back!")
+
+        elif choice == '0':
+            list_options()
+        
+        elif choice == "99":
+            store_open = False
+            print("Don't forget to lock up on your way out!")
 
 
 if __name__ == "__main__":

@@ -38,9 +38,11 @@ class Video:
         for video in self.list_videos():
             if title:
                 if video["title"]==title:
+                    id = video["id"]
                     self.selected_video = video
             elif release_date:
                 if video["release_date"]==release_date:
+                    id = video["id"]
                     self.selected_video = video
             elif id == video["id"]:
                 self.selected_video = video
@@ -48,7 +50,7 @@ class Video:
         if self.selected_video == None:
             return "I'm sorry, I couldn't find that video"
         
-        response = requests.get(self.url+"/videos/{id}")
+        response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
     def delete_video(self):
