@@ -118,7 +118,7 @@ def main(play=True):
             print("Adding a new customer to the register? ")
             name=input("What is their name?: ")
             phone=input("What is their phone number ex. 123-456-7890: ")
-            postal_code=input("What is thier postal code: ")
+            postal_code=input("What is their postal code: ")
             response = customer_info.add_customer(name=name, phone=phone, postal_code=postal_code)
             print_stars()
             print("Success! New customer created with id :", response["id"])
