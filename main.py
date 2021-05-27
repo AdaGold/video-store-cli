@@ -5,7 +5,7 @@ from rental import Rental
 
 
 URL = "http://127.0.0.1:5000"
-BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
+BACKUP_URL = "https://localhost:5000"
 
 def list_options():
     options = {
@@ -51,8 +51,8 @@ def main(store_open=True):
 
     while store_open:
         choice = make_choice(options, video, customer, rental)
-        video.print_selected()
-        customer.print_selected()
+        
+        
 
         if choice == '1':
             print("Let's add a video!")
@@ -61,7 +61,7 @@ def main(store_open=True):
             total_inventory = input("What is the total inventory?")
             response = video.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
-            print("New Video:", response["video"])
+            print("New Video:", response)
         
         elif choice == '2':
             select_by = input("Would you like to select by title, id, or release date?")
@@ -80,7 +80,7 @@ def main(store_open=True):
                 print("Please enter title, id, or release date. ")
             
             if video.selected_video:
-                print(f"Selected video is {video.title}")
+                video.print_selected()
 
         
         elif choice == '3':
@@ -132,7 +132,7 @@ def main(store_open=True):
                 print("Please enter name, phone, or id")
             
             if customer.select_customer:
-                print(f"Selected customer: {customer.name}")
+                customer.print_selected()
         
         elif choice == '8':
             customer.delete_customer()
@@ -154,10 +154,16 @@ def main(store_open=True):
             for customer in customer.list_customers():
                 print(customer)
         
-        elif choice == '12':
-            pass
+        elif choice == '11':
+            customer_id = input("Which customer id is renting?")
+            video_id = input("Which video id are they renting?")
+            
+            response = rental.check_out(customer_id, video_id)
 
-        elif choice == '13':
+
+
+
+        elif choice == '12':
             pass
 
 

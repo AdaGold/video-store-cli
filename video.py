@@ -1,14 +1,14 @@
 import requests
 
 class Video:
-    def __init__(self, url = "https://retro-video-store-api.herokuapp.com", selected_video = None):
+    def __init__(self, url = "https://localhost:5000", selected_video = None):
         self.url = url
         self.selected_video = selected_video
 
     def add_video(self, title = "Default Title", release_date = None, total_inventory = None):
         query_params = {
             "title" : title,
-            "release date" : release_date,
+            "release_date" : release_date,
             "total_inventory" : total_inventory
         }
         response = requests.post(self.url+"/videos", json = query_params)
@@ -31,7 +31,7 @@ class Video:
         return response.json()
     
     def list_videos(self):
-        response = self.get(self.url+"/videos")
+        response = requests.get(self.url+"/videos")
         return response.json()
     
     def get_video(self, title=None, id=None, release_date=None):
@@ -48,7 +48,7 @@ class Video:
         if self.selected_video == None:
             return "I'm sorry, I couldn't find that video"
         
-        response = self.get(self.url+"/videos/{id}")
+        response = requests.get(self.url+"/videos/{id}")
         return response.json()
 
     def delete_video(self):

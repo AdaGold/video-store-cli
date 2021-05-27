@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 
 class Customer:
-    def __init__(self, url = "https://retro-video-store-api.herokuapp.com", selected_customer = None):
+    def __init__(self, url = "https://localhost:5000", selected_customer = None):
         self.url = url
         self.selected_customer = selected_customer
 
@@ -10,8 +10,7 @@ class Customer:
         query_params = {
             "name" : name,
             "phone" : phone,
-            "postal_code" : postal_code,
-            "registered_at" : datetime.now()
+            "postal_code" : postal_code
         }
         response = requests.post(self.url+"/customers", json = query_params)
         return response.json()
@@ -33,7 +32,7 @@ class Customer:
         return response.json()
     
     def list_customers(self):
-        response = self.get(self.url+"/customers")
+        response = requests.get(self.url+"/customers")
         return response.json()
     
     def get_customer(self, name=None, id=None, phone=None, postal_code=None):
@@ -50,7 +49,7 @@ class Customer:
         if self.selected_customer == None:
             return "I'm sorry, I couldn't find that customer."
         
-        response = self.get(self.url+"/customers/{id}")
+        response = requests.get(self.url+"/customers/{id}")
         return response.json()
 
     def delete_customer(self):
