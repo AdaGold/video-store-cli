@@ -78,7 +78,7 @@ def run_cli_video_store():
     while play==True:
 
         # get input and validate
-        choice = make_choice(options, video_store)
+        choice = make_choice(options, video_store, customer)
         video_store.print_selected()
 
 
