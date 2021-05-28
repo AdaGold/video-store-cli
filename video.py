@@ -7,12 +7,12 @@ class Video:
         self.url = url
         self.selected_video = selected_video
 
-    def create_video(self, title="Default Video", release_date="Default Date", total_inventory="Default Total", available_inventory="Default Available"):
+    def create_video(self, title="Default Video", release_date="Default Date", total_inventory="Default Total"):
         query_params = {
             "title": title,
             "release_date": release_date,
             "total_inventory": total_inventory,
-            "available_inventory": available_inventory
+            "available_inventory": total_inventory
         }
         response = requests.post(self.url+"/videos", json=query_params)
         return response.json()
@@ -31,12 +31,12 @@ class Video:
                 self.selected_video = video
 
         if self.selected_video == None:
-            return "Could not find video by that title or id"
+            return "Could not find video by that title or ID"
 
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
-    def upgrade_video(self, title=None, release_date=None, total_inventory=None):
+    def upgrade_video(self, id=None, title=None, release_date=None, total_inventory=None):
         if not title:
             title = self.selected_video["title"]
         if not release_date:
@@ -54,7 +54,7 @@ class Video:
             json=query_params
         )
         print("response:", response)
-        self.selected_video = response.json()["video"]
+        # self.selected_video = response.json()["video"]
         return response.json()
 
     def delete_video(self):
