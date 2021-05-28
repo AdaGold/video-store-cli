@@ -1,5 +1,6 @@
 import requests
 from video_store import VideoStore
+from constants import *
 
 def print_divider():
     print("^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^")
@@ -52,9 +53,11 @@ def valid_id(id, video_store, category):
         print("Please provide a valid number!")
     
 def main(play=True):
+    print(LOGO)
     video_store = VideoStore("https://weishan-video-store.herokuapp.com/")
     main_menu_options = list_options(MAIN_MENU, WELCOME_MSG, MAIN_MENU_INFO)
     main_menu_choice = make_choice(main_menu_options, MAIN_MSG)
+    
     while play==True:
         if main_menu_choice == "1":
             customer_options = list_options(CUSTOMER_MENU, "Customer Menu", CUSTOMER_INFO)
@@ -90,9 +93,9 @@ def main(play=True):
                 id = input("Please provide ID of the customer you want to edit\n::")
                 selected_customer = valid_id(id, video_store, "customer")
                 print("Selected Customer:", selected_customer["name"])
-                name = input("What is the new name you want to update to? If no, just hit enter.")
-                postal_code = input("What is the new postal code you want to update to? If no, just hit enter.")
-                phone = input("What is the new phone number you want to update to? If no, just hit enter.")
+                name = input("What is the new name you want to update to? If no, just hit enter.\n>>")
+                postal_code = input("What is the new postal code you want to update to? If no, just hit enter.\n>>")
+                phone = input("What is the new phone number you want to update to? If no, just hit enter.\n>>")
                 response = video_store.edit_customer(id=id, name=name, postal_code=postal_code, phone=phone)
                 print_divider()
                 print("Updated Customer: ",selected_customer["name"] )
@@ -128,9 +131,9 @@ def main(play=True):
                           "Available Inventory:" f"{selected_video['available_inventory']}\n")
             elif video_choice == "3":
                 print("Yay, awesome video coming in!")
-                title = input("What is the title of the new movie? ")
-                release_date = input("What is the release date of the movie?")
-                total_inventory = input("How many copies of this video do we have?")
+                title = input("What is the title of the new movie?\n>> ")
+                release_date = input("What is the release date of the movie?\n>>")
+                total_inventory = input("How many copies of this video do we have?\n>>")
                 response = video_store.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
                 print_divider()
                 print("New Video: ", response["title"])
@@ -139,9 +142,9 @@ def main(play=True):
                 id = input("Please provide ID of the video you want to edit\n::")
                 selected_video = valid_id(id, video_store, "video")
                 print("Selected Video:", selected_video["title"])
-                title = input("What is the title you want to update to? If no, just hit enter.")
-                release_date = input("What is the new release date you want to update to? If no, just hit enter.")
-                total_inventory = input("What is the new inventory? If no, just hit enter.")
+                title = input("What is the title you want to update to? If no, just hit enter.\n>>")
+                release_date = input("What is the new release date you want to update to? If no, just hit enter.\n>>")
+                total_inventory = input("What is the new inventory? If no, just hit enter.\n>>")
                 response = video_store.edit_video(id, title, release_date, total_inventory)
                 print_divider()
                 print("Updated Video: ",selected_video["title"] )
@@ -159,16 +162,16 @@ def main(play=True):
             rental_choice = make_choice(rental_options, RENTAL_MSG)
             if rental_choice == "1":
                 print("Ready to checkout? We will need your id and the video id you want to checkout.")
-                customer_id = input("What is your customer id?")
-                video_id = input("What is the video id you want to check out?")
+                customer_id = input("What is your customer id?\n>>")
+                video_id = input("What is the video id you want to check out?\n>>")
                 customer = valid_id(customer_id, video_store, "customer")
                 video = valid_id(video_id, video_store, "video")
                 response = video_store.check_out(customer_id, video_id)
                 print(f"Video {video['title']} successfully checked out by {customer['name']}")
             elif rental_choice == "2":
                 print("Welcome back! Did you enjoy your video?")
-                customer_id = input("What is your customer id?")
-                video_id = input("What is the video id you want to check in?")
+                customer_id = input("What is your customer id?\n>>")
+                video_id = input("What is the video id you want to check in?\n>>")
                 customer = valid_id(customer_id, video_store, "customer")
                 video = valid_id(video_id, video_store, "video")
                 response = video_store.check_in(customer_id, video_id)
@@ -178,48 +181,6 @@ def main(play=True):
         elif main_menu_choice == "4":
             play = False
             print("=^_^=Thanks for visiting rainbow video store =^_^=")
-
-
-MAIN_MENU = {
-      "1": "Manage Customers",
-      "2": "Manage Videos",
-      "3": "Manage Rentals",
-      "4": "Quit"
-}
-MAIN_MENU_INFO = "Please choose from the following menu options: "
-MAIN_MSG = "Please select from 1 - 4\n::"
-
-CUSTOMER_MENU = {
-      "1": "List All Customers",
-      "2": "Check Infomation About One Customer",
-      "3": "Add a New Customer",
-      "4": "Edit a Customer",
-      "5": "Delete a Customer",
-      "6": "Return to Main Menu"
-}
-CUSTOMER_INFO = "Please choose from the following customer menu options: "
-CUSTOMER_MSG = "Please select from 1 - 6\n::"
-WELCOME_MSG = "\n=^..^==^..^=WELCOME TO RETRO VIDEO STORE=^..^==^..^=\n"
-WELCOME_BACK = "Welcome back to main menu!"
-
-VIDEO_MENU = {
-      "1": "List All Videos",
-      "2": "Check Infomation About One Video",
-      "3": "Add a New Video",
-      "4": "Edit a Video",
-      "5": "Delete a Video",
-      "6": "Return to Main Menu"
-}
-VIDEO_INFO = "Please choose from the following video menu options: "
-
-RENTAL_MENU = {
-      "1": "Rent a video to a customer",
-      "2": "Check in a rental",
-      "3": "Return to the main menu"
-}
-RENTAL_INFO = "Please choose from the following rental menu options: "
-RENTAL_MSG = "Please select from 1 - 6\n::"
-
 
 if __name__ == "__main__":
     main()
