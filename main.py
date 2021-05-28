@@ -1,12 +1,6 @@
+from rentals import Rentals
 from customer_list import CustomerList
 from video_list import VideoList
-from requests.api import post
-from requests.models import Response
-import requests
-
-
-# URL = "https://retro-video-store-sjv.herokuapp.com"
-BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 def print_decoration():
     print("~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -28,11 +22,8 @@ def get_actions():
 
         "11": "Check out a video",
         "12":"Check in a video",
-
-        "13": "List videos a customer checked out",
-        "14": "List customers who checked out a specific video",
-        "15": "Quit",
-        "16" : "Show all actions"
+        "13": "Show all actions",
+        "14" : "Quit"
         }
     print("\nWELCOME TO RETRO VIDEO STORE")
     print_decoration()
@@ -46,18 +37,15 @@ def select_action(actions, customer_list):
     choice = None
 
     while choice not in possible_actions:
-        print("What would you like to do? Select 16 to see all actions again")
+        print("What would you like to do? Select 14 to see all actions again")
         choice = input("Which action would you like to perform? ")
-
-    # if choice in ['5','6','9','10','11','12'] and customer_list.selected_customer == None:
-    #     print("You must select a task before updating it, deleting it, marking it complete, or marking it incomplete.")
-    #     choice = input("Which action would you like to perform? ")
     return choice
 
 
 def main():
     customer_list = CustomerList('https://retro-video-store-api.herokuapp.com')
     video_list = VideoList('https://retro-video-store-api.herokuapp.com')
+    rentals_list = Rentals('https://retro-video-store-api.herokuapp.com')
     
     actions = get_actions()
     choice = select_action(actions, customer_list)
@@ -192,18 +180,10 @@ def main():
         video_id = input('What is the id of the video? ')
         selected_video = video_list.get_video(id=video_id)
         print(f"The video you selected is: {selected_video}")
-        # create new instance of rental
-        # query_params = {
-        #     "video_id": 13,
-        #     "customer_id": 99,
-        # }
-        query_params = {
-            "video_id": video_id,
-            "customer_id": customer_id,
-        }
-        response = requests.post(BACKUP_URL+"/rentals/check-out", json=query_params )
 
-        print(response.json())
+        response = rentals_list.check_out(video_id=video_id,customer_id=customer_id)
+        print(response)
+        
 
     elif choice == "12":
         print("Okay, lets check in a video!")
@@ -217,14 +197,30 @@ def main():
         video_id = input('What is the id of the video? ')
         selected_video = video_list.get_video(id=video_id)
         print(f"The video you selected is: {selected_video}")
-        # checkin a video
-        query_params = {
-            "video_id": video_id,
-            "customer_id": customer_id,
-        }
-        response = requests.post(BACKUP_URL+"/rentals/check-in", json=query_params )
-        print(response.json())
 
+        # checkin a video
+        response = rentals_list.check_in(video_id=video_id,customer_id=customer_id)
+        print(response)
+        print(f"You checked in the video {response['video_id']} for the customer {response['customer_id']}")
+
+    elif choice == "13":
+        # Show all options
+        get_actions()
+        pass
+
+    elif choice == "14":
+        # Quit
+        print("Goodbye!")
+        return
+        
+# To be completed:
+    # elif choice == "15":
+    #     customer_id = input('What is the id of the customer? ')
+    #     selected_customer = customer_list.get_customer(id=customer_id)
+    #     print(selected_customer)
+    #     response = selected_customer.get_rentals()
+    #     print(response)
+    #     pass
 
 if __name__ == "__main__":
     main()

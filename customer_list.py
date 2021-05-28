@@ -48,12 +48,8 @@ class CustomerList:
         response = requests.delete(self.url +f"/customers/{self.selected_customer['id']}")
         return response.json()
 
-    def check_out_video():
-        pass
+    def get_rentals(self):
+        # get customer
+        response = requests.get(self.url +f"/customers/{self.selected_customer['id']}/rentals")
+        return response.json()
 
-    def check_in_video():
-        pass
-    
-    def print_selected(self):
-        if self.selected_customer:
-            print(f"Customer with id {self.selected_customer['id']} and name {self.selected_customer['name']} selected!")
