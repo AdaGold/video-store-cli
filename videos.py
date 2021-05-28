@@ -24,8 +24,8 @@ class Videos:
         }
         response = requests.post(self.url, json=query_params)
         response_body = response.json()
-        video_info = requests.get(self.url+f"{response_body['video_id']}")
-        return video_info
+        video_info = requests.get(self.url+f"/{response_body['id']}")
+        return video_info.json()
 
     def list_videos(self):
         response = requests.get(self.url)
