@@ -24,12 +24,15 @@ def list_options():
         "4": "Delete Customer",
         "5": "List all Customer",
         "6": "Select a Customer",
+        ########################
         "7": "List all Videos",
         "8": "Add Video",
         "9": "Update Video",
         "10": "Delete Video",
-        "11": "Select a video",
-        "12": "Quit"
+        "11": "Select a Video",
+        "12": "Check out Video",
+        "13": "Check in Video",
+        "14": "Quit"
         }
 
     for choice_num in options:
@@ -145,10 +148,23 @@ def run_cli(play=True):
                 video.get_video(id=id)
           
             if video.selected_video:
-                print("Selected video: ", video.selected_video)    
+                print("Selected video: ", video.selected_video)
+
+        elif choice=="12":
+            print("Woot, Let's get you a video or 5!")
+            print("What is your customer id?")
+            print("Select which movie ids you would like to check out!")
+            VideoOps.check_out()
+
+
+        elif choice=="13":
+            print("Yay! Thanks for being on time with your return")
+            print("What is your customer id?")
+            print("Select which movie ids you are returning!")
+            VideoOps.check_in()
         
-        elif choice=='12':
+        elif choice=='14':
             play=False
-            print("\nThanks for using Video CLI!")
+            print("\nThanks for using J's Video CLI!")
 
 run_cli()

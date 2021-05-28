@@ -25,7 +25,7 @@ class CustomerOps:
         return response.json()
 
     def delete_customer(self):
-        response = requests.delete ( f"{self.url}/customers/"+self.selected_customer["id"])
+        response = requests.delete (f"{self.url}/customers/"+self.selected_customer["id"])
         return response.json()
 
     def list_all_customers(self):

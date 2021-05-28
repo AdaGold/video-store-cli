@@ -1,6 +1,6 @@
 import requests
 import datetime
-
+from rental import RentalOps
 
 class VideoOps:
     def __init__(self, url = "https://retro-video-store-api.herokuapp.com", selected_video=None):
@@ -27,8 +27,10 @@ class VideoOps:
         return response.json()
 
     def delete_video(self):
-        response = requests.delete ( f"{self.url}/videos/"+self.selected_video["id"])
-        return response.json()
+        response = requests.delete(self.url+f"/videos/"+str(id))
+        response=response.json()
+        self.selected_video=response
+        return response
 
     def list_all_videos(self):
         response = requests.get(self.url+"/videos")
