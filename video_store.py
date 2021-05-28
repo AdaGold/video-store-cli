@@ -35,22 +35,26 @@ class VideoStore:
         return response.json()
 
 
+    #Get a customer by id or by name
     def get_customer(self, name=None, id=None):
         for customer in self.list_customers():
             if name:
                 if customer["name"]==name:
                     id = customer["id"]
         response = requests.get(self.url+f"/customers/{id}")
-        return response.json()
+        if response.status_code != 404:
+            return response.json()
 
 
+    #Get a video by id or by title
     def get_video(self, title=None, id=None):
         for video in self.list_videos():
             if title:
                 if video["title"]==title:
                     id = video["id"]
         response = requests.get(self.url+f"/videos/{id}")
-        return response.json()
+        if response.status_code != 404:
+            return response.json()
 
 
     def update_customer(self, id_customer=None, name=None, postal_code=None, phone=None):
@@ -95,23 +99,22 @@ class VideoStore:
             "video_id": video_id
         }
         response = requests.post(self.url+"/rentals/check-out",json=query_params)
-        print(response)
+        #print(response)
         return response.json()
+    
+    def checkin_video(self, customer_id, video_id):
+        query_params = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+"/rentals/check-in",json=query_params)
+        #print(response)
+        return response.json()
+    
 
-
-    # def mark_complete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_complete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
-
-    # def mark_incomplete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_incomplete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
-
-    # def print_selected(self):
-    #     if self.selected_task:
-    #         print(f"Task with id {self.selected_task['id']} is currently selected\n")
-
+    def get_rentals_by_customer(self, customer_id):
+        customer_id = int(customer_id)
+        response = requests.get(self.url+f"/customers/{customer_id}/rentals")
+        return response.json()
 
 
