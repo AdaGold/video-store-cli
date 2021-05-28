@@ -7,7 +7,7 @@ class VideoInfo:
         self.url = url
         self.selected_video = None
         
-    # Video store employee adding nee video into inventory 
+    # Video store employee adding new video into inventory 
     def add_video(self, title="default video title", release_date=str(datetime.now()), total_inventory=0):
         query_params = {
             "title": title,
@@ -50,7 +50,7 @@ class VideoInfo:
         return response.json()
     
     # Video store employee getting information for one video by ID  
-    def get_one_video_information(self, video_id=None):
+    def get_one_video_information(self, video_id):
         response = requests.get(self.url+f"/videos/{video_id}")
         return response.json()
 
