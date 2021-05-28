@@ -167,7 +167,10 @@ def main(play=True):
                 customer = valid_id(customer_id, video_store, "customer")
                 video = valid_id(video_id, video_store, "video")
                 response = video_store.check_out(customer_id, video_id)
-                print(f"Video {video['title']} successfully checked out by {customer['name']}")
+                if video and customer:
+                    print(f"Video {video['title']} successfully checked out by {customer['name']}")
+                else:
+                    print("Cannot find matched record.")
             elif rental_choice == "2":
                 print("Welcome back! Did you enjoy your video?")
                 customer_id = input("What is your customer id?\n>>")
@@ -175,7 +178,10 @@ def main(play=True):
                 customer = valid_id(customer_id, video_store, "customer")
                 video = valid_id(video_id, video_store, "video")
                 response = video_store.check_in(customer_id, video_id)
-                print(f"Video {video['title']} has been return by {customer['name']}")
+                if video and customer:
+                    print(f"Video {video['title']} has been return by {customer['name']}")
+                else:
+                    print("Cannot find matched record.")
             elif rental_choice == "3":
                 main_menu_choice = back_to_main_menu()
         elif main_menu_choice == "4":
