@@ -78,6 +78,28 @@ def delete_video(video_list):
     print_squiggle()
 
 
+def select_video_by_id(video_list):
+    print("Here are all of the available videos: ")
+    all_videos = video_list.list_videos()
+    
+    for video in all_videos:
+        print(f"Id: {video['id']}, Title: {video['title']}")
+
+    video_id = input("Which video ID would you like to select? ")
+    if video_id.isnumeric():
+        video_id = int(video_id)
+        video_list.selected_video = video_list.get_video(id=video_id)
+    else:
+        print("Please enter a valid video ID:")
+    
+    if video_list.selected_video:
+        print_squiggle()
+        print("The choosen video information is: ", video_list.selected_video)
+        print(video_list.selected_video)
+
+    return video_list.selected_video["id"]
+
+
 def select_video(video_list):
     print("Here are all of the available videos: ")
     all_videos = video_list.list_videos()
@@ -100,6 +122,7 @@ def select_video(video_list):
     if video_list.selected_video:
         print_squiggle()
         print("The choosen video information is: ", video_list.selected_video)
+        print(video_list.selected_video)
 
 
 def create_customer(customer_list):
@@ -113,128 +136,6 @@ def create_customer(customer_list):
     print("Great! New customer created with ID:", response["id"])
 
 
-def main(play=True):
-
-    video_list = VideoList(URL)
-    customer_list = CustomerList(URL)
-    rental_list = RentalList(URL)
-    options = list_options()
-
-    while play==True:
-        choice = make_choice(options, video_list, customer_list)
-
-        video_list.print_selected()
-        customer_list.print_selected()
-
-        if choice=='1':
-            create_video(video_list)
-            
-        elif choice=='2':
-            update_video(video_list)
-
-        elif choice=='3':
-            delete_video(video_list)
-        
-        elif choice=='4':
-            print_squiggle()
-            for video in video_list.list_videos():
-                print(video)
-            
-        elif choice=='5':
-            select_video(video_list)
-            
-        elif choice =='6':
-            create_customer(customer_list)
-        
-        elif choice == '7':
-            update_customer(customer_list)
-    
-        elif choice == '8':
-            delete_customer(customer_list)
-            
-        elif choice == '9':
-            select_customer(customer_list)
-            
-        elif choice == '10':
-            print_squiggle()
-            for customer in customer_list.list_customers():
-                print(customer)
-        
-        elif choice == '11':
-            print_squiggle()
-            print("Let's checkout a video! ")
-            
-            print("Here are all of the available videos: ")
-            all_videos = video_list.list_videos()
-            
-            for video in all_videos:
-                print(f"Id: {video['id']}, Title: {video['title']}")
-            
-            select_by = input("What would you like to select by? Enter either a title or an id: ")
-            if select_by == "title":
-                title = input("Which video title would you like to select? ")
-                video_list.get_video(title=title)
-            elif select_by == "id":
-                video_id = input("Which video ID would you like to select? ")
-                if video_id.isnumeric():
-                    video_id = int(video_id)
-                    video_list.selected_video = video_list.get_video(id=video_id)
-            else:
-                print("Please enter a valid video ID:")
-            
-            if video_list.selected_video:
-                print_squiggle()
-                print("The choosen video information is: ", video_list.selected_video)
-                print(video_list.selected_video)
-            
-            customer_id = select_customer_by_id(customer_list)
-            
-            rental_list.create_rental(customer_id, video_id)
-            print("Video sucessfully checked out! ")
-            
-        elif choice == '12':
-            print_squiggle()
-            print("Let's return a video! ")
-            
-            print("Here are all of the available videos: ")
-            all_videos = video_list.list_videos()
-            
-            for video in all_videos:
-                print(f"Id: {video['id']}, Title: {video['title']}")
-            
-            select_by = input("What would you like to select by? Enter either a title or an id: ")
-            if select_by == "title":
-                title = input("Which video title would you like to select? ")
-                video_list.get_video(title=title)
-            elif select_by == "id":
-                video_id = input("Which video ID would you like to select? ")
-                if video_id.isnumeric():
-                    video_id = int(video_id)
-                    video_list.selected_video = video_list.get_video(id=video_id)
-            else:
-                print("Please enter a valid video ID:")
-            
-            if video_list.selected_video:
-                print_squiggle()
-                print("The choosen video information is: ", video_list.selected_video)
-                print(video_list.selected_video)
-            
-            customer_id = select_customer_by_id(customer_list)
-            
-            rental_list.return_rental(customer_id=customer_id, video_id=video_id)
-            print("Video sucessfully checked in! ")
-        
-        elif choice=='13':
-            list_options()
-            
-        elif choice=='14':
-            play=False
-            print("\nThank you, Bye!!")
-        
-        else:
-            print("Invalid option", choice, "Please select a valid choice ")
-
-        print_squiggle()
 
 def select_customer_by_id(customer_list):
     print("Here are all of the customers: ")
@@ -298,6 +199,86 @@ def update_customer(customer_list):
     response = customer_list.update_customer(name=name, phone=phone, postal_code=postal_code)
     print_squiggle()
     print("Updated customer:", response["name"])
+
+
+def main(play=True):
+
+    video_list = VideoList(URL)
+    customer_list = CustomerList(URL)
+    rental_list = RentalList(URL)
+    options = list_options()
+
+    while play==True:
+        choice = make_choice(options, video_list, customer_list)
+
+        video_list.print_selected()
+        customer_list.print_selected()
+
+        if choice=='1':
+            create_video(video_list)
+            
+        elif choice=='2':
+            update_video(video_list)
+
+        elif choice=='3':
+            delete_video(video_list)
+        
+        elif choice=='4':
+            print_squiggle()
+            for video in video_list.list_videos():
+                print(video)
+            
+        elif choice=='5':
+            select_video(video_list)
+            
+        elif choice =='6':
+            create_customer(customer_list)
+        
+        elif choice == '7':
+            update_customer(customer_list)
+    
+        elif choice == '8':
+            delete_customer(customer_list)
+            
+        elif choice == '9':
+            select_customer(customer_list)
+            
+        elif choice == '10':
+            print_squiggle()
+            for customer in customer_list.list_customers():
+                print(customer)
+        
+        elif choice == '11':
+            print_squiggle()
+            print("Let's checkout a video! ")
+            
+            video_id = select_video_by_id(video_list)
+            customer_id = select_customer_by_id(customer_list)
+            
+            rental_list.create_rental(customer_id=customer_id, video_id=video_id)
+            print("Video sucessfully checked out! ")
+            
+        elif choice == '12':
+            print_squiggle()
+            print("Let's return a video! ")
+            
+            video_id = select_video_by_id(video_list)
+            customer_id = select_customer_by_id(customer_list)
+            
+            rental_list.return_rental(customer_id=customer_id, video_id=video_id)
+            print("Video sucessfully checked in! ")
+        
+        elif choice=='13':
+            list_options()
+            
+        elif choice=='14':
+            play=False
+            print("\nThank you, Bye!!")
+        
+        else:
+            print("Invalid option", choice, "Please select a valid choice ")
+
+        print_squiggle()
 
         
 def make_choice(options, video_info, customer_info):
