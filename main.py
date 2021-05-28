@@ -1,4 +1,4 @@
-import requests
+from video_store import VideoStore
 
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
@@ -40,19 +40,17 @@ def make_choice(options, video_store):
 
 
 
-
-
 def main(play=True):
-    #I wrote URL instead of TaskList. is that right?
-    # video_store_customers = URL_customer(url="BACKUP_URL")
-    video_store = TaskList(url="BACKUP_URL")
+    #initialize task_list
+    video_store = VideoStore(url=BACKUP_URL)    
+
     print("WELCOME TO RETRO VIDEO STORE")
 
-    user_options = list_options()
+    options = list_options()
 
     while play == True:
-        choice = make_choice(user_options, video_store)
-        video_store.print_selected()
+        choice = make_choice(options, video_store)
+        video_store.print_selected(choice)
 
         if choice == "1":
             print(f"Let's add a new video")
@@ -65,18 +63,26 @@ def main(play=True):
             print("New movie:", response["title"])
 
         if choice == "2":
-            print(f"Let's EDIT a video: {video_store.selected_video}")
-            title=input("What is the updated title of the movie? ")
-            release_date=input("What is the updated release date of the movie? ")
-            available_inventory=input("What is the updated number of videos we have? ")
-            response = video_store.save(title=title, release_date=release_date, available_inventory=available_inventory )
+            print(f"Let's EDIT a video. ")
+            video_id=input("What is the id of the video you would like to edit? ")
+            original_video_response = video_store.get_video_by_id(video_id)
+            print("Current movie information: ", original_video_response)
+            title=input("What is the correct title? ")
+            release_date=input("What is the correct release date? ")
+            available_inventory=input("What is the correct inventory? ")
+            response = video_store.edit_video(title=title, release_date=release_date, available_inventory=available_inventory)
 
             print_stars()
-            print("Updated movie:", response["title"]["release_date"]["available_inventory"])
+            print("Updated movie: ", response)
 
         if choice == "3":
-            print(f"Let's DELETE a video: {video_store.selected_video}")
-            video_store.delete()
+            print(f"Let's DELETE a video. ")
+            video_id=input("What is the id of the video you would like to delete? ")
+            movie_to_delete = video_store.get_video_by_id(video_id)
+            print("Current movie information: ", movie_to_delete)
+            confirm = input("Type 'Y' to confirm you would like to delete this video")
+            if confirm == "Y":
+                video_store.delete_video(movie_to_delete)
 
             print_stars()
             print("Video has been deleted.")
@@ -84,20 +90,21 @@ def main(play=True):
         if choice == "4":
             print(f"Let's get information about all videos. ")
             print_stars()
-            videos = [video.to_json() for video in video_store.get_all_videos()]
+            videos = [video for video in video_store.get_all_videos()]
             print(videos)
 
 
         if choice == "5":
-            print(f"Let's get information about: {video_store.selected_video} ")
+            # print(f"Let's get information about: {video_store.selected_video} ")
+            print(f"Let's get information about a video. ")
             print_stars()
             id = input("What is the id of the movie you would like information about? ")
             if id.isnumeric():
                 id = int(id)
                 video = video_store.get_video_by_id(id=id)
-                if video_store.selected_video:
+                if video:
                     print_stars()
-                    print(video.to_json())
+                    print(video)
             else:
                 print("Please enter a numerical id. ")
 
@@ -109,21 +116,28 @@ def main(play=True):
             response = video_store.create_customer(name=name, postal_code=postal_code, phone=phone)
 
             print_stars()
-            print("New customer:", response["name"])
+            print("New customer has been created and given id #", response["id"])
 
         if choice == "7":
-            print(f"Let's EDIT a customer's info: {video_store.selected_customer}")
-            name = input("What is the updated name of the customer? ")
-            postal_code = input("What is their updated postal code? ")
-            phone = input("What is their updated phone number? ")
-            response = video_store.save(name=name, postal_code=postal_code, phone=phone)
+            customer_id=input("What is the id of the customer you would like to edit? ")
+            original_customer_response = video_store.get_customer_by_id(customer_id)
+            print("Current movie information: ", original_customer_response)
+            name=input("What is the correct name of the customer? ")
+            postal_code=input("What is their correct postal code? ")
+            phone=input("What is their correct phone number? ")
+            response = video_store.edit_customer(name=name, postal_code=postal_code, phone=phone)
 
             print_stars()
-            print("Updated customer:", response["name"]["postal_code"]["phone"])
+            print("Updated customer: ", response)
 
         if choice == "8":
-            print(f"Let's DELETE a customer: {video_store.selected_customer}")
-            video_store.delete()
+            print(f"Let's DELETE a customer. ")
+            customer_id=input("What is the id of the customer you would like to delete? ")
+            movie_to_delete = video_store.get_customer_by_id(customer_id)
+            print("Current movie information: ", movie_to_delete)
+            confirm = input("Type 'Y' to confirm you would like to delete this customer")
+            if confirm == "Y":
+                video_store.delete_customer(movie_to_delete)
 
             print_stars()
             print("Customer has been deleted.")
@@ -131,7 +145,7 @@ def main(play=True):
         if choice == "9":
             print(f"Let's get information about all customers. ")
             print_stars()
-            customers = [customer.to_json() for customer in video_store.get_all_customers()]
+            customers = [customer for customer in video_store.get_all_customers()]
             print(customers)
 
 
@@ -144,7 +158,7 @@ def main(play=True):
                 customer = video_store.get_customer_by_id(id=id)
                 if video_store.selected_customer:
                     print_stars()
-                    print(customer.to_json())
+                    print(customer)
             else:
                 print("Please enter a numerical id. ")
 
@@ -164,7 +178,7 @@ def main(play=True):
                 video_id = int(video_id)
                 video = video_store.get_video_by_id(id=video_id)
             
-            if not video_id.isnumeric() or not video_store.selected_video:
+            if not video_id.isnumeric() or not video_store.video:
                 print("Please enter a valid numerical id. ")            
 
             result = video_store.customer.check_out(video_id=video.id, customer_id=customer.id)
@@ -187,7 +201,7 @@ def main(play=True):
                 video_id = int(video_id)
                 video = video_store.get_video_by_id(id=video_id)
             
-            if not video_id.isnumeric() or not video_store.selected_video:
+            if not video_id.isnumeric() or not video_store.video:
                 print("Please enter a valid numerical id. ")            
 
             result = video_store.customer.check_out(video_id=video.id, customer_id=customer.id)
