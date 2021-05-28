@@ -82,10 +82,10 @@ def run_cli(play=True):
         # get input and validate
         choice = make_choice(options, video,customer,rental)
 
-        options.print_selected()
+        #options.print_selected()
         video.print_selected()
         customer.print_selected()
-        rental.print_selected()
+        #rental.print_selected()
 
         if choice=='4': #get information about all videos
             print_stars()
@@ -94,25 +94,25 @@ def run_cli(play=True):
         elif choice=='1': #add a video
             print("Great! Let's add a video.")
             title=input("What is the title of your video? ")
-            release_date=input("Enter release date")
-            total_inventory=input("Enter total inventory for this video")
+            release_date=input("Enter release date ")
+            total_inventory=input("Enter total inventory for this video ")
             response = video.create_video(title=title, release_date=release_date,total_inventory=total_inventory)
-
+            video_info = video.get_video(title=title, id = response['id'])
             print_stars()
-            print("New video:", response["video"])
-
+            print("New video:", video_info) 
+            
         elif choice=='5':
-            select_by = input("Would you like to select by? Enter title or id: ")
-            if select_by=="title":
+            select_by = input("Would you like to select by? Enter 'title' or 'id': ")
+            if "title" ==select_by:
                 title = input("Which video title would you like to select? ")
                 video.get_video(title=title)
-            elif select_by=="id":
+            elif "id" ==select_by:
                 id = input("Which video id would you like to select? ")
                 if id.isnumeric():
                     id = int(id)
                     video.get_video(id=id)
             else:
-                print("Could not select. Please enter id or title.")
+                print("Could not select. Please enter the words 'id' or 'title'.")
             
             if video.selected_video:
                 print_stars()
@@ -126,7 +126,8 @@ def run_cli(play=True):
             response = video.update_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
             print_stars()
-            print("Updated resonse:", response["video"])
+            print("Updated response:", response)
+        
         elif choice=='3':
             video.delete_video()
 
@@ -143,13 +144,14 @@ def run_cli(play=True):
 
         elif choice=='6':
             print("Great! Let's add a customer.")
-            name=input("What is the name of your video? ")
+            name=input("What is the name of the customer?")
             postal_code=input("Enter postal_code: ")
             phone=input("Enter phone: ")
             response = customer.create_customer(name=name, postal_code=postal_code, phone=phone)
+            customer_info = customer.get_customer(name = name, id = response['id'])
 
             print_stars()
-            print("New customer:", response["customer"])
+            print("New customer:", customer_info)
 
         elif choice=='9':
             select_by = input("Would you like to select by? Enter name or id: ")
@@ -176,7 +178,7 @@ def run_cli(play=True):
             response = customer.update_customer(name=name, postal_code=postal_code, phone=phone)
 
             print_stars()
-            print("Updated resonse:", response["customer"])
+            print("Updated resonse:", response)
 
         elif choice=='8':
             customer.delete_customer()
@@ -194,10 +196,10 @@ def run_cli(play=True):
             print("Here are all of the available videos: ")
             all_videos = video.list_videos()
 
-            for video in all_videos:
-                print(f"Id: {video['id']},Title: {video['title']}")
+            for choices in all_videos:
+                print(f"Id: {choices['id']},Title: {choices['title']}")
 
-            select_by = input("What would you like to select by? Enter either a title or id: ")
+            select_by = input("What would you like to select by? Enter either title or id: ")
             
             if select_by == "title":
                 title = input("which video title would you like to select? ")
@@ -207,53 +209,59 @@ def run_cli(play=True):
                 video_id = input("Which video ID would you like to select? ")
                 if video_id.isnumeric():
                     video_id = int(video_id)
-                    video.selected_video = video.get_video(id=video_id)
+                    #video.selected_video = video.get_video(id=video_id)
+                    video.get_video(id=video_id)
 
             else:
                 print("please enter a valid video ID: ")
             
             if video.selected_video:
                 print_stars()
-                print("The choosen video information is: ", video.selected_video)
+                print("The chosen video information is: ", video.selected_video)
                 print(video.selected_video)
             
             print("Here are all of the customers: ")
 
             all_customers = customer.list_customers()
 
-            for customer in all_customers:
-                print(f"Id: {customer['id']}, name: {customer['name']}")
+            for person in all_customers:
+                print(f"Id: {person['id']}, name: {person['name']}")
 
             select_by = input("What would you like to select by? Enter either a name or an id: ")
             if select_by == "name":
-                name = input("Which customer name would you like to select? ")
-                customer.get_customer(name=name)
+                customer_name = input("Which customer name would you like to select? ")
+                selected_customer=customer.get_customer(name=customer_name)
+                print(selected_customer)
+                customer_id=selected_customer["id"]
+                video_id=video.selected_video["id"]
+                # video_id = selected_customer["video_id"]
             elif select_by == "id":
                 customer_id = input("Which customer ID would you like to select? ")
                 if customer_id.isnumeric():
                     customer_id = int(customer_id)
-                    customer.selected_customer = customer.get_customer(id=customer_id)
+                    #customer.selected_customer = customer.get_customer(id=customer_id)
+                    customer.get_customer(id=customer_id)
             
             else:
                 print("Please enter valid customer ID: ")
             
-            if customer.selected_customer:
+            if customer.get_customer(id=customer_id):
                 print_stars()
-                print("Selected customer: ", customer.selected_customer)
-            response = rental.create_rental(customer_id = customer_id,video_id=video_id)
-            print("Video successfully checked out! ")
+                #print("Selected customer: ", customer.get_customer(id=customer_id))
+                response = rental.check_out(customer_id,video_id)
+            print("Video successfully checked out! ", response)
 
-        elif choice == '12':
+        elif choice == '12': #check in a video from customer
             print_stars()
             print("Let's return a video! ")
 
             print("Here are all of the available videos: ")
             all_videos = video.list_videos()
 
-            for video in all_videos:
-                print(f'Id: {video["id"]}, Title:{video["title"]}')
+            for choices in all_videos:
+                print(f'Id: {choices["id"]}, Title:{choices["title"]}')
 
-            select_by = input("What would you like to select by? Enter either a title or id? ")
+            select_by = input("What would you like to select by? Enter either 'title' or 'id'. ")
             if select_by == "title":
                 title = input("which video title would you like to select? ")
                 video.get_video(title=title)
@@ -262,69 +270,46 @@ def run_cli(play=True):
                 video_id = input("Which video ID would you like to select? ")
                 if video_id.isnumeric():
                     video_id = int(video_id)
-                    video.selected_video = video.get_video(id=video_id)
-
+                    #video.selected_video = video.get_video(id=video_id)
+                    video.get_video(id=video_id)
             else:
                 print("Please enter a valid video ID: ")
 
             if video.selected_video:
                 print_stars()
                 print("Selected Video Information is: ", video.selected_video)
-                print(video.selected_video)
+                #print(video.selected_video)
 
             print("Here are all of the customers: ")
             all_customers = customer.list_customers()
 
-            for customer in all_customers:
-                print(f'id:{customer["id"]},name: {customer["name"]}')
+            for person in all_customers:
+                print(f'id:{person["id"]},name: {person["name"]}')
                 #print(f'ID: {customer['id']}, name: {customer['name']}')
             
             select_by = input("What would you like to select by? Enter either a name or an ID: ")
             if select_by == "name":
-                name = input("Which customer name would you like to select? ")
-                customer.get_customer(name=name)
+                customer_name = input("Which customer name would you like to select? ")
+                selected_customer = customer.get_customer(name=customer_name)
+                #print(selected_customer)
+                customer_id=selected_customer['id']
+                video_id=video.selected_video['id']
             elif select_by == "id":
                 customer_id = input("Which customer ID would you like to select? ")
                 if customer_id.isnumeric():
                     customer_id = int(customer_id)
-                    customer.selected_customer = customer.get_customer(id=customer_id)
+                    #customer.selected_customer = customer.get_customer(id=customer_id)
+                    customer.get_customer(id=customer_id)
             else:
                 print("Please enter valid Customer ID: ")
 
-            if customer.selected_customer:
-                print_stars
-                print("Selected customer: ", customer.selected_customer)
-                response = rental.return_rental(customer_id=customer_id, video_id = video_id)
-                print("Video sucessfully checked in! ")
-        #     all_customers = customer_list.list_customers()
-
-        #     for customer in all_customers:
-        #         print(f"Id:{customer['id']},name:{customer['name']}")
-            
-        #     select_by = input("What would you like to select by? Enter either a name or an id: ")
-        #     if select_by == "id":
-        #         customer_id = input("Which customer ID would you like to select?")
-        #         if customer_id.isnumeric():
-        #             customer_id = int(customer_id)
-        #             customer_list.selected_customer = customer_list.get_customer(id=customer_id)
-        
-        # else:
-        #     print("Please enter valid customer ID: ")
-
-        # if customer_list.selected_customer:
-           
-        #     print("Selected customer: ", customer_list.selected_customer)
-        
-        # response = rental_list.return_rental(customer_id=customer_id,video_id=video_id)
-        # print("Video successfully checked in! ")
-
-
-            # rental.check_out()
-            # pass
-
+            if customer.get_customer(id=customer_id):
+                print_stars()
+                #print("Selected customer: ", customer.selected_customer)
+                response = rental.check_in(customer_id, video_id)
+            print("Video sucessfully checked in! ", response)
 
         
-
 
         elif choice=='13':
             list_options()

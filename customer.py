@@ -54,7 +54,7 @@ class Customer:
             json=query_params
             )
         print("response:", response)
-        self.selected_customer = response.json()["customer"]
+        self.selected_customer = response.json()
         return response.json()
 
     def delete_customer(self):
@@ -73,5 +73,5 @@ class Customer:
     #     return response.json()
 
     def print_selected(self):
-        if self.selected_video:
+        if self.selected_customer:
             print(f"Customer with id {self.selected_customer['id']} is currently selected\n")

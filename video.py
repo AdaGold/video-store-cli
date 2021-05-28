@@ -54,7 +54,9 @@ class Video:
             json=query_params
             )
         print("response:", response)
-        self.selected_video = response.json()["video"]
+        # self.selected_video = response.json()["video"]
+        self.selected_video = response.json()
+
         return response.json()
 
     def delete_video(self):
