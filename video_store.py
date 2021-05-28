@@ -62,9 +62,9 @@ class Videostore:
         return response.json()
     
     #6 - add a customer so that I can check out videos to the customer
-    def create_customer(self,title="title",postal_code="postal_code",phone="phone"):
+    def create_customer(self,name="name",postal_code="postal_code",phone="phone"):
         query_params = {
-            "title": title,
+            "name": name,
             "postal_code": postal_code,
             "phone": phone
         }
@@ -72,16 +72,16 @@ class Videostore:
         return response.json()
 
     #7 - edit a customer so that the information about the customer is accurate 
-    def update_customer(self,title="title",postal_code="postal_code",phone="phone"):
-        if not title:
-            title = self.selected_customer["title"]
+    def update_customer(self,name="name",postal_code="postal_code",phone="phone"):
+        if not name:
+            name = self.selected_customer["name"]
         if not postal_code:
             postal_code = self.selected_customer["postal_code"]
         if not phone:
             phone =self.selected_customer["phone"]
 
         query_params = {
-        "title": title,
+        "name": name,
         "postal_code": postal_code,
         "phone": phone
         }
@@ -114,7 +114,7 @@ class Videostore:
                 self.selected_customer = customer
 
         if self.selected_customer == None:
-            return "Could not find customer by that title or id"
+            return "Could not find customer by that name or id"
 
         response = requests.get(self.url+f"/customers/{id}")
         return response.json()
@@ -141,7 +141,7 @@ class Videostore:
         if self.selected_video:
             print(f"Video with id {self.selected_video['id']} is selected")
         else:
-            print("There is no selected task.")
+            print("There is no selected video.")
 
     #14 print selected customer 
     def print_selected_customer(self):

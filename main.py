@@ -40,12 +40,13 @@ def list_options():
 
 #how can I start with options of selecting video and customer? 
     print("What would you like to do?")  
-    print("**************************")
+    print("**************************\n")
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")
 
-    print("You must select a video or customer before updating it, deleting it, check-in, or check-out.")
+    print("\nYou must select a video or customer before updating it, deleting it, check-in, or check-out.\n")
     return options
+    
 
 def make_choice(options, video_store):
     valid_choices = options.keys()
@@ -68,7 +69,7 @@ def make_choice(options, video_store):
     return choice
 
 def print_stars():
-    print("*******************************************************")
+    print("*******************************************************\n")
 
 def run_cli_video_store():
     video_store = Videostore(url="https://retro-video-store-api.herokuapp.com/")
@@ -132,38 +133,38 @@ def run_cli_video_store():
 #All for customer 
         elif choice == '6':
             print("Great! Let's create a new customer.")
-            title = input("What is the title of the customer? ==> ")
+            name = input("What is the name of the customer? ==> ")
             postal_code = input("What is customer's postal_code? ==> ")
             phone = input("What is customer's phone number? ==> ")
 
-            response = video_store.create(title=title, postal_code=postal_code, phone=phone) #import not working for customer
+            response = video_store.create_customer(name=name, postal_code=postal_code, phone=phone) #import not working for customer
             print("New customer:", response["customer"])
         
         elif choice == '7':
             print(f"Great! Let's update the customer: {video_store.selected_customer}")
-            title = input("What is the new title of your video? ")
+            name = input("What is the new name of your customer? ")
             postal_code = input("What is customer's new postal_code? ==> ")
             phone = input("What is customer's new phone number? ==> ")
 
-            response = video_store.update(title=title, postal_code=postal_code, phone=phone) #import not working for customer )
+            response = video_store.update_customer(name=name, postal_code=postal_code, phone=phone) #import not working for customer )
             print("Updated customer:", response["customer"])
 
         elif choice =='8':
-            video_store.delete()
+            video_store.delete_customer()
             print("Customer has been deleted.")
-            print(video_store.list())
+            print(video_store.list_customer())
         
         elif choice =='9':
             print("Customer: ")
             print_stars()
-            for customer in video_store.list():
+            for customer in video_store.list_customer():
                 print(customer)
 
         elif choice =='10':
-            select_by = input("Would you like to select by? Enter customer title or postal_code or phone: ")
-            if select_by == "title":
-                title = input("Which customer title would you like to select? ")
-                video_store.get(title=title)
+            select_by = input("Would you like to select by? Enter customer name or postal_code or phone: ")
+            if select_by == "name":
+                name = input("Which customer name would you like to select? ")
+                video_store.get(name=name)
 
             elif select_by == "postal_code":
                 postal_code = input("Which postal_code would you like to select? ")
@@ -178,7 +179,7 @@ def run_cli_video_store():
                     video_store.get(phone=phone)
 
             else:
-                print("Could not select. Please enter title or postal_code or phone.")
+                print("Could not select. Please enter name or postal_code or phone.")
             
             if video_store.selected_customer:
                 print("Selected customer: ", video_store.selected_customer)
