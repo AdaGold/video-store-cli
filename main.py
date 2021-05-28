@@ -14,11 +14,9 @@ def list_options():
         "3" : "Browse all Videos",
         "4" : "Add a new customer",
         "5" : "Find a customer",
-        "8" : "Remove customer",
-        "9" : "Update customer profile",
-        "10" : "View all customers",
-        "11" : "Check out a Video",
-        "12" : "Return a Video", 
+        "6" : "View all customers",
+        "7" : "Check out a Video",
+        "8" : "Return a Video", 
         "0" : "List all options",
         "99" : "Close up for the day!"
     }
@@ -91,14 +89,11 @@ def main(store_open=True):
 
                     print("Updated video:", response["video"])
                 
-
-
-        elif choice == '4':
+        elif choice == '3':
             print(video.list_videos())
         
         
-        
-        elif choice == '6':
+        elif choice == '4':
             print("Let's add a new customer!")
             name = input("What's the name of the customer?")
             phone = input("What's the customer's phone number?")
@@ -107,53 +102,55 @@ def main(store_open=True):
             response = customer.add_customer(name=name, phone=phone, postal_code=postal_code)
             print("New customer:" , response["name"])
         
-        elif choice == '7':
+        elif choice == '5':
             select_by = input("Would you like to find the customer by name, phone, or id?")
             if select_by == 'name':
-                name = input("What is the customer's name?")
+                name = input("What is the customer's name? ")
                 customer.get_customer(name=name)
             
             elif select_by == 'phone':
-                phone = input("What is the customer's phone number?")
+                phone = input("What is the customer's phone number? ")
                 customer.get_customer(phone=phone)
             
             elif select_by == 'id':
-                id = input("What is the customer id?")
+                id = input("What is the customer id? ")
                 customer.get_customer(id=int(id))
             
             else:
                 print("Please enter name, phone, or id")
         
             customer.print_selected()
-
-        
-        elif choice == '8':
-            customer.delete_customer()
-            print(f"Customer has been deleted. ")
-        
-        elif choice == '9':
-            print("Great! Let's update the customer!")
-            update = input("Would you like to update the name, phone, or postal number?")
-            if update == 'name':
-                name = input("What is the customer's updated name?")
-            if update == 'phone':
-                phone = input("What is the udpated phone number?")
-            if update == 'postal code':
-                postal_code = input("what is the updated postal code?")
             
-            response = customer.update_customer(name, phone, postal_code)
+            if customer.selected_customer:
+                next_step = input(f"How can I help you with {customer.selected_customer['name']}? \nSelect 1 to Delete, or 2 to Edit.")
+                
+                if next_step == "1":
+                    print(f"Customer {customer.selected_customer['name']} is being deleted.")
+                    customer.delete_customer()
+                
+                elif next_step == "2":
+                    print("Great! Let's update the customer!")
+                    update = input("Would you like to update the name, phone, or postal number?")
+                    if update == 'name':
+                        name = input("What is the customer's updated name?")
+                    if update == 'phone':
+                        phone = input("What is the udpated phone number?")
+                    if update == 'postal code':
+                        postal_code = input("what is the updated postal code?")
+            
+                    response = customer.update_customer(name, phone, postal_code)
         
-        elif choice == '10':
+        elif choice == '6':
             print(customer.list_customers())
         
-        elif choice == '11':
+        elif choice == '7':
             customer_id = input("Which customer id is renting?")
             video_id = input("Which video id are they renting?")
-
             response = rental.check_out(int(customer_id), int(video_id))
+            
             print("Enjoy the movie!")
         
-        elif choice == '12':
+        elif choice == '8':
             customer_id = input("Which customer id is returning?")
             video_id = input("Which video id are they returning?")
             response = rental.check_in(int(customer_id), int(video_id))

@@ -61,6 +61,6 @@ class Customer:
         
     def print_selected(self):
         if self.selected_customer:
-            print(f"Customer {self.selected_customer['name']} is currently selected. What would you like to do next?")
+            print(f"Customer {self.selected_customer['name']} is currently selected.")
         else:
             print("Sorry, I couldn't find that customer.")
