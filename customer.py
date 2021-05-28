@@ -30,15 +30,7 @@ class Customer:
         return response.json()
 
     def get_customer(self, customer_id=None):
-        # for customer in self.all_customers():
-        #     if customer_id:
-        #         if customer["id"]==customer_id:
-        #         # id = customer["id"]
-        #             self.selected_customer = customer
-            # if self.selected_customer == None:
-            #     return "No customer found"
-            # else:
-            #     return "ID necessary"
+
         
         response = requests.get(self.url+f"/customers/{customer_id}")
         return response.json()
