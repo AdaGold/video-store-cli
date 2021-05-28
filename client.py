@@ -1,9 +1,7 @@
 import requests
-from requests.models import Response
 
 
-
-#https://maite-retro-video-store-api.heroku.com/
+#MAITES_URL = "https://maite-retro-video-store-api.heroku.com"
 
 class Client:
     def __init__(self, url="http://127.0.0.1:5000"):
@@ -21,6 +19,7 @@ class Client:
         return Video(self, response.json()['id'], title, release_date, total_inventory, total_inventory) 
         # positional argument gives available inventory the value of total_inventory     ^
 
+
     def edit_video(self, video):
         request_body = {
             "title": video.title,
@@ -32,6 +31,7 @@ class Client:
             json=request_body
             )
 
+
     def info_about_all_videos(self):
         video_log = []
         response = requests.get(self.url+"/videos")
@@ -41,6 +41,7 @@ class Client:
             video_json['total_inventory'], video_json['available_inventory']))
         return video_log
 
+
     def info_about_one_video(self,title=None,id=None):
         for video in self.info_about_all_videos():
             if title:
@@ -49,6 +50,7 @@ class Client:
             elif id == video.id:
                 return video
         return None
+
 
     def delete_video(self, video):
         response = requests.delete(self.url+f"/videos/{video.id}")
@@ -64,6 +66,7 @@ class Client:
         response = requests.post(self.url+"/customers",json=request_body)
         return Customer(self, response.json()['id'], name, postal_code, phone, 0)
 
+
     def edit_customer(self, customer):
         request_body = {
             "name": customer.name,
@@ -75,6 +78,7 @@ class Client:
             json=request_body
             )
 
+
     def info_about_all_customers(self):
         customer_roster = []
         response = requests.get(self.url+"/customers")
@@ -83,6 +87,7 @@ class Client:
             customer_json['name'], customer_json['postal_code'],
             customer_json['phone'], customer_json['videos_checked_out_count']))
         return customer_roster
+
 
     def info_about_one_customer(self, name=None,id=None):
         for customer in self.info_about_all_customers():
@@ -93,8 +98,10 @@ class Client:
                 return customer
         return None
     
+
     def delete_customer(self, customer):
         response = requests.delete(self.url+f"/customers/{customer.id}")
+
 
     def check_out_video_to_customer(self, video, customer):
         request_body = {
@@ -117,6 +124,8 @@ class Client:
         elif response.status_code != 200:
             print("Something is not right.")
 
+
+
 class Video:
     def __init__(self, client, id, title, release_date, total_inventory, available_inventory):
         self.id = id
@@ -125,7 +134,7 @@ class Video:
         self.release_date = release_date
         self.total_inventory = total_inventory
         self.available_inventory = available_inventory 
-        #rentals?
+        
     
     def delete(self):
         return self.client.delete_video(self)
@@ -139,15 +148,14 @@ class Video:
 
 
 class Customer:
-    def __init__(self, client, id, name, postal_code, phone, videos_checked_out_count): # =0
+    def __init__(self, client, id, name, postal_code, phone, videos_checked_out_count): 
         self.id = id
         self.client = client
         self.name = name
         self.postal_code = postal_code
         self.phone = phone
         self.videos_checked_out_count = videos_checked_out_count
-        #registered_at?
-        #rentals?
+        
 
     def delete(self):
         return self.client.delete_customer(self)
@@ -157,6 +165,3 @@ class Customer:
 
     def __str__(self):
         return f"{self.name} {self.id} ({self.postal_code} {self.phone})" 
-
-
-

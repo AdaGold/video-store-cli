@@ -1,9 +1,6 @@
 from client import Client
 
-#URL = "http://127.0.0.1:5000"
-#BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
-#MAITES_URL = "https://maite-retro-video-store-api.heroku.com/"
-
+#MAITES_URL = "https://maite-retro-video-store-api.heroku.com"
 
 
 def main():
@@ -13,30 +10,31 @@ def main():
 def pzzas():
     print("\n************************************************\n")
 
+#####figlet 
 
 def option_list():
 
     options = {
         "1": "Add a video", 
         "2": "Get information about all videos",
-        "3": "Select one video", #needs id
-        "4": "Edit a video", # needs id
-        "5": "Delete a video", # needs id 
+        "3": "Select one video", 
+        "4": "Edit a video", 
+        "5": "Delete a video", 
 
         "6": "Add a customer",
         "7": "Get information on all customers",
-        "8": "Select one customer", # needs id
-        "9": "Edit a customer", # needs id
-        "10": "Delete a customer", # need id
+        "8": "Select one customer", 
+        "9": "Edit a customer", 
+        "10": "Delete a customer", 
         
-        "11": "Check out a video to a customer", # nedds id
-        "12": "Check in a video from a customer", # needs id
+        "11": "Check out a video to a customer", 
+        "12": "Check in a video from a customer", 
         "14": "To see all options",
         "15": "To Quit"
         }
 
     pzzas()
-    print("The following are your options")
+    print("The following are your options:")
     pzzas()
 
     for option in options:
@@ -82,7 +80,7 @@ def run_cli(play=True):
             video = client.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
             pzzas()
             print("New video:", video.title)
-            selected_video = video
+            
 
 
         elif option=='2':  # Info on all videos
@@ -110,7 +108,8 @@ def run_cli(play=True):
             else:
                 print("Sorry, we couldn't find a matching video.")
             pzzas()
-        #show info on selected video    
+        
+
 
         elif option=='4':  # edit a video
             if not selected_video:
@@ -133,7 +132,12 @@ def run_cli(play=True):
             print("Updated video:", selected_video)
             pzzas()
 
+
         elif option=='5': # delete video
+            if not selected_video:
+                print("Please select a video")
+                continue
+
             check = input(f"Are you sure you want to delete {selected_video} yes/no?  ")
             if check == 'yes':
                 selected_video.delete()
@@ -153,12 +157,14 @@ def run_cli(play=True):
             customer = client.add_customer(name=name, postal_code=postal_code, phone=phone)
             pzzas()
             print("New customer:", customer.name)
-            selected_video = customer
+            
+
 
         elif option=='7':  # Info on all customers
             pzzas()
             for customer in client.info_about_all_customers():
                 print(customer) 
+
 
         elif option=='8':   # Selects customer
             choose_by = input("Would you like to select a customer by name or id?  ")
@@ -253,7 +259,6 @@ def run_cli(play=True):
                 pzzas()
             
             continue
-
 
 
         elif option=='14':
