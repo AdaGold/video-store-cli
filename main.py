@@ -18,6 +18,8 @@ def run_cli(play=True):
         choice = make_choice(options, video_store)
 
         # "1": "Add a Video" 
+        #area for improvement: need to handle situation where user doesn't enter 
+        #any input for title or total inventory -- currently this causes a crash
         if choice == '1':
 
             print("Ok! Let's record a new video.")
@@ -110,6 +112,8 @@ def run_cli(play=True):
                 print(f">>> Available Inventory: {video['available_inventory']}")
 
         #Option 6: Add a Customer
+        #area for improvement: need to handle situation where user doesn't enter 
+        #any input for name, postal code or phone number -- currently this causes a crash
         elif choice=='6':
 
             print("Ok! Let's add a new customer.")
@@ -336,3 +340,4 @@ print("<><><><><><><><><><><><><><>")
 print("WELCOME TO RETRO VIDEO STORE")
 print("<><><><><><><><><><><><><><>")
 run_cli()
+
