@@ -53,7 +53,7 @@ class Customer:
             json=query_params
         )
         print("response:", response)
-        # self.selected_video = response.json()["video"]
+        self.selected_customer = response.json()["customer"]
         return response.json()
 
     def delete_customer(self):
