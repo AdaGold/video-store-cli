@@ -159,17 +159,21 @@ def main(store_open=True):
         elif choice == '7':
             customer_id = input("Which customer id is renting?")
             video_id = input("Which video id are they renting?")
-            response = rental.check_out(int(customer_id), int(video_id))
-
-            print("Enjoy the movie!")
+            response = rental.check_out(customer_id, video_id)
+            if response.status_code != 200:
+                print("Someting isn't right")
+            else:
+                print("Enjoy the movie!")
 
 ###CHECK IN A RENTAL (8)        
         elif choice == '8':
             customer_id = input("Which customer id is returning?")
             video_id = input("Which video id are they returning?")
-            response = rental.check_in(int(customer_id), int(video_id))
-            
-            return response
+            response = rental.check_in(customer_id, video_id)
+            if response.status_code != 200:
+                print("Someting isn't right")
+            else:
+                print("Thanks for returning the video!")
 
 ###LIST OPTIONS (0)
         elif choice == '0':
