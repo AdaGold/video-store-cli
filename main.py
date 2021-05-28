@@ -91,7 +91,8 @@ def run_cli(play=True):
             phone=input("What is your phone number? ")
             postal_code =input("Enter your 5 digit zip code!")
             response = customer.update_customer(name=name, phone=phone, postal_code=postal_code)
-            print("Updated customer:", response["customer"])
+            print(response)
+            # print("Updated customer:", response["customer"])
 
         elif choice=='4':
             customer.delete_customer()

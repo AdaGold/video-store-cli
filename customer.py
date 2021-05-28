@@ -21,7 +21,7 @@ class CustomerOps:
             "phone": phone,
             "postal_code": postal_code
         }
-        response = requests.put(self.url+"/customers/"+self.selected_customer["id"], json=query_params)
+        response = requests.put(self.url+f"/customers/{self.selected_customer['id']}", json=query_params)
         return response.json()
 
     def delete_customer(self):
