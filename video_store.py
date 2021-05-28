@@ -115,6 +115,13 @@ class VideoStore:
     def get_rentals_by_customer(self, customer_id):
         customer_id = int(customer_id)
         response = requests.get(self.url+f"/customers/{customer_id}/rentals")
-        return response.json()
+        if response.status_code != 404:
+            return response.json()
 
+
+    def get_rentals_by_video(self, video_id):
+        video_id = int(video_id)
+        response = requests.get(self.url+f"/videos/{video_id}/rentals")
+        if response.status_code != 404:
+            return response.json()
 
