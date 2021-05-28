@@ -1,14 +1,14 @@
 import requests
 from datetime import datetime
-import json
 
 class VideoStore:
-    def __init__(self, url="https://retro-video-store-api.herokuapp.com", selected_video=None):
+    def __init__(self, url="https://retro-video-store-api.herokuapp.com", selected_video=None, selected_customer=None):
         self.url = url
         self.selected_video = selected_video
-    
-##### VIDEO #####
+        self.selected_customer = selected_customer
+        
 
+##### VIDEO #####
     def create_video(self, title="Default Title", release_date="Default Date", total_inventory=0):
         query_params = {
             "title": title,
@@ -42,12 +42,12 @@ class VideoStore:
         self.selected_video = None
         return response.json()
 
-    def videos_list(self):
+    def get_videos_list(self):
         response = requests.get(self.url+"/videos")
         return response.json()
 
     def get_single_video(self, title=None, id=None):
-        for video in self.videos_list():
+        for video in self.get_videos_list():
             if title:
                 if video["title"]==title:
                     id = video["id"]
@@ -65,8 +65,8 @@ class VideoStore:
             if self.selected_video:
                 print(f"Video with id {self.selected_video['id']} is currently selected\n")
 
-##### CUSTOMER #####
 
+##### CUSTOMER #####
     def create_customer(self, name="first last", postal_code=00000, phone="000-000-0000", registered_at=None):
         query_params = {
             "name": name,
@@ -99,7 +99,6 @@ class VideoStore:
         self.selected_customer = response.json()["customer"]
         return response.json()
 
-
     def delete_customer(self):
         response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
         self.selected_customer = None
@@ -126,4 +125,22 @@ class VideoStore:
 
     def print_selected_customer(self):
         if self.selected_customer:
-            print(f"Customer with id {self.selected_customer['id']} is currently selected\n")    
+            print(f"Customer with id {self.selected_customer['id']} is currently selected\n") 
+
+
+##### RENTALS #####
+    def check_out_video(self, video_id, customer_id):
+        query_params = {
+            "video_id" : video_id,
+            "customer_id": customer_id,
+        }
+        response = requests.post(self.url+"/rentals/check-out",json=query_params)
+        return response.json()
+
+    def check_in_video(self, video_id, customer_id):
+        query_params = {
+            "video_id" : video_id,
+            "customer_id": customer_id,
+        }
+        response = requests.post(self.url+"/rentals/check-in",json=query_params)
+        return response.json()
