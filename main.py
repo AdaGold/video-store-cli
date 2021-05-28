@@ -2,16 +2,47 @@ import requests
 from video_store import VideoStore
 import datetime
 
+
+
+"""
+***** HELPER FUNCTIONS *****
+"""
 def print_spaces():
     print("\n\n")
 
 def print_new_line():
     print(
-       "\n █████ █████ █████ █████ █████ █████ █████ █████ █████ \n"
+        "\n █████ █████ █████ █████ █████ █████ █████ █████ █████ \n"
     )
+
+def select_option(models, video_store):
+    valid_options = models.keys()
+    choice = None
+    while choice not in valid_options:
+        print("\nWhat info would you like to access? Select 4 to see all options again.\n")
+        choice = input("Make your selection using the option number: ")
+    
+    return choice
+
+
+def make_choice(options, video_store):
+    valid_choices = options.keys()
+    choice = None
+
+    while choice not in valid_choices:
+        print("\nWhat would you like to do? Select 6 to see all options again.\n")
+        choice = input("Make your selection using the option number: ")
+    
+    return choice
 
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
+
+
+
+"""
+*****  FUNCTIONS TO DISPLAY MENUS *****
+"""
 
 def list_models():
     models = {
@@ -100,27 +131,11 @@ def list_rental_options():
     return options
 
 
-def select_option(models, video_store):
-    valid_options = models.keys()
-    choice = None
-    while choice not in valid_options:
-        print("\nWhat info would you like to access? Select 4 to see all options again.\n")
-        choice = input("Make your selection using the option number: ")
-    
-    return choice
 
 
-def make_choice(options, video_store):
-    valid_choices = options.keys()
-    choice = None
-
-    while choice not in valid_choices:
-        print("\nWhat would you like to do? Select 6 to see all options again.\n")
-        choice = input("Make your selection using the option number: ")
-    
-    return choice
-
-
+"""
+***** SUB-MENU OPTIONS FOR CUSTOMER *****
+"""
 def customer_menu_options(subchoice, video_store):
     subplay=True
     if subchoice=='1':
@@ -184,6 +199,9 @@ def customer_menu_options(subchoice, video_store):
     return subplay
 
 
+"""
+***** SUB-MENU OPTIONS FOR VIDEO *****
+"""
 def video_menu_options(subchoice, video_store):
     subplay=True
     if subchoice=='1':
@@ -251,6 +269,9 @@ def video_menu_options(subchoice, video_store):
     return subplay
 
 
+"""
+***** SUB-MENU OPTIONS FOR RENTALS *****
+"""
 def rentals_menu_options(subchoice, video_store):
     subplay=True
     if subchoice=='1':
@@ -319,6 +340,9 @@ def rentals_menu_options(subchoice, video_store):
     return subplay
 
 
+"""
+***** DISPLAYING THE CLI *****
+"""
 def run_cli(play=True):
 
     #initialize video_store
@@ -362,23 +386,13 @@ def run_cli(play=True):
         elif choice=='4':
             print_new_line()
             list_models()
+        
+        elif choice=='5':
+            play=False
+            print_spaces()
+            print("== BYE! See you next time dear employee! ==\n")
+            print_spaces()
+            print_new_line()
 
 
 run_cli()
-
-
-
-
-"""
-This was at the beginning:
-
-def main():
-    print("WELCOME TO RETRO VIDEO STORE")
-    response = requests.get(BACKUP_URL + "/videos")
-    print(response.json())
-    
-
-
-if __name__ == "__main__":
-    main()
-"""
