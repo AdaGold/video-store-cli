@@ -90,8 +90,10 @@ def run_cli(play=True):
         
         # "4": "Get all Videos"
         elif choice=='4':
+            
+            #potential improvement: alphabetize by title
             for video in video_store.list_videos():
-                print(video)
+                print(f"{video['title']} (ID #{video['id']}) has {video['available_inventory']} copies in stock.")
         
         # "5": "Get One Video"
         elif choice=='5':
@@ -114,7 +116,6 @@ def run_cli(play=True):
             name=input(">>> Name: ")
             postal_code=input(">>> Postal Code: ")
             phone=input(">>> Phone Number: ")
-
             response = video_store.create_customer(name=name, postal_code=postal_code, phone=phone)
             print(f"New customer ID: {response['id']}")
 
@@ -178,31 +179,28 @@ def run_cli(play=True):
 
         #Option 10: Get info for ALL Customers
         elif choice=='10':
+            
+            #potential improvement: alphabetize
             for customer in video_store.list_customers():
-                print(customer)
+                print(f"{customer['name']} (ID #{customer['id']}) has {customer['videos_checked_out_count']} rentals out.")
 
         #Option 11: Check OUT a Video
         elif choice=='11':
-            # choose customer
+
             print("Ok, first let's select a customer.")
             customer = select_customer(video_store)
             if customer == None:
                 print("No customer with that ID or name found.")
                 customer = select_customer(video_store)
-
-            # choose video
             print(f"Ok, let's select a video to check out to {customer['name']}.")
             video = select_video(video_store)
             if video == None:
                 print("No video with that ID or title found.")
                 video = select_video(video_store)
-
-            # check out video to customer
             rental = video_store.check_out_video_to_customer(
                 customer_id=customer['id'],
                 video_id=video['id']
             )
-            # return success message
             if "error" in rental:
                 print(rental['error'])
             else:
@@ -211,26 +209,21 @@ def run_cli(play=True):
         
         #Option 12: Check IN a Video
         elif choice=='12':
-            # choose customer
+
             print("Ok, first let's select a customer.")
             customer = select_customer(video_store)
             if customer == None:
                 print("No customer with that ID or name found.")
                 customer = select_customer(video_store)
-
-            # choose video
             print("Ok, let's select a video to check in.")
             video = select_video(video_store)
             if video == None:
                 print("No video with that ID or title found.")
                 video = select_video(video_store)
-
-            # check in video to customer
             rental = video_store.check_in_video_to_customer(
                 customer_id=customer['id'],
                 video_id=video['id']
             )
-            # return success message
             if "error" in rental:
                 print(rental['error'])
             else:
@@ -238,8 +231,8 @@ def run_cli(play=True):
 
 
         elif choice=='13':
-            play=False
             print("Bye!")
+            return False
         
         play = continue_playing()
 
@@ -255,7 +248,7 @@ def list_options():
         "6": "Add a Customer",
         "7": "Edit a Customer",
         "8": "Delete a Customer",
-        "9": "Get one Customerr",
+        "9": "Get one Customer",
         "10": "Get all Customers",
         "11": "Check OUT a Video",
         "12": "Check IN a Video",
@@ -329,9 +322,9 @@ def continue_playing():
 
 
 def valid_release_date(date_string):
-  
+
     format = "%m-%d-%Y"
-  
+
     try:
         datetime.datetime.strptime(date_string, format)
         return True 
@@ -339,6 +332,7 @@ def valid_release_date(date_string):
         print(">>> Invalid entry. Please enter date as MM-DD-YYYY")
         return False
 
-
+print("<><><><><><><><><><><><><><>")
 print("WELCOME TO RETRO VIDEO STORE")
+print("<><><><><><><><><><><><><><>")
 run_cli()
