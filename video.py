@@ -6,6 +6,7 @@ class Video:
         self.url = url
         self.selected_video = selected_video
 
+    # adds video to connected API with the specified query parameters
     def add_video(self, title="Default Video", release_date=None, total_inventory=None):
         query_params = {
             "title": title,
@@ -15,11 +16,14 @@ class Video:
         response = requests.post(self.url+"/videos", json=query_params)
         return response.json()
     
+    # generates a list of all videos
     def list_videos(self):
         response = requests.get(self.url+"/videos")
         return response.json()
     
-    def get_video(self, title=None, id=None):
+    # retrieves video specific data - with options to 
+    # search by title, id, and release date
+    def get_video(self, title=None, id=None, release_date=None):
 
         for video in self.list_videos():
             if title:
@@ -28,13 +32,18 @@ class Video:
                     self.selected_video = video
             elif id == video["id"]:
                 self.selected_video = video
+            elif release_date:
+                if video["release_date"] == release_date:
+                    id = video["id"]
+                    self.selected_video = video
         
         if self.selected_video == None:
-            return "Could not find video by that name or id"
+            return "Could not find video with the details you have provided"
     
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
     
+    # updates video in connected API with the specified query parameters
     def update_video(self, title=None, release_date=None, total_inventory=None):
         if not title:
             title = self.selected_video["title"]
@@ -52,11 +61,15 @@ class Video:
         self.selected_video = response.json()["video"]
         return response.json()
     
+    # deletes the selected video
     def delete_video(self):
         response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
         self.selected_video = None
         return response.json()
     
+    # prints out the selected video's data
     def print_selected(self):
         if self.selected_video:
             print(f"Video with id {self.selected_video['id']} is currently selected\n")
+        else:
+            print("Apologies, that video could not be found")
