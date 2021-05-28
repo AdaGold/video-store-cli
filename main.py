@@ -33,6 +33,7 @@ def option_list():
         
         "11": "Check out a video to a customer", 
         "12": "Check in a video from a customer", 
+        "13": "To see your selected customer and video",
         "14": "To see all options",
         "15": "To Quit"
         }
@@ -122,13 +123,13 @@ def run_cli(play=True):
             
             print(f"Great! Let's update video: {selected_video}") 
             pzzas()
-            title=input(f"What is updated the title of the movie?[{selected_video.title}]  ")
+            title=input(f"[{selected_video.title}] currently. Enter to keep.\nOtherwise, what is the movie's new title? ")
             if len(title) > 0:
                 selected_video.title = title
-            release_date=input(f"In yyyy-mm-dd format. What is the updated movie released?[{selected_video.release_date}]  ")
+            release_date=input(f"[{selected_video.release_date}] currently. Enter to keep.\nOtherwise, in yyyy-mm-dd format. What's the movie's new release date? ")
             if len(release_date) > 0:
                 selected_video.release_date = release_date
-            total_inventory=input(f"How many copies of this movie are there now?[{selected_video.total_inventory}]  ")
+            total_inventory=input(f"[{selected_video.total_inventory}] currently. Enter to keep.\nOtherwise, how many copies of this movie are there now? ")
             if len(total_inventory) > 0:
                 selected_video.total_inventory = total_inventory
             selected_video.save()
@@ -142,7 +143,7 @@ def run_cli(play=True):
                 print("Please select a video")
                 continue
 
-            check = input(f"Are you sure you want to delete {selected_video} yes/no?  ")
+            check = input(f"Are you sure you want to delete: {selected_video} yes/no?  ")
             if check == 'yes':
                 selected_video.delete()
                 pzzas()
@@ -195,6 +196,7 @@ def run_cli(play=True):
             if not selected_customer:
                 print("Plese select a customer")
                 continue
+            
             print(f"Awesome! Let's update customer: {selected_customer}")
             pzzas()
             name = input(f"[{selected_customer.name}] Currently. Enter to keep.\nOtherwise, what is the customer's new name?  ")
@@ -212,7 +214,11 @@ def run_cli(play=True):
             
 
         elif option=='10': # delete customer
-            check = input(f"Are you sure you want to delete {selected_customer} yes/no?  ")
+            if not selected_customer:
+                print("Plese select a customer")
+                continue
+
+            check = input(f"Are you sure you want to delete: {selected_customer} yes/no?  ")
             if check == 'yes':
                 selected_customer.delete()
                 pzzas()
@@ -230,6 +236,7 @@ def run_cli(play=True):
             if not selected_video:
                 print("Please select a video.")
                 continue
+            
 
             try:
                 client.check_out_video_to_customer(selected_video, selected_customer)
@@ -248,9 +255,10 @@ def run_cli(play=True):
             if not selected_customer:
                 print("Please select a customer")
                 continue
-            if not selected_video:
-                print("Please select a video")
+            if not selected_customer:
+                print("Please select a customer")
                 continue
+            
 
             try:
                 client.check_in_video_from_customer(selected_video, selected_customer)
@@ -263,6 +271,21 @@ def run_cli(play=True):
                 pzzas()
             
             continue
+        
+
+        elif option=='13':
+            if not selected_customer:
+                print("Please select a customer")
+                continue
+            pzzas()
+            print(f"Your current customer is {selected_customer}")
+            pzzas()
+            if not selected_customer:
+                print("Please select a customer")
+                continue
+            pzzas()
+            print(f"Your current video is {selected_video}")
+            pzzas()
 
 
         elif option=='14':
