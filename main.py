@@ -243,16 +243,6 @@ def make_choice(options, video_info, customer_info, rental_info):
         print("Select 13 to see all options again: ")
         choice = input("Make your selection using the option numbers 1 - 14 : " )
         
-    # if choice in ['2', '3'] and video_info.selected_video == None:
-    #     print("You must select a video before making edits: ")
-    #     print("Please select a video!: ")
-    #     choice = "5"
-        
-    # elif choice in ['7','8'] and customer_info.selected_customer == None:
-    #     print("You must select a customer before making edits: ")
-    #     print("Please select a customer! : ")
-    #     choice = "9"
-        
     return choice
 
 if __name__ == "__main__":
