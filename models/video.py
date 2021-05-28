@@ -49,9 +49,3 @@ class Video:
         response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
         self.selected_video = None
         return response.json()
-    
-    # def print_selected(self):
-    #     if self.selected_video:
-    #         print(f"Video with id {self.selected_video} is currently selected")
-    #     else:
-    #         print("There is no selected video.")

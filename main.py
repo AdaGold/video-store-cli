@@ -42,7 +42,7 @@ def list_options():
 
     return options
 
-def make_choice(options, video, customer):  #where are these parameters coming from?
+def make_choice(options, video, customer): 
     valid_choices = options.keys()
     choice = None
 
@@ -64,15 +64,11 @@ def run_cli():
     customer = Customer(BACKUP_URL)
     rental = Rental(BACKUP_URL)
     print(f"this is the video: {video}")
-    # print choices
     options = list_options()
 
     play = True
     while play==True:
         choice = make_choice(options, video, customer)
-        
-        # print(f"Video with id {video.selected_video} is currently selected")
-        # video.print_selected() #keep getting error: AttributeError: 'dict' object has no attribute 'print_selected'
         
         if choice=='1':
             print_stars()
@@ -89,7 +85,7 @@ def run_cli():
             id = input("What is the id of the video you like to select? ")
             if id.isnumeric():
                 id = int(id)
-                video.selected_video = video.get_one_video(id=id)  #why is video not reading as instance of video class? 
+                video.selected_video = video.get_one_video(id=id) 
             if video.selected_video:
                 print("Selected video: ", video.selected_video)
         elif choice=='4':
