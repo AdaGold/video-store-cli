@@ -44,7 +44,7 @@ def list_options():
     print_squiggle()
     
     return options
-    
+ 
 def main(play=True):
 
     video_list = VideoList(URL)
@@ -275,7 +275,7 @@ def main(play=True):
                 print_squiggle()
                 print("Selected customer: ", customer_list.selected_customer)
             
-            response = rental_list.return_rental(customer_id, video_id)
+            response = rental_list.return_rental(customer_id=customer_id, video_id=video_id)
             print("Video sucessfully checked in! ")
         
         elif choice=='13':
