@@ -20,7 +20,7 @@ class VideoStore:
         return response.json()  
     
     # Option 2: edit a video 
-    def update_video(self,video_id,title=None,release_date=None,total_inventory=None):
+    def update_video(self,video_id,title,release_date,total_inventory):
 
         if not title: 
             title = self.selected_video["title"]
@@ -56,6 +56,56 @@ class VideoStore:
     def get_video(self, id):
         response = requests.get(self.url+f"/videos/{id}")
         self.video = response.json()
+        return response.json()
+    
+    # Option 6: add a customer
+    def add_customer(self, name, postal_code, phone):
+
+        query_params = {
+            "name": name,
+            "postal_code": postal_code,
+            "phone": phone
+        }
+        response = requests.post(self.url+"/customers",json=query_params)
+        return response.json() 
+
+    # Option 7: edit a customer
+    def update_customer(self,customer_id, name, postal_code, phone):
+
+        if not name: 
+            name = self.selected_customer["name"]
+        if not postal_code:
+            postal_code = self.selected_customer["postal_code"]
+        if not phone:
+            phone = self.selected_customer["phone"]   
+
+        query_params = {
+            "name": name,
+            "postal_code": postal_code,
+            "phone": phone,
+        }
+        response = requests.put(
+            self.url+f"/customers/{customer_id}",
+            json=query_params
+            )
+        print("response:", response)
+        self.selected_customer = response.json()
+        return response.json()
+
+    # Option 8: delete a customer
+    def delete_customer(self, id):
+        response = requests.delete(self.url+f"/customers/{id}")
+        return response.json()
+
+    # Option 9: get information about all customers
+    def list_all_customers(self):
+        response = requests.get(self.url+"/customers") 
+        return response.json()
+    
+    # Option 10: get information about one customer
+    def get_customer(self, id):
+        response = requests.get(self.url+f"/customers/{id}")
+        self.customer = response.json()
         return response.json()
 
     # Option 11: check out a video to a customer
