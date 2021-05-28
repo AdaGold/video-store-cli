@@ -35,7 +35,7 @@ class Customer:
         response = requests.get(self.url+f"/customers/{id}")
         return response.json()
 
-    def upgrade_customer(self, id=None, name=None, postal_code=None, phone=None):
+    def update_customer(self, name=None, postal_code=None, phone=None):
         if not name:
             title = self.selected_customer["name"]
         if not postal_code:

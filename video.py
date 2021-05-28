@@ -36,7 +36,7 @@ class Video:
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
-    def upgrade_video(self, id=None, title=None, release_date=None, total_inventory=None):
+    def update_video(self, title=None, release_date=None, total_inventory=None):
         if not title:
             title = self.selected_video["title"]
         if not release_date:
