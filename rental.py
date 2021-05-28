@@ -10,7 +10,7 @@ class Rental:
             "customer_id": customer_id,
             "video_id": video_id
         }
-        response = self.get(self.url+"/rentals/check-in", json=query_params)
+        response = self.post(self.url+"/rentals/check-in", json=query_params)
         # response not jsonified to retain data structure specific methods
         return response
 
@@ -20,6 +20,6 @@ class Rental:
             "customer_id": customer_id,
             "video_id": video_id
         }
-        response = self.get(self.url+"/rentals/check-out", json=query_params)
+        response = self.post(self.url+"/rentals/check-out", json=query_params)
         # response not jsonified to retain data structure specific methods
         return response
