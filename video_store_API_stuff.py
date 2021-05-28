@@ -1,12 +1,10 @@
 import requests
-import datetime
 
 
 class Video:
     def __init__(self, url="http://localhost:5000", selected_video=None):
         self.url = url
         self.selected_video = selected_video
-
 
     def add_video(self, title="The Void", release_date=None, total_inventory=None):
         query_params = {
@@ -43,12 +41,10 @@ class Video:
         self.selected_video = response.json()["video"]
         return response.json()
 
-
     def delete_video(self):
         response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
         self.selected_video = None
         return response.json()
-    
 
     def get_one_video(self, title=None, id=None):
         for video in self.get_all_videos():
@@ -65,7 +61,6 @@ class Video:
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
-
     def print_selected_video(self):
         if self.selected_video:
             print(f"Video with id {self.selected_video['id']} is currently selected\n")
@@ -76,7 +71,6 @@ class Customer:
         self.url = url
         self.selected_customer = selected_customer
 
-
     def add_customer(self, name="Frogge Queen", postal_code=00000, phone="000-000-0000", registered_at=None):
         query_params = {
             "name": name,
@@ -86,7 +80,6 @@ class Customer:
         }
         response = requests.post(self.url+"/customers",json=query_params)
         return response.json()
-
 
     def edit_customer(self, name=None, postal_code=None, phone=None):
 
@@ -111,13 +104,11 @@ class Customer:
         self.selected_customer = response.json()["customer"]
         return response.json()
 
-
     def delete_customer(self):
         response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
         self.selected_customer = None
         return response.json()
     
-
     def get_one_customer(self, name=None, id=None):
         
         for customer in self.get_all_customers():
@@ -134,11 +125,9 @@ class Customer:
         response = requests.get(self.url+f"/customers/{id}")
         return response.json()
 
-
     def get_all_customers(self):
         response = requests.get(self.url+"/customers")
         return response.json()
-
 
     def print_selected_customer(self):
         if self.selected_customer:
@@ -150,14 +139,19 @@ class Rental:
         self.url = url
         self.selected_rental = selected_rental
 
-    def check_out_video(self):
-        response = requests.post(self.url+f"/rentals/{self.selected_rental['id']}/check-out")
-        # ❗️ what in the shit is going on here: 
-        # self.selected_rental = response.json()["task"]
-        # return response.json()
+    def check_out_video(self, customer_id, video_id):
+        query_params = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+"/rentals/check-out",json=query_params)
+        return response.json()
 
-    def check_in_video(self):
-        response = requests.post(self.url+f"/rentals/{self.selected_rental['id']}/check-in")
-        # self.selected_rental = response.json()["task"]
-        # return response.json() 
+    def check_in_video(self, customer_id, video_id):
+        query_params = {
+            "customer_id": customer_id,
+            "video_id": video_id
+        }
+        response = requests.post(self.url+"/rentals/check-in",json=query_params)
+        return response.json()
 
