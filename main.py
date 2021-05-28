@@ -1,16 +1,19 @@
 from client import Client
+from constants import *
 
 #MAITES_URL = "https://maite-retro-video-store-api.heroku.com"
 
 
 def main():
-    print("******* ******* ******* ******* ******* *******")
+    print("******* ******* ******* ******* ******* ******* *******")
 
 
 def pzzas():
     print("\n************************************************\n")
 
-#####figlet 
+pzzas()
+
+print(WELCOME)
 
 def option_list():
 
@@ -19,7 +22,7 @@ def option_list():
         "2": "Get information about all videos",
         "3": "Select one video", 
         "4": "Edit a video", 
-        "5": "Delete a video", 
+        "5": "Delete a video",
 
         "6": "Add a customer",
         "7": "Get information on all customers",
@@ -268,10 +271,10 @@ def run_cli(play=True):
         elif option=='15':
             play = False
             pzzas()
-            print("*** THANK YOU FOR USING MY RETRO VIDEO STORE ***")
-            pzzas()
         
 run_cli()
 
 if __name__ == "__main__":
+    print("******* ******* ******* ******* ******* ******* *******")
+    print(THANKS)
     main() 
