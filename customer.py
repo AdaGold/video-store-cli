@@ -6,8 +6,8 @@ class Customer:
         self.url = url
         self.selected_customer = selected_customer
 
-    def create_customer(self, name="Default Name", postal_code="Default Postal Code", phone="Phone", \
-                    registered_at=datetime.now().strftime("%a, %d %b %Y, %H:%M:%S"), videos_checked_out_count=0):
+    def create_customer(self, name, postal_code, phone, \
+                    registered_at=None, videos_checked_out_count=None):
         query_params = {
             "name": name,
             "postal_code": postal_code,
@@ -16,8 +16,6 @@ class Customer:
             "videos_checked_out_count": videos_checked_out_count
         }
         response = requests.post(self.url+"/customers", json=query_params)
-        # print("*****", response)
-        # print("*****", response.json())
         return response.json()
 
     def list_customers(self):
@@ -47,9 +45,6 @@ class Customer:
             postal_code = self.selected_customer["postal_code"]
         if not phone:
             phone = self.selected_customer["phone"]
-        # print("***", self.selected_customer["name"])
-        # print("***", self.selected_customer["postal_code"])
-        # print("***", self.selected_customer["phone"])
 
         query_params = {
             "name": name,
@@ -61,10 +56,8 @@ class Customer:
             self.url+f"/customers/{self.selected_customer['id']}",
             json=query_params
         )
-        # print("reponse:", response)
-        # print("response.json", response.json())
-        # print("customer", response.json()["customer"])
-        self.selected_customer = response.json()#["customer"]
+
+        self.selected_customer = response.json()
         return response.json()
 
     def delete_customer(self, id=None, name=None):

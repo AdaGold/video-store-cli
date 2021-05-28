@@ -6,45 +6,21 @@ class Rental:
         self.url = url
         self.selected_rental = selected_rental
 
-    def create_rental(self, customer_id=0, video_id=0): #due_date=date.today()+timedelta(days=7), status="Default Status"):
+    def create_rental(self, customer_id=0, video_id=0):
         query_params = {
             "customer_id": customer_id,
             "video_id": video_id
-            # "due_date": due_date,
-            # "status": status
         }
-        print("*** query params ", query_params)
+
         response = requests.post(self.url+"/rentals/check-out", json=query_params)
-        print("*** response", response)
-        print("*** response.json ", response.json())
         return response.json()
 
     def list_rentals(self):
         response = requests.get(self.url+"/rentals")
         return response.json()
 
-
-    # def get_rental(self, customer_id=None, video_id=None):
-
-    #     for rental in self.list_rentals():
-    #         if title:
-    #             if video["title"] == title:
-    #                 id = video["id"]
-    #                 self.selected_video = video
-    #         elif id == video["id"]:
-    #             self.selected_video = video
-        
-    #     if self.selected_video == None:
-    #         return "Could not find video by that title or id"
-
-    #     response = requests.get(self.url+f"/videos/{id}")
-    #     return response.json()
-
     def update_video(self, customer_id=0, video_id=0):
         for rental in self.list_rentals():
-            # if customer_id and video_id:
-            #     customer_id = rental["customer_id"]
-            #     video_id = rental["video_id"]
             if customer_id == rental["customer_id"] and video_id == rental["video_id"]:
                 self.selected_rental = rental
 
