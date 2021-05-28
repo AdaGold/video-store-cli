@@ -37,6 +37,7 @@ def list_options():
         "14": "Quit"
         }
 
+
 #how can I start with options of selecting video and customer? 
     print("What would you like to do?")  
     print("**************************")
@@ -58,8 +59,8 @@ def make_choice(options, video_store):
         print("You must select a video before updating it, deleting it, check-in, or check-out.")
         print("Let's select a video!")
         choice = "5"
-    else:
-        choice in ['7', '8'] and video_store.selected_customer == None
+    
+    if  choice in ['7', '8'] and video_store.selected_customer == None:
         print("You must select a customer before updating it or deleting it.")
         print("Let's select a customer")
         choice = "10"
