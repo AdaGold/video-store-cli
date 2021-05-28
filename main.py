@@ -10,20 +10,17 @@ def print_stars():
 def list_options():
     options = {
         "1": "Add a video",
-        "2": "Edit a video",
-        "3": "Delete a video",
-        "4": "Get information on all videos",
-        "5": "Get information on one video",
-        "6": "Add a customer",
-        "7": "Edit a customer",
-        "8": "Delete a customer",
-        "9": "Get information on one customer",
-        "10": "Get information on all customers",
-        "11": "Check out a video to a customer",
-        "12": "Check in a video from a customer",
-        "13": "List all options",
-        "14": "Quit"
+        "2": "Select a video",
+        "3": "Browse video catalog",
+        "4": "Add a *new* customer",
+        "5": "Get information on one customer",
+        "6": "Get information on all customers",
+        "7": "Check out a video",
+        "8": "Check in a video",
+        "9": "List all options",
+        "0": "Quit"
     }
+
     print_stars()
     print("Welcome to the Video Store CLI")
     print("These are the actions you can perform")
@@ -35,25 +32,35 @@ def list_options():
     print_stars()
 
     return options
-
+# 
 def make_choice(options, customer, video, rental):
     valid_choices = options.keys()
-    choice = None
 
     while choice not in valid_choices:
         print("What would you like to do? Select 9 to see all options again")
         choice = input("Make your selection using the option number: ")
     
-    # if choice in ['4','5','6','7'] and 
+    return choice
 
 def main(play=True):
+    # initialize instances
     video = Video(URL)
     customer = Customer(URL)
     rental = Rental(URL)
     options = list_options()
+    
+    while play:
+        choice = make_choice(options, video, customer)
 
-    # while play == True:
-    #     choice
+    # Option 1: Add a video
+    if choice == 1:
+        print("Preparing to add video...")
+        title = input("What is the name of the video?")
+        release_date = input("What is the video's release date?")
+        total_inventory = input("What is the total inventory for this video?")
+        response = video.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
+
+        print("New video:", response["video"])
 
 if __name__ == "__main__":
     main()
