@@ -19,8 +19,9 @@ class Customers:
             "postal_code": postal_code,
             "phone": phone
         }
-        response = requests.post(self.url, json=query_params)
-        return response.json()
+        response = requests.post(self.url, json=query_params).json()
+        customer_info = requests.get(self.url+f"/{response['id']}")
+        return customer_info.json()
 
     def list_customers(self):
         response = requests.get(self.url)
@@ -59,8 +60,7 @@ class Customers:
             "phone": phone,
             "postal_code": postal_code
         }
-        response = requests.put(self.url+f"{id}", json=query_params)
-        print("response:", response)
+        response = requests.put(self.url+f"/{id}", json=query_params)
         return response.json()
 
     def delete_customer(self, id=None):
