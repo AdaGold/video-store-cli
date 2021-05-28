@@ -1,10 +1,10 @@
 import requests
 from video import Video
-# from rental import Rental
+from rental import Rental
 from customer import Customer
 
-URL = "http://127.0.0.1:5000"
-BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
+BACKUP_URL = "http://127.0.0.1:5000"
+URL = "https://retro-video-store-api.herokuapp.com"
 
 
 def stars():
@@ -48,14 +48,14 @@ def make_choice(options, video, customer):
         print("What would you like to do? Select 13 to see all the options again...")
         choice = input("Make your selection using the option number: ")
     if choice in ['2', '3', '7', '8', '11', '12'] and video.selected_video == None:
-        print("You must select an item before updating it, deleting it, checking it out, or checking it in.")
-        print("Let's select an item!")
+        print("You must select a video before updating it, deleting it, checking it out, or checking it in.")
+        print("Let's select a video!")
         choice = "4"
         return choice
     elif choice in ['7', '8'] and customer.selected_customer == None:
-        print("You must select an item before updating it, deleting it, checking it out, or checking it in.")
-        print("Let's select an item!")
-        choice = "4"
+        print("You must select a customer before updating it or deleting it.")
+        print("Let's select a customer!")
+        choice = "9"
         return choice
     return choice
 
@@ -63,12 +63,12 @@ def make_choice(options, video, customer):
 ##########
 
 def main():
-    print("WELCOME TO RETRO VIDEO STORE")
+    print("WELCOME TO THE VERY LAST BLOCKBUSTER VIDEO IN THE WHOLE WIDE WORLD")
 
     # initialize task_list
     video = Video(URL)
     customer = Customer(URL)
-    # rental = Rental(URL)
+    rental = Rental(URL)
 
     # print choices
     options = list_options()
@@ -143,7 +143,7 @@ def main():
 
         elif choice == '4':
             select_by = input(
-                "What would you like to select by? Enter title or id: ")
+                "What would you like to select your video by? Enter title or id: ")
             if select_by == "title":
                 title = input("Which video title would you like to select? ")
                 video.get_video(title=title)
@@ -158,9 +158,9 @@ def main():
                 print("Selected video: ", video.selected_video)
         elif choice == '9':
             select_by = input(
-                "What would you like to select by? Enter name or id: ")
+                "What would you like to select the customer by? Enter name or id: ")
             if select_by == "name":
-                title = input("Whose customer name would you like to select? ")
+                title = input("What's the customer's name? ")
                 customer.get_customer(name=name)
             elif select_by == "id":
                 id = input("Which customer id would you like to select? ")
@@ -171,6 +171,24 @@ def main():
                 print("Could not select. Please enter id or name.")
             if customer.selected_customer:
                 print("Selected customer: ", customer.selected_customer)
+
+        elif choice == '11':
+            print("Great! Let's check-out a new video.")
+            customer_id = input("What is the ID of the customer today? ")
+            video_id = input(
+                "What is the ID of the video that will be checked out? ")
+            response = rental.check_out(
+                customer_id=customer_id, video_id=video_id)
+            print("Enjoy your new video! Might I suggest just using Netflix next time so we can finally go out of business?")
+
+        elif choice == '12':
+            print("Great! Let's check-in your used video.")
+            customer_id = input("What is the ID of the customer today? ")
+            video_id = input(
+                "What is the ID of the video that will be checked in? ")
+            response = rental.check_in(
+                customer_id=customer_id, video_id=video_id)
+            print("Thank you now please leave...")
 
         elif choice == '13':
             list_options()

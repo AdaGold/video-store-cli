@@ -7,7 +7,7 @@ class Customer:
         self.url = url
         self.selected_customer = selected_customer
 
-    def create_customer(self, name="Default Customer", postal_code="Default Postal", phone="Default Phone"):
+    def create_customer(self, name="Default Customer", postal_code=None, phone=None):
         query_params = {
             "name": name,
             "postal_code": postal_code,

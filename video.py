@@ -7,12 +7,11 @@ class Video:
         self.url = url
         self.selected_video = selected_video
 
-    def create_video(self, title="Default Video", release_date="Default Date", total_inventory="Default Total"):
+    def create_video(self, title="Default Video", release_date=None, total_inventory=None):
         query_params = {
             "title": title,
             "release_date": release_date,
             "total_inventory": total_inventory,
-            "available_inventory": total_inventory
         }
         response = requests.post(self.url+"/videos", json=query_params)
         return response.json()
