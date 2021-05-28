@@ -40,7 +40,16 @@ class VideoStore:
 
 ######### VIDEO STUFF ############ 
     def get_all_videos(self):
-        response = requests.get(self.url+"/videos")
+        sort_options = input("Would you like to sort by Title, ID, or Release Date?  ")
+
+        if sort_options.lower() == "title":
+            response = requests.get(self.url+"/videos?sort=title")
+        elif sort_options.lower() == "release date":
+            response = requests.get(self.url+"/videos?sort=release_date")
+        elif sort_options.lower() == "id":
+            response = requests.get(self.url+"/videos?sort=id")
+        else:
+            response = requests.get(self.url+"/videos")
         if response.status_code != 200:
             return "Oops! Something went wrong. "
         return response.json()
@@ -103,7 +112,15 @@ class VideoStore:
 ######### CUSTOMER STUFF ############ 
 
     def get_all_customers(self):
-        response = requests.get(self.url+"/customers")
+        sorting_option = input("Would you like to sort customer by ID, Name, or Postal Code?:   ")
+        if sorting_option.lower() == "name":
+            response = requests.get(self.url+"/customers?sort=name")
+        elif sorting_option.lower() == "postal code":
+            response = requests.get(self.url+"/customers?sort=postal_code")
+        elif sorting_option.lower() == "id":
+            response = requests.get(self.url+"/customers?sort=id")
+        else:
+            response = requests.get(self.url+"/customers")
         return response.json()
 
     def add_customer_to_db(self): 
@@ -216,6 +233,8 @@ class VideoStore:
 
     def get_rental_list_by_video(self, video_id):
         rental_list = requests.get(self.url+f"/videos/{video_id}/rentals")
+        if not rental_list.json():
+            print("\n Uh Oh! We couldn't find the video matching that ID. ")
 
         for rental in rental_list.json():
             customer_name = rental["name"]
@@ -227,6 +246,9 @@ class VideoStore:
 
     def get_rental_list_by_customer(self, customer_id):
         rental_list = requests.get(self.url+f"/customers/{customer_id}/rentals")
+
+        if not rental_list.json():
+            print("\n Uh Oh!  We coulnd't find the customer matching that ID. ")
 
         for rental in rental_list.json():
             video_title = rental["title"]
