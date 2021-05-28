@@ -174,45 +174,109 @@ def main(play=True):
                 print(customer)
             
         
-        # elif choice == '11':
-        #     print_squiggle()
-        #     print("Let's checkout a video!: ")
+        elif choice == '11':
+            print_squiggle()
+            print("Let's checkout a video! ")
             
-        #     video_id = input("Enter the video id: ")
-        #     if video_id.isnumeric():
-        #         video_id = int(video_id)
-        #         video_list.selected_video = video_list.get_video(video_id=video_id)
-        #         print(video_list.selected_video)
-                
-        #     customer_id = input("Which customer ID would you like to select?: ")
-        #     if customer_id.isnumeric():
-        #         customer_id = int(customer_id)
-        #     customer_list.selected_customer = customer_list.get_customer(single_customer_id=customer_id)
-        #     print(customer_list.selected_customer)
+            print("Here are all of the available videos: ")
+            all_videos = video_list.list_videos()
             
-        #     checked_out_rental = rental_list.checkout_vid_to_customer(customer_id, video_id)
-        #     print(checked_out_rental)
-        #     print("Video sucessfully checked out! ")
+            for video in all_videos:
+                print(f"Id: {video['id']}, Title: {video['title']}")
             
-        # elif choice == '12':
-        #     print_squiggle()
-        #     print("Let's return a video!: ")
+            select_by = input("What would you like to select by? Enter either a title or an id: ")
+            if select_by == "title":
+                title = input("Which video title would you like to select? ")
+                video_list.get_video(title=title)
+            elif select_by == "id":
+                video_id = input("Which video ID would you like to select? ")
+                if video_id.isnumeric():
+                    video_id = int(video_id)
+                    video_list.selected_video = video_list.get_video(id=video_id)
+            else:
+                print("Please enter a valid video ID:")
             
-        #     video_id = input("Enter the video id: ")
-        #     if video_id.isnumeric():
-        #         video_id = int(video_id)
-        #         video_list.selected_video = video_list.get_video(video_id=video_id)
-        #         print(video_list.selected_video)
+            if video_list.selected_video:
+                print_squiggle()
+                print("The choosen video information is: ", video_list.selected_video)
+                print(video_list.selected_video)
             
-        #     customer_id = input("Enter the customer id: ")
-        #     if customer_id.isnumeric():
-        #         customer_id = int(customer_id)
-        #     customer_list.selected_customer = customer_list.get_customer(single_customer_id=customer_id)
-        #     print(customer_list.selected_customer)
+            print("Here are all of the customers: ")
+            all_customers = customer_list.list_customers()
             
-        #     checked_in_rental = rental_list.checkin_vid_from_customer(customer_id, video_id)
-        #     print(checked_in_rental)
-        #     print("Video sucessfully checked in! ")
+            for customer in all_customers:
+                print(f"Id: {customer['id']}, name: {customer['name']}")
+            
+            select_by = input("What would you like to select by? Enter either a name or an id: ")
+            if select_by == "name":
+                name = input("Which customer name would you like to select? ")
+                customer_list.get_customer(name=name)
+            elif select_by == "id":
+                customer_id = input("Which customer ID would you like to select? ")
+                if customer_id.isnumeric():
+                    customer_id = int(customer_id)
+                    customer_list.selected_customer = customer_list.get_customer(id=customer_id)
+            else:
+                print("Please enter valid customer ID: ")
+            
+            if customer_list.selected_customer:
+                print_squiggle()
+                print("Selected customer: ", customer_list.selected_customer)
+            
+            response = rental_list.create_rental(customer_id, video_id)
+            print("Video sucessfully checked out! ")
+            
+        elif choice == '12':
+            print_squiggle()
+            print("Let's return a video! ")
+            
+            print("Here are all of the available videos: ")
+            all_videos = video_list.list_videos()
+            
+            for video in all_videos:
+                print(f"Id: {video['id']}, Title: {video['title']}")
+            
+            select_by = input("What would you like to select by? Enter either a title or an id: ")
+            if select_by == "title":
+                title = input("Which video title would you like to select? ")
+                video_list.get_video(title=title)
+            elif select_by == "id":
+                video_id = input("Which video ID would you like to select? ")
+                if video_id.isnumeric():
+                    video_id = int(video_id)
+                    video_list.selected_video = video_list.get_video(id=video_id)
+            else:
+                print("Please enter a valid video ID:")
+            
+            if video_list.selected_video:
+                print_squiggle()
+                print("The choosen video information is: ", video_list.selected_video)
+                print(video_list.selected_video)
+            
+            print("Here are all of the customers: ")
+            all_customers = customer_list.list_customers()
+            
+            for customer in all_customers:
+                print(f"Id: {customer['id']}, name: {customer['name']}")
+            
+            select_by = input("What would you like to select by? Enter either a name or an id: ")
+            if select_by == "name":
+                name = input("Which customer name would you like to select? ")
+                customer_list.get_customer(name=name)
+            elif select_by == "id":
+                customer_id = input("Which customer ID would you like to select? ")
+                if customer_id.isnumeric():
+                    customer_id = int(customer_id)
+                    customer_list.selected_customer = customer_list.get_customer(id=customer_id)
+            else:
+                print("Please enter valid customer ID: ")
+            
+            if customer_list.selected_customer:
+                print_squiggle()
+                print("Selected customer: ", customer_list.selected_customer)
+            
+            response = rental_list.return_rental(customer_id, video_id)
+            print("Video sucessfully checked in! ")
         
         elif choice=='13':
             list_options()
