@@ -5,27 +5,15 @@ from video_store import VideoStore
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 def main():
-    print("WELCOME TO RETRO VIDEO STORE")
+    print("\n❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁\n")
+    print("✯✯✯✯✯✯ 𝕎𝔼𝕃ℂ𝕆𝕄𝔼 𝕋𝕆 ℝ𝔼𝕋ℝ𝕆 𝕍𝕀𝔻𝔼𝕆 𝕊𝕋𝕆ℝ𝔼 ✯✯✯✯✯✯")
+    print("\n❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁❁\n")
 
 if __name__ == "__main__":
     main()
 
-# def select_video(video_store):
-#     choice = input("Would you like to select by? Enter title or id: ")
-#     if choice=="title":
-#         title = input("Which video title would you like to select? ")
-#         video_store.get_video(title=title)
-#     elif choice=="id":
-#         id = input("Which video id would you like to select? ")
-#         if id.isnumeric():
-#             id = int(id)
-#             video_store.get_video(id=id)
-#         else:
-#             print("Could not select. Please enter id or title.")
-#     return video_store.selected_video 
-
 def print_stars():
-    print("\n**************************\n")
+    print("\n******************************************\n")
 
 def list_options():
 
@@ -47,7 +35,7 @@ def list_options():
         }
 
     print_stars()
-    print("These are the actions you can perform at RETRO VIDEO STORE.")
+    print("✔✔✔These are the actions you can perform at RETRO VIDEO STORE✔✔✔")
     print_stars()
 
     for choice_num in options:
@@ -66,11 +54,6 @@ def make_choice(options, video_store):
         choice = input("Make your selection using the option number: ")
     return choice
 
-    # if choice in ['4','5','6','7'] and task_list.selected_task == None:
-    #     print("You must select a task before updating it, deleting it, marking it complete, or marking it incomplete.")
-    #     print("Let's select a task!")
-    #     choice = "3"
-
 def run_cli(play=True):
 
     #initialize video store
@@ -83,7 +66,6 @@ def run_cli(play=True):
 
         # get input and validate
         choice = make_choice(options, video_store)
-
 
 # ========VIDEO OPTIONS======== #
 
@@ -106,7 +88,6 @@ def run_cli(play=True):
                 total_inventory=input("What is the new total inventory of your video? ")
                 response = video_store.update_video(select_video,title=title, release_date=release_date, total_inventory=total_inventory)      
 
-                print_stars()
                 print(f"Video #{response['id']} has been updated.") 
         
         # Option 3: delete a video 
@@ -149,7 +130,6 @@ def run_cli(play=True):
                 phone=input("What is the new phone number of the customer? ")
                 response = video_store.update_customer(select_customer, name=name,postal_code=postal_code, phone=phone)      
 
-                print_stars()
                 print(f"Customer #{response['id']} has been updated.") 
 
         # Option 8: delete a customer 

@@ -38,7 +38,7 @@ class VideoStore:
             self.url+f"/videos/{video_id}",
             json=query_params
             )
-        print("response:", response)
+    
         self.selected_video = response.json()
         return response.json()
     
@@ -88,7 +88,7 @@ class VideoStore:
             self.url+f"/customers/{customer_id}",
             json=query_params
             )
-        print("response:", response)
+
         self.selected_customer = response.json()
         return response.json()
 
