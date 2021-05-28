@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+# from datetime import datetime
 
 class Customer:
     def __init__(self, url="https://retro-video-store-api.herokuapp.com", selected_customer=None):
@@ -11,7 +11,7 @@ class Customer:
             "name": name,
             "postal_code": postal_code,
             "phone": phone,
-            "registered_at": datetime.now()
+            # "registered_at": datetime.now()
         }
         response = requests.post(self.url+"/customers", json = query_params)
         return response.json()
@@ -44,4 +44,18 @@ class Customer:
         if not phone:
             phone = self.selected_customer["phone"]
         
-
+        query_params = {
+            "name": name,
+            "postal_code": postal_code,
+            "phone": phone
+        }
+        response = requests.put(self.url+f"/customers/{self.selected_customer['id']}",
+                                json=query_params)
+        print("response:", response)
+        self.selected_customer = response.json()["customer"]
+        return response.json()
+    
+    def delete_customer(self):
+        response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
+        self.selected_customer = None
+        return response.json()
