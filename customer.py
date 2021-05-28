@@ -67,3 +67,10 @@ class Customer:
         response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
         self.selected_customer = None
         return response.json()
+    
+    # prints out the selected customer's data
+    def print_selected(self):
+        if self.selected_customer:
+            print(f"Customer {self.selected_customer['name']} with id {self.selected_customer['id']} is currently selected\n")
+        else:
+            print("Apologies, that customer could not be found")
