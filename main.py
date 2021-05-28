@@ -97,7 +97,7 @@ def run_cli(play=True):
             "Please enter an ID: ")
             to_integer(video_id)
 
-            video.delete_video()
+            video.delete_video(video_id)
 
             print(f"Video {video_id} has been deleted")
 
@@ -148,8 +148,10 @@ def run_cli(play=True):
             "Please enter an ID: ")
             to_integer(customer_id)
 
-            customer.delete_customer(customer_id=customer_id)
-            print(f"Customer number {customer_id} has been deleted")
+            print_stars()
+            response = customer.delete_customer(customer_id)
+            print(response)
+            #print(f"Customer number {customer_id} has been deleted")
 
         # get info about one customer
         elif choice=='9':
@@ -164,8 +166,8 @@ def run_cli(play=True):
         # get info about all customers
         elif choice=='10':
             print_stars()
-            for customer in customer.list_customers():
-                print(customer)
+            for c in customer.list_customers():
+                print(c)
 
         # check out video to customer
         elif choice=='11':

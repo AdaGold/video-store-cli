@@ -35,6 +35,7 @@ class Video:
         response = requests.delete(self.url+f"/videos/{video_id}")
         if response.status_code != 200:
             return "Could not find video by that id"
+        print(response)
         return response.json()
 
     def list_videos(self):

@@ -31,8 +31,11 @@ class Customer:
 
     def delete_customer(self, customer_id=None):
         response = requests.delete(self.url+f"/customers/{customer_id}")
-        if response.status_code != 200:
+        if response.status_code == 404:
             return "Could not find customer by that id"
+        elif response.status_code != 200:
+            return "Does this customer already have a rental?"
+        print(response)
         return response.json()
 
     def list_customers(self):
