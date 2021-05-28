@@ -93,7 +93,7 @@ def run_cli(play=True):
                 print(response)
 
         elif choice=="3":
-            genre = ("What genre are you interested in? ")
+            genre = input("What genre are you interested in? ")
             response = videos.get_videos_by_genre(genre)
             print_stars()
             print(f"Videos in {genre} genre: ", response)
