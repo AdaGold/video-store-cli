@@ -1,8 +1,8 @@
 #installed request in local machine 
 import requests
 from video_store import Videostore
-from customer import Customer
-from video_customer_relationship import Video_customer_relationship
+# from customer import Customer
+# from video_customer_relationship import Video_customer_relationship
 
 
 URL = "http://127.0.0.1:5000"
@@ -46,7 +46,7 @@ def list_options():
     print("You must select a video or customer before updating it, deleting it, check-in, or check-out.")
     return options
 
-def make_choice(options, video_store, customer):
+def make_choice(options, video_store):
     valid_choices = options.keys()
     choice = None
 
@@ -59,7 +59,7 @@ def make_choice(options, video_store, customer):
         print("Let's select a video!")
         choice = "5"
     else:
-        choice in ['7', '8'] and customer.selected_video == None
+        choice in ['7', '8'] and video_store.selected_customer == None
         print("You must select a customer before updating it or deleting it.")
         print("Let's select a customer")
         choice = "10"
@@ -71,8 +71,8 @@ def print_stars():
 
 def run_cli_video_store():
     video_store = Videostore(url="https://retro-video-store-api.herokuapp.com/")
-    customer_action = Customer(url="https://retro-video-store-api.herokuapp.com/")
-    video_customer_rela = Video_customer_relationship(url="https://retro-video-store-api.herokuapp.com/")
+    # customer_action = Customer(url="https://retro-video-store-api.herokuapp.com/")
+    # video_customer_rela = Video_customer_relationship(url="https://retro-video-store-api.herokuapp.com/")
 
     options = list_options()
 
@@ -80,8 +80,9 @@ def run_cli_video_store():
     while play==True:
 
         # get input and validate
-        choice = make_choice(options, video_store, customer)
-        video_store.print_selected()
+        choice = make_choice(options, video_store)
+        video_store.print_selected_video()
+        video_store.print_selected_customer()
 
 
 #All for videos 
@@ -128,70 +129,68 @@ def run_cli_video_store():
                 print("Selected video: ", video_store.selected_video)
 
 #All for customer 
-
-#create another customer_action here 
         elif choice == '6':
             print("Great! Let's create a new customer.")
             title = input("What is the title of the customer? ==> ")
             postal_code = input("What is customer's postal_code? ==> ")
             phone = input("What is customer's phone number? ==> ")
 
-            response = customer_action.create(title=title, postal_code=postal_code, phone=phone) #import not working for customer
+            response = video_store.create(title=title, postal_code=postal_code, phone=phone) #import not working for customer
             print("New customer:", response["customer"])
         
-        elif choice == '2':
-            print(f"Great! Let's update the customer: {customer_action.selected_customer}")
+        elif choice == '7':
+            print(f"Great! Let's update the customer: {video_store.selected_customer}")
             title = input("What is the new title of your video? ")
             postal_code = input("What is customer's new postal_code? ==> ")
             phone = input("What is customer's new phone number? ==> ")
 
-            response = customer_action.update(title=title, postal_code=postal_code, phone=phone) #import not working for customer )
+            response = video_store.update(title=title, postal_code=postal_code, phone=phone) #import not working for customer )
             print("Updated customer:", response["customer"])
 
-        elif choice=='3':
-            customer_action.delete()
+        elif choice =='8':
+            video_store.delete()
             print("Customer has been deleted.")
-            print(customer_action.list())
+            print(video_store.list())
         
-        elif choice=='4':
+        elif choice =='9':
             print("Customer: ")
             print_stars()
-            for customer in customer_action.list():
+            for customer in video_store.list():
                 print(customer)
 
-        elif choice=='5':
+        elif choice =='10':
             select_by = input("Would you like to select by? Enter customer title or postal_code or phone: ")
-            if select_by=="title":
+            if select_by == "title":
                 title = input("Which customer title would you like to select? ")
-                customer_action.get(title=title)
+                video_store.get(title=title)
 
-            elif select_by=="postal_code":
-                id = input("Which postal_code would you like to select? ")
-                if id.isString():
+            elif select_by == "postal_code":
+                postal_code = input("Which postal_code would you like to select? ")
+                if postal_code.isString():
                     postal_code = str(postal_code)
-                    customer_action.get(postal_code=postal_code)
+                    video_store.get(postal_code=postal_code)
 
             elif select_by=="phone":
                 phone = input("Which phone would you like to select? ")
                 if phone.isString():
                     phone = str(phone)
-                    customer_action.get(phone=phone)
+                    video_store.get(phone=phone)
 
             else:
                 print("Could not select. Please enter title or postal_code or phone.")
             
-            if customer_action.selected_customer:
-                print("Selected customer: ", customer_action.selected_customer)
+            if video_store.selected_customer:
+                print("Selected customer: ", video_store.selected_customer)
 
-                video_customer_rela.selected_customer = customer_action.selected_customer
+                video_store.selected_customer = video_store.selected_customer
 
 #make relationship between video and customer 
         elif choice=='11':
-            response = video_customer_rela.check_in()
+            response = video_store.check_in()
             print("Video check-in: ", response["video"])
 
         elif choice=='12':
-            response = video_customer_rela.check_out()
+            response = video_store.check_out()
             print("Video check-out: ", response["video"])
 
         elif choice=='13':
