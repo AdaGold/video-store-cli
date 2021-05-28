@@ -1,161 +1,79 @@
-import requests
+from video import is_int
+from customer import print_stars, get_main_menu_choice
 
-class Rental:
-    def __init__(self, url="http://localhost:5000", selected_customer=None, selected_video=None):
-        self.url = url
-        self.selected_customer = selected_customer
-        self.selected_video = selected_video
+# Select rental option
+def get_rental_choice():
+    options = {
+        "1": "Check out rental", 
+        "2": "Chech in rental",
+        "3": "Back to main menu"
+        }
     
-    # CUSTOMER
-    def create_customer(self, name=None, postal_code=None, phone=None):
-        if not name:
-            name = "Default Name"
-        if not postal_code:
-            postal_code = None
-        if not phone:
-            phone = None
+    print("\nThese are the actions you can perform: \n")
+    for choice_num in options:
+        print(f"Option {choice_num}. {options[choice_num]}")
 
-        query_params = {
-            "name": name,
-            "postal_code": postal_code,
-            "phone": phone,
-        }
-        response = requests.post(self.url+"/customers",json=query_params)
-        return response.json()
+    valid_choices = options.keys()
+    customer_choice = None
 
-    def list_customers(self):
-        response = requests.get(self.url+"/customers")
-        return response.json()
-
-    def get_customer(self, name=None, id=None):
-        
-        for customer in self.list_customers():
-            if name:
-                if customer["name"].lower()==name.lower():
-                    id = customer["id"]
-                    self.selected_customer = customer
-            elif id == customer["id"]:
-                self.selected_customer = customer
-
-        if self.selected_customer == None:
-            return "Could not find customer by that name or id"
-
-        response = requests.get(self.url+f"/customers/{id}")
-        return response.json()
-
-    def update_customer(self,name=None,postal_code=None,phone=None):
-        if not name:
-            name = self.selected_customer["name"]
-        if not postal_code:
-            postal_code = self.selected_customer["postal_code"]
-        if not phone:
-            phone = self.selected_customer["phone"]
-
-        query_params = {
-        "name": name,
-        "postal_code": postal_code,
-        "phone": phone
-        }
-        response = requests.put(
-            self.url+f"/customers/{self.selected_customer['id']}",
-            json=query_params
-            )
-
-        self.selected_customer = response.json()
-        return response.json()
-
-    def delete_customer(self):
-        response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
-        self.selected_customer = None
-        return response.json()
+    while customer_choice not in valid_choices:
+        if customer_choice != None:
+            print("\nInvalid option.")
+            customer_choice = input("\nMake your selection using valid option number: ")
+        else:
+            customer_choice = input("\nMake your selection using the option number: ")
     
-    # def mark_complete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_complete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
+    return customer_choice
 
-    # def mark_incomplete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_incomplete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
+# Response to selected rental option
+def respond_rental_choice(choice, cvr, main_menu_choice):
+    if choice=='1':
+        cvr.print_list_reference()
+        print("\nTo rent a video to a customer please enter following infomation: ")
+        customer_id=input("Customer id: ") 
+        if is_int(customer_id):
+            cvr.get_customer(id=is_int(customer_id))
 
-    def print_selected_customer(self):
-        if self.selected_customer:
-            print(f"Customer with id {self.selected_customer['id']} is currently selected\n")
+        video_id=input("Video id: ")
+        if is_int(video_id):
+            cvr.get_video(id=is_int(video_id))
 
-    # VIDEO
-    def create_video(self, title=None, release_date=None, total_inventory=None):
-        if not title:
-            title = "Default Title"
-        if not release_date:
-            release_date = None
-        if not total_inventory:
-            total_inventory = None
+        if not cvr.selected_video or not cvr.selected_customer:
+            print("Invalid customer id or video id, could not check out.")
+        else:
+            cvr.check_out(video_id=video_id, customer_id=customer_id)
+            print_stars()
+            if "message" in cvr.selected_rental:
+                print("View check-out info: ", cvr.selected_rental["message"])
+            elif "Message" in cvr.selected_rental:
+                print("View check-out info: ", cvr.selected_rental["Message"])
+            else:
+                print("View check-out info: ", cvr.selected_rental)
 
-        query_params = {
-            "title": title,
-            "release_date": release_date,
-            "total_inventory": total_inventory,
-        }
-        response = requests.post(self.url+"/videos",json=query_params)
-        return response.json()
+    elif choice == "2":
+        cvr.print_list_reference()            
+        print("\nTo return a video please enter following infomation: ")
+        customer_id=input("Customer id: ") 
+        if is_int(customer_id):
+            cvr.get_customer(id=is_int(customer_id))
 
-    def list_videos(self):
-        response = requests.get(self.url+"/videos")
-        return response.json()
+        video_id=input("Video id: ")
+        if is_int(video_id):
+            cvr.get_video(id=is_int(video_id))
 
-    def get_video(self, title=None, id=None):
-        
-        for video in self.list_videos():
-            if title:
-                if video["title"].lower()==title.lower():
-                    id = video["id"]
-                    self.selected_video = video
-            elif id == video["id"]:
-                self.selected_video = video
+        if not cvr.selected_video or not cvr.selected_customer:
+            print("Invalid customer id or video id, could not check out.")
+        else:
+            cvr.check_in(video_id=video_id, customer_id=customer_id)
+            print_stars()
+            if "message" in cvr.selected_rental:
+                print("View check-in info: ", cvr.selected_rental["message"])
+            else:
+                print("View check-in info: ", cvr.selected_rental)
 
-        if self.selected_video == None:
-            return "Could not find video by that title or id"
-
-        response = requests.get(self.url+f"/videos/{id}")
-        return response.json()
-
-    def update_video(self,title=None,release_date=None,total_inventory=None):
-        if not title:
-            title = self.selected_video["title"]
-        if not release_date:
-            release_date = self.selected_video["release_date"]
-        if not total_inventory:
-            total_inventory = self.selected_video["total_inventory"]
-
-        query_params = {
-        "title": title,
-        "release_date": release_date,
-        "total_inventory": total_inventory
-        }
-        response = requests.put(
-            self.url+f"/videos/{self.selected_video['id']}",
-            json=query_params
-            )
-
-        self.selected_video = response.json()
-        return response.json()
-
-    def delete_video(self):
-        response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
-        self.selected_video = None
-        return response.json()
+    else:
+        main_menu_choice = get_main_menu_choice()
     
-    # def mark_complete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_complete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
+    print_stars()
 
-    # def mark_incomplete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_incomplete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
-
-    def print_selected_video(self):
-        if self.selected_video:
-            print(f"Video with id {self.selected_video['id']} is currently selected\n")    
+    return main_menu_choice

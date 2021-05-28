@@ -1,35 +1,36 @@
-from rental import Rental
-from customer_options import *
-from video_options import *
-from menu_options import *
+from cvr import CVR
+from customer import get_main_menu_choice, get_customer_choice, print_stars, respond_customer_choice
+from video import get_video_choice, respond_video_choice
+from rental import get_rental_choice, respond_rental_choice
 
 URL = "http://127.0.0.1:5000"
-BACKUP_URL = "https://retro-video-store-api-kl.herokuapp.com/"
+BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 def main(play=True):
-    #initialize rental
-    rental = Rental(url=BACKUP_URL)
+    #initialize cvr
+    cvr = CVR(url=BACKUP_URL)
     
-    #print record type
+    #print and select main menu options
     main_menu_choice = get_main_menu_choice()
 
     while play==True:
-        # get input and validate
+        # print response to selected main menu option
         if main_menu_choice == "a":
-            choice = get_customer_choice(rental)
-            main_menu_choice = respond_customer_choice(choice, rental, main_menu_choice)
+            choice = get_customer_choice()
+            main_menu_choice = respond_customer_choice(choice, cvr, main_menu_choice)
         elif main_menu_choice == "b":
-            choice = get_video_choice(rental)
-            main_menu_choice = respond_video_choice(choice, rental, main_menu_choice)
+            choice = get_video_choice()
+            main_menu_choice = respond_video_choice(choice, cvr, main_menu_choice)
         elif main_menu_choice == "c":
-            pass
+            choice = get_rental_choice()
+            main_menu_choice = respond_rental_choice(choice, cvr, main_menu_choice)
         elif main_menu_choice == "d":
-            pass
-        elif main_menu_choice == "e":
             play=False
-            print("\nThanks for using the Video Store CLI!")
+            print_stars()
+            print("Thanks for using the Video Store CLI!")
+            print_stars()
         else:
-            print("\nInvalid option.")
+            print("\nInvalid option.\n")
             main_menu_choice = input("Make your selection using valid option letters(A ~ E): ")
 
 
