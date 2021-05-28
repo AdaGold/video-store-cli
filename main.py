@@ -4,11 +4,12 @@ from video_store import VideoStore
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
-def main():
-    print("✨✨✨WELCOME TO RETRO VIDEO STORE✨✨✨")
-
 def print_divider():
-    print("\noOoOoOoOoOooOoOoOoOoOooOoOoOoOoOo\n")
+    print("\noOoOoOoOoOooOoOoOoOoOooOoOoOoOoOoOoOoOoO\n")
+
+def main():
+    print_divider()
+    print("✨✨✨WELCOME TO RETRO VIDEO STORE✨✨✨")
     
 def list_options():
 
@@ -16,13 +17,13 @@ def list_options():
         "1": "Create a new video record", 
         "2": "Update a video record",
         "3": "Delete a video record", 
-        "4": "Get information of all videos", 
+        "4": "Get information for all videos", 
         "5": "Select a video", 
         "6": "Create a new customer record",
         "7": "Update a customer record",
         "8": "Delete a customer record",
         "9": "Select a customer",
-        "10": "Get information of all customers",
+        "10": "Get information for all customers",
         "11": "Check out a video to a customer",
         "12": "Check in a video from a customer",
         "13": "List all options",
@@ -30,7 +31,7 @@ def list_options():
         }
 
     print_divider()
-    print("These are the actions you can perform")
+    print("These are the actions you can perform: ")
     print_divider()
     
     for choice_num in options:
@@ -45,7 +46,7 @@ def make_choice(options, video_store):
     choice = None
 
     while choice not in valid_choices:
-        print("What would you like to do? Select 13 to see all options again")
+        print("What would you like to do? Select 13 and 14 to quit to see all options again")
         choice = input("Make your selection using the option number: ")
 
     if choice in ['2','3'] and video_store.selected_video == None:
