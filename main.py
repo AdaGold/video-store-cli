@@ -10,19 +10,25 @@ def print_stars():
     print("\n*******************************\n")
 
 def list_options():
-    options = {
+    video_options = {
         "1": "Get detailed information for all videos",
         "2": "Look up video",
         "3": "Look up videos by genre",
         "4": "Add a video to the inventory",
         "5": "Edit video information",
-        "6": "Delete a video from the inventory",
+        "6": "Delete a video from the inventory"
+    }
+
+    customer_options = {
         "7": "Get detailed information for all customers",
         "8": "Look up customer",
         "9": "Add a customer to the database",
         "10": "Edit customer information",
         "11": "Delete a customer from the database",
-        "12": "Look up a customer's checked-out videos",
+        "12": "Look up a customer's checked-out videos"
+    }
+
+    rental_options = {
         "13": "Check out a video",
         "14": "Check in a video",
         "15": "List current rentals",
@@ -31,16 +37,28 @@ def list_options():
 
 
     print_stars()
-    print("Welcome to the Main Menu!\n")
-    print("These are your options:\n")
+    menu_heading = pyfiglet.figlet_format("MAIN MENU", font = "contessa")
+    print(menu_heading)
 
+    video_heading = pyfiglet.figlet_format("VIDEO ACTIONS", font = "digital")
+    print(video_heading)
+    for choice_num in video_options:
+        print(f"Option {choice_num}. {video_options[choice_num]}")
 
-    for choice_num in options:
-        print(f"Option {choice_num}. {options[choice_num]}")
+    customer_heading = pyfiglet.figlet_format("CUSTOMER ACTIONS", font = "digital")
+    print(f"\n{customer_heading}")
+    for choice_num in customer_options:
+        print(f"Option {choice_num}. {customer_options[choice_num]}")
+
+    rental_heading = pyfiglet.figlet_format("RENTAL ACTIONS", font = "digital")
+    print(f"\n{rental_heading}")
+    for choice_num in rental_options:
+        print(f"Option {choice_num}. {rental_options[choice_num]}")
 
     print_stars()
 
-    return options
+    all_options = {**video_options, **customer_options, **rental_options}
+    return all_options
 
 
 def make_choice(options):
