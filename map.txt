@@ -1,0 +1,89 @@
+select an option
+run options command
+then returns to select option
+then I will write a quit
+
+
+if user selects 1 "Add New Reel":
+    post Method for Video
+    params needed 
+      video = Video(title=request_body["title"],
+                    release_date=request_body["release_date"],
+                    inventory=request_body["total_inventory"],
+                    available_inventory=request_body["total_inventory"]
+                    )
+if user selects 2 "Edit Reel Info": need video_id
+    put Method for Video // params needed:
+
+    video.title = request_body["title"]
+    video.release_date = request_body["release_date"]
+    video.inventory = request_body["total_inventory"]
+
+if user selects 3 Delete Reel:
+    Delete Method for Video
+    video Id needed
+
+if users selects 4 Get All Reels Info:
+    get all videos 
+    def get_videos():
+    videos = Video.query.all()
+    video_list = []
+    for video in videos:
+        video_list.append(video.return_video_info())
+
+if user selects 5 Lookup specific video:
+    video_id needed 
+
+if users selects 6 Add Customer:
+    post method for Customer, params needed:
+        customer = Customer(customer_name=request_body["name"],
+                    postal_code=request_body["postal_code"],
+                    phone_number=request_body["phone"],
+                    )
+        
+if user selects 7 Update Customer Info:
+    put method for customer, info needed:
+        customer.customer_name = request_body["name"]
+    customer.postal_code = request_body["postal_code"]
+    customer.phone_number = request_body["phone"]
+
+if user selects 8 Delete Customer:
+    customer_id needed
+
+if user selects 9 Get All Customers:
+    customers = Customer.query.all()
+    customer_list = []
+    for customer in customers:
+        customer_list.append(customer.return_customer_info())
+
+if user selects 10 Get Specific Customer:
+        customer = Customer.query.get(customer_id)
+
+if users selects 11 Checkout Reel:
+    Rental method 
+    params needed 
+    customer_id = request_body["customer_id"]
+    video_id = request_body["video_id"]
+
+if users selects 12 Checkin Reel:
+    rental method, params needed
+    customer_id = request_body["customer_id"]
+    video_id = request_body["video_id"]
+
+what about? Getting checked out info:
+    def get_video_checkedout_info(video_id):
+    video = Video.query.get(video_id)
+
+    if object_is_none(video):
+        return make_response({"details": "invalid data"}, 404)
+    
+    rentals = Rental.query.filter_by(video_id=video_id).all()
+    customer_list = []
+    for rental in rentals: 
+        customer_list.append({
+            "due_date": rental.due_date,
+            "name": rental.customer.customer_name,
+            "phone": rental.customer.phone_number,
+            "postal_code": rental.customer.postal_code
+            
+        })
