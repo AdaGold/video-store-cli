@@ -62,7 +62,8 @@ def main(play=True):
             total_inventory = input("What is the total inventory for this video? ")
             response = video.add_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
-            print("New video:", response["video"])
+            print(response)
+            # print("New video:", response["title"])
         
         # Option 2: Select a video
         elif choice == '2':
@@ -96,8 +97,9 @@ def main(play=True):
                     elif edit_option == "total inventory":
                         total_inventory = input("Please provide the desired total inventory amount ")
                     response = video.update_video(title, release_date, total_inventory)
-
-                    print("Video updated:", response["video"])
+                    
+                    print(response)
+                    # print("Video updated:", response["video"])
 
                 # Delete the selected video
                 elif next_step == '2':
