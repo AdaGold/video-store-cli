@@ -106,7 +106,7 @@ def run_cli(play=True):
             if video_id.isnumeric():
                 video_id = int(video_id)
                 info = video.get_video(video_id=video_id)
-                return print(info)
+                print(info)
         
         elif choice == "6":
             customer_name = input("Please enter customer name:  ")
@@ -140,11 +140,20 @@ def run_cli(play=True):
                 return print(info)
 
         elif choice == "11":
-            checkout_params = input("Please enter Customer id and Video id for checkout:  ")
+            customer_id = input("Please enter Customer id for checkout:  ")
+            video_id = input("Please enter Video id for checkout:  ")
+            response = video.checkout_video(customer_id=customer_id, video_id=video_id)
+            print(response)
         
         elif choice == "12":
-            checkin_params = input("Please enter customer id and Reel id for check-in: ")
-    
+            customer_id = input("Please enter Customer id for checkin:  ")
+            video_id = input("Please enter Video id for checkout:  ")
+            response = video.checkin_video(customer_id=customer_id, video_id=video_id)
+            print(response)
+
+        elif choice == "13":
+            play=False
+
 
 # def main():
 #     print("WELCOME TO RETRO VIDEO STORE")

@@ -36,4 +36,22 @@ class Video:
     def get_video(self, video_id=None):      
         response = requests.get(self.url+f"/videos/{video_id}")
         return response.json()
-        
+
+    def checkout_video(self, video_id=None, customer_id=None):
+
+        query_params = {
+            "video_id": video_id,
+            "customer_id": customer_id
+            }
+
+        response = requests.post(self.url + "/rentals/check-out", json=query_params)
+        return response.json()
+
+    def checkin_video(self, video_id=None, customer_id=None):
+        query_params = {
+            "video_id": video_id,
+            "customer_id": customer_id
+            }
+
+        response = requests.post(self.url + "/rentals/check-in", json=query_params)
+        return response.json()
