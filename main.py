@@ -11,11 +11,9 @@ def list_options():
     options = {
         "1" : "Add a Video", 
         "2" : "Select a Video",
-        "3" : "Delete a Video",
-        "4" : "Browse all Videos",
-        "5" : "Edit one Video",
-        "6" : "Add a new customer",
-        "7" : "Find a customer",
+        "3" : "Browse all Videos",
+        "4" : "Add a new customer",
+        "5" : "Find a customer",
         "8" : "Remove customer",
         "9" : "Update customer profile",
         "10" : "View all customers",
@@ -24,28 +22,19 @@ def list_options():
         "0" : "List all options",
         "99" : "Close up for the day!"
     }
+    
     for choice in options:
         print(f"Option {choice}: {options[choice]}")
     return options
 
-def make_choice(options, video, customer, rental):
-    valid_choices = options.keys()
-    choice = None
+def make_choice(all_options, video, customer, message = None, choice = None):
+    valid_choices = all_options.keys()
 
     while choice not in valid_choices:
-        print(f"Please select from the valid options, select 0 to view them again")
+        message = print(f"Please select from the valid options, select 0 to view them again")
         choice = input("Make your selection: ")
     
-    if choice in ["5", "3"] and video.selected_video == None:
-        print("You must select a video before editing!")
-        choice = "2"
-    
-    if choice in ["8", "9"] and customer.selected_customer == None:
-        print("You must select a customer before editing!")
-        chioce = "7"
-    
     return choice
-
 
 def main(store_open=True):
 
@@ -55,7 +44,7 @@ def main(store_open=True):
     options = list_options()
 
     while store_open:
-        choice = make_choice(options, video, customer, rental)
+        choice = make_choice(options, video, customer)
         
         if choice == '1':
             print("Let's add a video!")
@@ -80,31 +69,34 @@ def main(store_open=True):
             else:
                 print("Please enter title, id, or release date. ")
             
+            video.print_selected()
+
             if video.selected_video:
-                video.print_selected()
+                next_step = input("What would you like to do with the video? Select 1 to delete, or 2 to edit.")
 
-        
-        elif choice == '3':
-            video.delete_video()
+                if next_step == '1':
+                    print(f"Video {video.selected_video['title']} is being deleted.")
+                    video.delete_video()
+                
+                elif next_step == '2':
+                    print(f"Great! Let's edit {video.selected_video['title']}")
+                    update = input("Would you like to edit the title, release date, or inventory?")
+                    if update == 'title':
+                        title = input("What's the new title?")
+                    elif update == 'release_date':
+                        release_date = input("What's the correct release date?")
+                    elif update == 'inventory':
+                        total_inventory = input("What's the new inventory total?")
+                    response = video.update_video(title, release_date, total_inventory)
 
-            print(video.list_videos())
+                    print("Updated video:", response["video"])
+                
+
 
         elif choice == '4':
-            for video in video.list_videos():
-                print(video)
+            print(video.list_videos())
         
-        elif choice == '5':
-            print(f"Great! Let's edit {video.selected_video}")
-            update = input("Would you like to edit the title, release date, or inventory?")
-            if update == 'title':
-                title = input("What's the new title?")
-            elif update == 'release_date':
-                release_date = input("What's the correct release date?")
-            elif update == 'inventory':
-                total_inventory = input("What's the new inventory total?")
-            response = video.update_video(title, release_date, total_inventory)
-
-            print("Updated video:", response["video"])
+        
         
         elif choice == '6':
             print("Let's add a new customer!")
@@ -132,7 +124,8 @@ def main(store_open=True):
             else:
                 print("Please enter name, phone, or id")
         
-            customer.print_selected() 
+            customer.print_selected()
+
         
         elif choice == '8':
             customer.delete_customer()
@@ -151,8 +144,7 @@ def main(store_open=True):
             response = customer.update_customer(name, phone, postal_code)
         
         elif choice == '10':
-            for customer in customer.list_customers():
-                print(customer)
+            print(customer.list_customers())
         
         elif choice == '11':
             customer_id = input("Which customer id is renting?")
@@ -164,8 +156,8 @@ def main(store_open=True):
         elif choice == '12':
             customer_id = input("Which customer id is returning?")
             video_id = input("Which video id are they returning?")
-
             response = rental.check_in(int(customer_id), int(video_id))
+            
             print("Thanks for bringing it back!")
 
         elif choice == '0':

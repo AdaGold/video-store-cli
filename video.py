@@ -60,4 +60,4 @@ class Video:
         
     def print_selected(self):
         if self.selected_video:
-            print(f"Video with id {self.selected_video['id']} is currently selected.")
+            print(f"Video {self.selected_video['title']} is currently selected.")
