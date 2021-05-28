@@ -6,7 +6,7 @@ class Rental:
         self.url = url
         self.selected_rental = selected_rental
 
-    def create_rental(self, customer_id=0, video_id=0):
+    def create_rental(self, customer_id, video_id):
         query_params = {
             "customer_id": customer_id,
             "video_id": video_id
@@ -19,7 +19,7 @@ class Rental:
         response = requests.get(self.url+"/rentals")
         return response.json()
 
-    def update_video(self, customer_id=0, video_id=0):
+    def update_video(self, customer_id, video_id):
         for rental in self.list_rentals():
             if customer_id == rental["customer_id"] and video_id == rental["video_id"]:
                 self.selected_rental = rental

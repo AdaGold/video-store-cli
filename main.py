@@ -22,9 +22,8 @@ def list_options():
         "3": "To manage rentals, type 3",
         "4": "To quit, type 4"
     }
-
-    print("Please choose from the following menu options:")
     display(OPTION_LINE)
+    print("Please choose from the following menu options:\n")
 
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")
@@ -40,7 +39,7 @@ def make_choices(options):
         display(LINE)
         print("What would you like to do? ")
         choice = input("Make your selections using the option number: ")
-        display(LINE)
+        # display(LINE)
 
     return choice
 
@@ -53,8 +52,8 @@ def customer_options():
         "5": "To delete a Customer, type 5",
         "6": "To return to the main menu, type 6"
     }
-    print("Please choose from the following Customer menu options:")
     display(OPTION_LINE)
+    print("Please choose from the following Customer menu options:\n")
 
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")
@@ -171,8 +170,8 @@ def video_options():
         "5": "To delete a Video, type 5",
         "6": "To return to the main menu, type 6"
     }
-    print("Please choose from the following Video menu options:")
     display(OPTION_LINE)
+    print("Please choose from the following Video menu options:\n")
 
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")
@@ -288,8 +287,8 @@ def rental_options():
         "3": "To check in a rental, type 3",
         "4": "To return to the main menu, type 4"
     }
-    print("Please choose from the following Rental menu options:")
     display(OPTION_LINE)
+    print("Please choose from the following Rental menu options:\n")
 
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")

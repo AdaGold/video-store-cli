@@ -5,8 +5,7 @@ class Video:
         self.url = url
         self.selected_video = selected_video
 
-    def create_video(self, title="Default Title", release_date="Default Date", \
-                total_inventory=0, available_inventory=0):
+    def create_video(self, title, release_date, total_inventory, available_inventory=0):
         query_params = {
             "title": title,
             "release_date": release_date,
@@ -36,7 +35,7 @@ class Video:
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
-    def update_video(self, title=None, release_date=None, total_inventory=None):
+    def update_video(self, title, release_date, total_inventory):
         if not title:
             title = self.selected_video["title"]
         if not release_date:

@@ -22,8 +22,7 @@ class Customer:
         response = requests.get(self.url+"/customers")
         return response.json()
 
-    def get_customer(self, name=None, id=None):
-
+    def get_customer(self, name, id):
         for customer in self.list_customers():
             if name:
                 if customer["name"] == name:
@@ -38,7 +37,7 @@ class Customer:
         response = requests.get(self.url+f"/customers/{id}")
         return response.json()
 
-    def update_customer(self, name=None, postal_code=None, phone=None):
+    def update_customer(self, name, postal_code, phone):
         if not name:
             name = self.selected_customer["name"]
         if not postal_code:
