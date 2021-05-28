@@ -1,4 +1,5 @@
 import requests
+import pyfiglet
 from customers import Customers
 from videos import Videos
 from rentals import Rentals
@@ -26,15 +27,13 @@ def list_options():
         "14": "Check in a video",
         "15": "List current rentals",
         "16": "List overdue rentals",
-        "17": "Quit CLI",
-        "o": "See all options"
     }
 
 
     print_stars()
-    print("Welcome to the Video Store CLI!")
-    print("These are your options:")
-    print_stars()
+    print("Welcome to the Main Menu!\n")
+    print("These are your options:\n")
+
 
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")
@@ -46,10 +45,11 @@ def list_options():
 
 def make_choice(options):
     valid_choices = options.keys()
+    other_valid_choices = ["o", "x"]
     choice = None
 
-    while choice not in valid_choices:
-        print("What would you like to do? Type 'o' to see all options.")
+    while choice not in valid_choices and choice not in other_valid_choices:
+        print("What would you like to do? Type 'o' to see all options. Type 'x' to exit store.")
         choice = input("Make your selection using the option number: ")
 
     return choice
@@ -60,6 +60,12 @@ def run_cli(play=True):
     customers = Customers()
     videos = Videos()
     rentals = Rentals()
+    
+    print_stars()
+
+    greeting = pyfiglet.figlet_format("Whit's Video Store", font = "slant")
+    print(greeting)
+
     options = list_options()
 
     while play == True:
@@ -126,7 +132,6 @@ def run_cli(play=True):
             print("Deleted video: ", response)
 
         elif choice == "7":
-            print_stars()
             for customer in customers.list_customers():
                 print(customer)
 
@@ -195,14 +200,24 @@ def run_cli(play=True):
             print("Confirmation: ", response)
         
         elif choice == "15":
+            current_rentals = False
             for rental in rentals.get_all_rentals():
+                current_rentals = True
                 print(rental)
+
+            if current_rentals == False:
+                print("\nNo current rentals")
 
         elif choice == "16":
+            overdue_rentals = False
             for rental in rentals.get_all_overdue():
+                overdue_rentals = True
                 print(rental)
 
-        elif choice == "17":
+            if overdue_rentals == False:
+                print("\nNo overdue rentals")
+
+        elif choice.lower() == "x":
             play = False
             print("Thanks for using the Video Store CLI!")
 
