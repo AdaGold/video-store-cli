@@ -164,6 +164,8 @@ class VideoStore:
     # "12": "Check IN a Video"
     def check_in_video_to_customer(self, customer_id=None, video_id=None):
         
+        #PROBLEM: customers can "check-in" videos that aren't checked out to them
+        #this needs to be fixed in the API
         query_params = {
             "customer_id": customer_id,
             "video_id": video_id
