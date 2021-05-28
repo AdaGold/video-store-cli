@@ -23,7 +23,7 @@ class Customer:
     def get_customer(self, name=None, id=None):
         for customer in self.list_customers():
             if name:
-                if name["title"] == name:
+                if customer["name"] == name:
                     id = customer["id"]
                     self.selected_customer = customer
             elif id == customer["id"]:

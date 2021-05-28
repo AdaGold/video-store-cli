@@ -8,19 +8,19 @@ class Rental:
         self.selected_rental = selected_rental
 
     def check_out(self, video_id=None, customer_id=None):
-        query_params = {
+        request_body = {
             "video_id": video_id,
             "customer_id": customer_id
         }
         response = requests.post(
-            self.url+"/rentals/check-out", json=query_params)
+            self.url+"/rentals/check-out", json=request_body)
         return response.json()
 
     def check_in(self, video_id=None, customer_id=None):
-        query_params = {
+        request_body = {
             "video_id": video_id,
             "customer_id": customer_id
         }
         response = requests.post(
-            self.url+"/rentals/check-in", json=query_params)
+            self.url+"/rentals/check-in", json=request_body)
         return response.json()
