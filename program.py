@@ -1,8 +1,4 @@
-# from model import Model # this will be rental, customer and video?
 from constants import *
-# from customer import Customer
-# import requests
-
 
 def start_program():
     print(f'\n\n {WELCOME} ')
@@ -18,22 +14,22 @@ def print_stars_centered():
 
 def show_options():
     options = [
-        # "# Video - all work"
+        # "# Video 
         "GET Info All Videos", 
         "Add A Video",
         "Get Info One Video ", 
         "Edit A Video", 
         "Delete A Video", 
-        # Rental - DOES NOT WORK YET
-        "CHECK_OUT a VIDEO to a CUSTOMER (11)-(Mark selected task complete - POST)",
-        "CHECK_IN a VIDEO from a CUSTOMER (Mark selected task incomplete - POST)",
-        # Customer - all work
+        # Rental 
+        "Check Out A Video To A Customer",
+        "Check In A Video From A Customer",
+        # Customer 
         "Get Information On All Customers", 
         "Add A Customer",
         "Get Information On One Customer", 
         "Edit A Customer", 
         "Delete A Customer",
-        # Flow
+        # Other
         "List All Options",
         "Quit"]
     for i in range(len(options)):
@@ -46,8 +42,7 @@ def make_choice(options):
     choice = None
     while (not choice and choice != 0) or not (isinstance(choice, int)) \
         or  int(choice) not in valid_choices:
-        # print("\nWhat would you like to do?\n\nSelect 12 to see all options again")
-        print(LOOP_OPTIONS) # added instead
+        print(LOOP_OPTIONS)  
         try:
             choice = int(input("\nMake your selection using the option number: "))
         except:
