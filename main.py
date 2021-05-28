@@ -1,4 +1,3 @@
-import requests
 from video import Video
 from customer import Customer
 from rental import Rental
@@ -159,9 +158,10 @@ def main(store_open=True):
         elif choice == '7':
             customer_id = input("Which customer id is renting?")
             video_id = input("Which video id are they renting?")
-            response = rental.check_out(customer_id, video_id)
+            response = rental.check_out(int(customer_id), int(video_id))
+            print(response)
             if response.status_code != 200:
-                print("Someting isn't right")
+                print("I'm sorry, I'm unable to complete that transaction.")
             else:
                 print("Enjoy the movie!")
 
@@ -169,7 +169,7 @@ def main(store_open=True):
         elif choice == '8':
             customer_id = input("Which customer id is returning?")
             video_id = input("Which video id are they returning?")
-            response = rental.check_in(customer_id, video_id)
+            response = rental.check_in(int(customer_id), int(video_id))
             if response.status_code != 200:
                 print("Someting isn't right")
             else:

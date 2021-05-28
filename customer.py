@@ -7,6 +7,7 @@ class Customer:
         self.selected_customer = selected_customer
 
     def add_customer(self, name = "Default Name", phone = None, postal_code = None, registered_at = None):
+#adds a customer with query_params collected from MAIN
         query_params = {
             "name" : name,
             "phone" : phone,
@@ -16,6 +17,7 @@ class Customer:
         return response.json()
     
     def update_customer(self, name, phone, postal_code):
+#updates customer with query_params collected from MAIN
         if not name:
             title = self.selected_video["title"]
         if not phone:
@@ -32,10 +34,12 @@ class Customer:
         return response.json()
     
     def list_customers(self):
+#lists customers
         response = requests.get(self.url+"/customers")
         return response.json()
     
     def get_customer(self, name=None, id=None, phone=None, postal_code=None):
+#gets customer by name, phone, or id
         for customer in self.list_customers():
             if name:
                 if customer["name"]==name:
@@ -52,14 +56,17 @@ class Customer:
             return "I'm sorry, I couldn't find that customer."
         
         response = requests.get(self.url+f"/customers/{id}")
+
         return response.json()
 
     def delete_customer(self):
+#deletes one customer by id
         response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
         self.selected_customer = None
         return response.json()
         
     def print_selected(self):
+#prints customer selected with name
         if self.selected_customer:
             print(f"Customer {self.selected_customer['name']} is currently selected.")
         else:

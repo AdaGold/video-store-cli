@@ -6,6 +6,7 @@ class Video:
         self.selected_video = selected_video
 
     def add_video(self, title = "Default Title", release_date = None, total_inventory = None):
+#passes video to API with query params collected from MAIN
         query_params = {
             "title" : title,
             "release_date" : release_date,
@@ -15,6 +16,7 @@ class Video:
         return response.json()
     
     def update_video(self, title, release_date, total_inventory):
+#updates video in API with query params collected from MAIN
         if not title:
             title = self.selected_video["title"]
         if not release_date:
@@ -31,10 +33,12 @@ class Video:
         return response.json()
     
     def list_videos(self):
+#list all videos
         response = requests.get(self.url+"/videos")
         return response.json()
     
     def get_video(self, title=None, id=None, release_date=None):
+#gets a video with options to search by title, release_date, or id
         for video in self.list_videos():
             if title:
                 if video["title"]==title:
@@ -54,10 +58,14 @@ class Video:
         return response.json()
 
     def delete_video(self):
+#delete a selected video
         response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
         self.selected_video = None
         return response.json()
         
     def print_selected(self):
+#print the selected video by title
         if self.selected_video:
             print(f"Video {self.selected_video['title']} is currently selected.")
+        else:
+            print("Sorry, I couldn't find that video!")
