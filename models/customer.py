@@ -14,7 +14,7 @@ class Customer:
         response = requests.post(self.url+"/customers",json=query_params)
         return response.json()
 
-    def update_customer(self, customer_id=None, name=None,postal_code=None,
+    def update_customer(self, customer_id=None, name=None, postal_code=None,
         phone=0):
 
         query_params = {
@@ -22,17 +22,17 @@ class Customer:
             "postal_code": postal_code,
             "phone": phone
         }
-        response = requests.put(
-            self.url+f"/customers/{customer_id}",
-            json=query_params
-            )
+        response = requests.put(self.url+f"/customers/{customer_id}",
+            json=query_params)
+        if response.status_code != 200:
+            return "Could not find customer by that id"
         print("response:", response)
         return response.json()
 
     def delete_customer(self, customer_id=None):
-        if customer_id == None:
-            return "Could not find customer by that id"
         response = requests.delete(self.url+f"/customers/{customer_id}")
+        if response.status_code != 200:
+            return "Could not find customer by that id"
         return response.json()
 
     def list_customers(self):
@@ -40,8 +40,7 @@ class Customer:
         return response.json()
 
     def get_customer(self, customer_id=None):
-
         response = requests.get(self.url+f"/customers/{customer_id}")
-        if customer_id == None:
+        if response.status_code != 200:
             return "Could not find customer by that id"
         return response.json()

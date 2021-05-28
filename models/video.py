@@ -2,9 +2,8 @@ import requests
 from datetime import datetime
 
 class Video:
-    def __init__(self, url="http://localhost:5000", selected_video=None):
+    def __init__(self, url="http://localhost:5000"):
         self.url = url
-        self.selected_video = selected_video
 
     def add_video(self, title="Default Title", release_date=\
         "Default Release Date", total_inventory=0):
@@ -24,28 +23,26 @@ class Video:
             "release_date": release_date,
             "total_inventory": total_inventory
         }
-        response = requests.put(
-            self.url+f"/videos/{video_id}",
-            json=query_params
-            )
+
+        response = requests.put(self.url+f"/videos/{video_id}",
+            json=query_params)
+        if response.status_code != 200:
+            return "Could not find video by that id"
         print("response:", response)
         return response.json()
 
     def delete_video(self, video_id=None):
-        if video_id == None:
-            return "Could not find video by that id"
         response = requests.delete(self.url+f"/videos/{video_id}")
-        print(response)
+        if response.status_code != 200:
+            return "Could not find video by that id"
         return response.json()
 
     def list_videos(self):
         response = requests.get(self.url+"/videos")
-        print(response)
         return response.json()
 
     def get_video(self, video_id=None):
-
         response = requests.get(self.url+f"/videos/{video_id}")
-        if video_id == None:
+        if response.status_code != 200:
             return "Could not find video by that id"
         return response.json()

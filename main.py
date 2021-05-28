@@ -1,6 +1,6 @@
-from video import Video
-from customer import Customer
-from rental import Rental
+from models.video import Video
+from models.customer import Customer
+from models.rental import Rental
 import requests
 from utility import print_stars, to_integer, print_logo
 
@@ -39,7 +39,7 @@ def list_options():
 
     return options
 
-def make_choice(options, video): # what is video doing here?
+def make_choice(options, video):
     valid_choices = options.keys()
     choice = None
 
@@ -67,7 +67,6 @@ def run_cli(play=True):
 
         # add a video
         if choice=='1':
-            print(f"Let's add a video!")
             title=input("Please enter a title: ")
             release_date=input("Please enter a release date: ")
             total_inventory=input("How many copies are there total? ")
@@ -78,22 +77,24 @@ def run_cli(play=True):
 
         # update a video
         elif choice=='2':
-            video_id = input("Which video id would you like to update? ")
+            video_id = input("Which video would you like to update?\n"
+            "Please enter an ID: ")
             to_integer(video_id)
 
             title=input("Please enter a new title: ")
             release_date=input("Please enter a new release date: ")
             total_inventory=input("How many copies are there total? ")
 
-            response = video.update_video(video_id=video_id, title=title, release_date=release_date,
-            total_inventory=total_inventory)
+            response = video.update_video(video_id=video_id, title=title,
+            release_date=release_date, total_inventory=total_inventory)
 
             print_stars()
             print(f"Updated video id {video_id}")
 
         # delete a video
         elif choice=='3':
-            video_id = input("Which video id would you like to delete? ")
+            video_id = input("Which video would you like to delete?\n"
+            "Please enter an ID: ")
             to_integer(video_id)
 
             video.delete_video()
@@ -108,7 +109,8 @@ def run_cli(play=True):
 
         # get info about one video
         elif choice=='5':
-            video_id = input("Which video id would you like to select? ")
+            video_id = input("Which video would you like to view?\n"
+            "Please enter an ID: ")
             to_integer(video_id)
 
             selected_video = video.get_video(video_id=video_id)
@@ -122,16 +124,13 @@ def run_cli(play=True):
             phone=input("Please enter a phone number: ")
             response = customer.add_customer(name=name, postal_code=postal_code,
             phone=phone)
+            print(f"Customer {name} created")
 
         # update a customer
         elif choice=='7':
             customer_id = input("Which customer would you like to update?\n"
             "Please enter an ID: ")
             to_integer(customer_id)
-
-            if not customer_id:
-                print("This customer doesn't exist!")
-            # does this work?
 
             name=input("Please enter a new name: ")
             postal_code=input("Please enter a new postal code: ")
@@ -158,10 +157,6 @@ def run_cli(play=True):
             "Please enter an ID: ")
             to_integer(customer_id)
 
-            # why doesn't this print when customer_id doesn't exist?
-            if not customer_id:
-                print("Sorry, that customer doesn't exist")
-
             selected_customer = customer.get_customer(customer_id=customer_id)
             if selected_customer:
                 print(selected_customer)
@@ -179,11 +174,10 @@ def run_cli(play=True):
             to_integer(customer_id)
             to_integer(video_id)
 
-            response = rental.check_out(customer_id=customer_id, video_id=video_id)
-            print("Video checked out!")
+            response = rental.check_out(customer_id=customer_id,
+            video_id=video_id)
+            print("Video successfully checked out")
             print(f"Video id {video_id} checked out to {customer_id}")
-            # why isn't this last print statement working?
-            # how can I access the customer name and video title?
 
         # check in video from customer
         elif choice=='12':
@@ -192,10 +186,10 @@ def run_cli(play=True):
             to_integer(customer_id)
             to_integer(video_id)
 
-            response = rental.check_in(customer_id=customer_id, video_id=video_id)
+            response = rental.check_in(customer_id=customer_id,
+            video_id=video_id)
+            print("Video successfully checked in")
             print(f"Video {video_id} checked in from {customer_id}")
-            # why isn't this last print statement working?
-            # how can I access the customer name and video title?
 
         # list all options
         elif choice=='13':

@@ -10,8 +10,8 @@ class Rental:
             "customer_id": customer_id,
             "video_id": video_id
         }
-        response = requests.post(self.url+"/rentals/check-out",json=query_params)
-        print(response)
+        response = requests.post(self.url+"/rentals/check-out",
+        json=query_params)
         return response.json()
 
     def check_in(self, customer_id=None, video_id=None):
@@ -19,6 +19,6 @@ class Rental:
             "customer_id": customer_id,
             "video_id": video_id
         }
-        response = requests.post(self.url+"/rentals/check-in",json=query_params)
-        print(response)
+        response = requests.post(self.url+"/rentals/check-in",
+        json=query_params)
         return response.json()
