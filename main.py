@@ -1,4 +1,5 @@
 from video import VideoOps
+from rental import RentalOps
 import requests
 from customer import CustomerOps
 from video import VideoOps
@@ -155,15 +156,18 @@ def run_cli(play=True):
 
         elif choice=="12":
             print("Woot, Let's get you a video or 5!")
-            print("What is your customer id?")
-            print("Select which movie ids you would like to check out!")
-            VideoOps.check_out()
+            id= input("What is your customer id?")
+            movie_id= input("Select which movie ids you would like to check out!")
+            rental=RentalOps()
+            rental.check_out(id, movie_id)
             
         elif choice=="13":
             print("Yay! Thanks for being on time with your return")
-            print("What is your customer id?")
-            print("Select which movie ids you are returning!")
-            VideoOps.check_in()
+            id= input("What is your customer id?")
+            movie_id= input("Select which movie ids you would like to check in!")
+            print("You are good to go!")
+            rental=RentalOps()
+            rental.check_in(id, movie_id)
         
         elif choice=='14':
             play=False
