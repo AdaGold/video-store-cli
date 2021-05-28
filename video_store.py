@@ -19,6 +19,7 @@ class VideoStore:
 
     # "2": "Edit a Video"
     def update_video(self, title=None, release_date=None, total_inventory=None):
+        
         if not title:
             title = self.selected_video["title"]
         if not release_date:
@@ -32,10 +33,9 @@ class VideoStore:
             "title": title,
             "release_date": release_date,
             "total_inventory": total_inventory,
-            # could get fancy and calculate available inventory
-            # available_inventory = (total_inventory - old value of total_inventory) + available_inventory
             "available_inventory": available_inventory
             }
+        
         response = requests.put(
             self.url+f"/videos/{self.selected_video['id']}",
             json=query_params

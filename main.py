@@ -1,5 +1,7 @@
 import requests
 from video_store import VideoStore
+import datetime
+
 
 URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
@@ -21,8 +23,17 @@ def run_cli(play=True):
             print("Ok! Let's record a new video.")
             title=input(">>> Title: ")
             release_date=input(">>> Release Date (MM-DD-YYYY): ")
+            if valid_release_date(release_date):
+                release_date = release_date
+            else:
+                print(">>> Invalid format. Please enter date as MM-DD-YYYY.")
+                release_date=input(">>> Release Date (MM-DD-YYYY): ")
+                if valid_release_date(release_date):
+                    release_date = release_date
+                else:
+                    print(">>> Invalid format again. Release date will default to NONE.")
+                    release_date = None
             total_inventory=input(">>> Total Inventory: ")
-
             response = video_store.create_video(title=title, release_date=release_date, total_inventory=total_inventory)
             print(f"New video with ID# {response['id']} was successfully recorded.")
 
@@ -40,7 +51,6 @@ def run_cli(play=True):
                 title=input(">>> Title: ")
                 release_date=input(">>> Release Date (MM-DD-YYYY): ")
                 total_inventory=input(">>> Total Inventory: ")
-                #available_inventory is NOT currently updating
                 response = video_store.update_video(
                                             title=title, 
                                             release_date=release_date, 
@@ -313,14 +323,17 @@ def continue_playing():
         continue_playing()
 
 
-# def video_options():
-#     pass
+def valid_release_date(date_string):
+  
+    format = "%m-%d-%Y"
+  
+    try:
+        datetime.datetime.strptime(date_string, format)
+        return True 
+    except ValueError:
+        print("This is the incorrect date string format. It should be MM-DD-YYYY")
+        return False
 
-# def customer_options():
-#     pass
-
-# def rental_options():
-#     pass 
 
 print("WELCOME TO RETRO VIDEO STORE")
 run_cli()
