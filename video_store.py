@@ -36,11 +36,11 @@ class Employee:
             if video["id"] == id:
                 self.selected_video = video
 
-        # if self.selected_video is None:
-        #     return "Could not find this video."
+        if self.selected_video is None:
+            return "Could not find this video."
 
-        # response = requests.get(self.url + f"/videos/{id}")
-        # return response.json()
+        response = requests.get(self.url + f"/videos/{id}")
+        return response.json()
 
     def update_video(
             self,

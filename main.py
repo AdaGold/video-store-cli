@@ -106,7 +106,8 @@ def select_video(employee):
     video_id = input("Enter video ID >> ")
     if video_id.isnumeric():
         video_id = int(video_id)
-        employee.get_one_video(id=video_id)
+        response = employee.get_one_video(id=video_id)
+        return response
     else:
         print("Could not select a video. Please, enter valid ID.")
 
@@ -199,9 +200,12 @@ def run_video_store_cli(active=True):
             elif choice == '5':
                 print("Get information about one video")
                 print("Select video.")
-                select_video(employee)
+                response = select_video(employee)
                 video = employee.selected_video
-                print_video(video)
+                if video is not None:
+                    print_video(video)
+                else:
+                    print(response)
 
             elif choice == '6':
                 # Quit
