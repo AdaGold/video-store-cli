@@ -132,10 +132,12 @@ def run_cli(play=True):
             release_date=input("What is the release date? ")
             total_inventory =input("What is the total inventory?")
             response = video.update_video(title=title, release_date=release_date, total_inventory=total_inventory)
-            print("Updated Video:", response["video"])
+            print(response)
+            print("Updated Video:", response["title"])
 
         elif choice=='10':
-            video.delete_video()
+            id = input("Which id would you like to delete?")
+            video.delete_video(id)
             print("Video has been deleted.")
 
             print(video.list_all_videos())
@@ -155,8 +157,7 @@ def run_cli(play=True):
             print("What is your customer id?")
             print("Select which movie ids you would like to check out!")
             VideoOps.check_out()
-
-
+            
         elif choice=="13":
             print("Yay! Thanks for being on time with your return")
             print("What is your customer id?")

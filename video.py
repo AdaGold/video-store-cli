@@ -23,14 +23,12 @@ class VideoOps:
         "total_inventory": total_inventory
         }
 
-        response = requests.put(self.url+"/videos/"+self.selected_video["id"], json=query_params)
+        response = requests.put(self.url+f"/videos/+{self.selected_video['id']}", json=query_params)
         return response.json()
 
-    def delete_video(self):
-        response = requests.delete(self.url+f"/videos/"+str(id))
-        response=response.json()
-        self.selected_video=response
-        return response
+    def delete_video(self, video_id):
+        response = requests.delete(self.url+f"/videos/{video_id}")
+        return response.json()
 
     def list_all_videos(self):
         response = requests.get(self.url+"/videos")
