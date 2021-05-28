@@ -71,6 +71,8 @@ def print_stars():
 
 def run_cli_video_store():
     video_store = Videostore(url="https://retro-video-store-api.herokuapp.com/")
+    customer_action = Customer(url="https://retro-video-store-api.herokuapp.com/")
+    video_customer_rela = Video_customer_relationship(url="https://retro-video-store-api.herokuapp.com/")
 
     options = list_options()
 
@@ -126,73 +128,71 @@ def run_cli_video_store():
                 print("Selected video: ", video_store.selected_video)
 
 #All for customer 
+
+#create another customer_action here 
         elif choice == '6':
             print("Great! Let's create a new customer.")
             title = input("What is the title of the customer? ==> ")
             postal_code = input("What is customer's postal_code? ==> ")
             phone = input("What is customer's phone number? ==> ")
 
-            response = customer.create_customer(title=title, postal_code=postal_code, phone=phone) #import not working for customer
+            response = customer_action.create(title=title, postal_code=postal_code, phone=phone) #import not working for customer
             print("New customer:", response["customer"])
         
         elif choice == '2':
-            print(f"Great! Let's update the customer: {customer.selected_customer}")
+            print(f"Great! Let's update the customer: {customer_action.selected_customer}")
             title = input("What is the new title of your video? ")
             postal_code = input("What is customer's new postal_code? ==> ")
             phone = input("What is customer's new phone number? ==> ")
 
-            response = customer.update_customer(title=title, postal_code=postal_code, phone=phone) #import not working for customer )
+            response = customer_action.update(title=title, postal_code=postal_code, phone=phone) #import not working for customer )
             print("Updated customer:", response["customer"])
 
         elif choice=='3':
-            customer.delete_customer()
+            customer_action.delete()
             print("Customer has been deleted.")
-            print(customer.list_customers())
+            print(customer_action.list())
         
         elif choice=='4':
-            print("Customer:")
+            print("Customer: ")
             print_stars()
-            for customer in customer.list_customers():
+            for customer in customer_action.list():
                 print(customer)
 
         elif choice=='5':
             select_by = input("Would you like to select by? Enter customer title or postal_code or phone: ")
             if select_by=="title":
                 title = input("Which customer title would you like to select? ")
-                customer.get_customer(title=title)
+                customer_action.get(title=title)
 
             elif select_by=="postal_code":
                 id = input("Which postal_code would you like to select? ")
                 if id.isString():
                     postal_code = str(postal_code)
-                    customer.get_customer(postal_code=postal_code)
+                    customer_action.get(postal_code=postal_code)
 
             elif select_by=="phone":
-                id = input("Which phone would you like to select? ")
-                if id.isString():
+                phone = input("Which phone would you like to select? ")
+                if phone.isString():
                     phone = str(phone)
-                    customer.get_customer(phone=phone)
+                    customer_action.get(phone=phone)
 
             else:
                 print("Could not select. Please enter title or postal_code or phone.")
             
-            if customer.selected_customer:
-                print("Selected customer: ", customer.selected_customer)
+            if customer_action.selected_customer:
+                print("Selected customer: ", customer_action.selected_customer)
+
+                video_customer_rela.selected_customer = customer_action.selected_customer
 
 #make relationship between video and customer 
         elif choice=='11':
-            response = video_store.check_in()
+            response = video_customer_rela.check_in()
             print("Video check-in: ", response["video"])
 
         elif choice=='12':
-            response = video_store.check_out()
+            response = video_customer_rela.check_out()
             print("Video check-out: ", response["video"])
-
-        # elif choice=='8':
-        #     for task in task_list.list_tasks():
-        #         task_list.get_task(id=task['id'])
-        #         task_list.delete_task()
-        #     print("Deleted all tasks.")
 
         elif choice=='13':
             list_options()
