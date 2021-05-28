@@ -12,6 +12,7 @@ def pzzas():
     print("\n************************************************\n")
 
 pzzas()
+pzzas()
 
 print(WELCOME)
 
@@ -37,7 +38,7 @@ def option_list():
         }
 
     pzzas()
-    print("The following are your options:")
+    print(OPTIONS)
     pzzas()
 
     for option in options:
@@ -277,4 +278,5 @@ run_cli()
 if __name__ == "__main__":
     print("******* ******* ******* ******* ******* ******* *******")
     print(THANKS)
+    print(AGAIN)
     main() 
