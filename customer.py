@@ -3,9 +3,9 @@ import datetime
 
 
 class Customer:
-    def __init__(self, url="https://retro-video-store-api.herokuapp.com", selected_customer=None):
+    def __init__(self, url="https://retro-video-store-api.herokuapp.com", selected_one=None):
         self.url = url
-        self.selected_customer = selected_customer
+        self.selected_one = selected_one
 
     def create_customer(self, name="Default Customer", postal_code="Default Postal", phone="Default Phone"):
         query_params = {
@@ -25,11 +25,11 @@ class Customer:
             if name:
                 if name["title"] == name:
                     id = customer["id"]
-                    self.selected_customer = customer
+                    self.selected_one = customer
             elif id == customer["id"]:
-                self.selected_customer = customer
+                self.selected_one = customer
 
-        if self.selected_customer == None:
+        if self.selected_one == None:
             return "Could not find customer by that name or ID"
 
         response = requests.get(self.url+f"/customers/{id}")
@@ -37,11 +37,11 @@ class Customer:
 
     def upgrade_customer(self, id=None, name=None, postal_code=None, phone=None):
         if not name:
-            title = self.selected_customer["name"]
+            title = self.selected_one["name"]
         if not postal_code:
-            release_date = self.selected_customer["postal_code"]
+            release_date = self.selected_one["postal_code"]
         if not phone:
-            total_inventory = self.selected_customer["phone"]
+            total_inventory = self.selected_one["phone"]
 
         query_params = {
             "name": name,
@@ -49,7 +49,7 @@ class Customer:
             "phone": phone
         }
         response = requests.put(
-            self.url+f"/customers/{self.selected_customer['id']}",
+            self.url+f"/customers/{self.selected_one['id']}",
             json=query_params
         )
         print("response:", response)
@@ -58,6 +58,6 @@ class Customer:
 
     def delete_customer(self):
         response = requests.delete(
-            self.url+f"/customers/{self.selected_customer['id']}")
-        self.selected_customer = None
+            self.url+f"/customers/{self.selected_one['id']}")
+        self.selected_one = None
         return response.json()
