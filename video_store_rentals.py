@@ -1,11 +1,9 @@
 import requests
 
 class Rental: 
-    def __init__(self, url="http://localhost:5000", selected_rental=None, selected_customer=None, selected_video=None):
+    def __init__(self, url="http://localhost:5000", selected_customer=None):
         self.url = url
-        self.selected_rentals = selected_rental
         self.selected_customer = selected_customer
-        # self.selected_video = selected_video
     
     def print_selected(self):
         if self.selected_customer:

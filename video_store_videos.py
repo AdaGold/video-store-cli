@@ -33,7 +33,7 @@ class Video:
                 self.selected_video = video
         
         if self.selected_video == None: 
-            return "Could not find video by that id"
+            return "Could not find video by that id or title"
         
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()

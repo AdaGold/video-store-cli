@@ -95,25 +95,15 @@ def run_cli(play=True):
 
             print_stars()
             print("Updated video:", response)
-        elif choice == '*':
-            id = input("Which video id would you like to select? ")
-            if id.isnumeric(): 
-                id = int(id)
-                video.get_video(id=id)
-            else: 
-                print("Could not select. Please enter id.")
-            
-            if video.selected_video: 
-                print_stars() 
-                print("Selected video: ", video.selected_video)
-            else: 
-                print("Could not find video by that id")
-        
-        elif choice == '3': 
-            video.delete_video() 
 
-            print_stars()
-            print("Video has been deleted.")
+        elif choice == '3': 
+            answer = input("Do you want to delete the seleted video, Yes or No? ")
+            if answer == "Yes": 
+                video.delete_video() 
+                print_stars()
+                print("Video has been deleted.")
+            else: 
+                print("Ok, the video has been kept. Please see below video data for confirmation! ")
 
             print_stars()
             print(video.list_videos())
@@ -124,8 +114,6 @@ def run_cli(play=True):
                 print(video)
         
         elif choice == '5': 
-            # print_stars()
-            # print("Please see below video details.")
             video.get_video()
 
         elif choice =='6':
@@ -148,32 +136,19 @@ def run_cli(play=True):
             print_stars()
             print("Updated customer:", response)
 
-        elif choice == '$':
-            id = input("Which customer id would you like to select? ")
-            if id.isnumeric(): 
-                id = int(id)
-                customer.get_customer(id=id)
-            else: 
-                print("Could not select. Please enter id.")
-            
-            if customer.selected_customer: 
-                print_stars() 
-                print("Selected customer: ", customer.selected_customer)
-            else: 
-                print("Could not find customer by that id")
-        
         elif choice == '8': 
-            customer.delete_customer() 
-
-            print_stars()
-            print("Customer has been deleted.")
-
+            answer = input("Do you want to delete the seleted customer, Yes or No? ")
+            if answer == "Yes": 
+                customer.delete_customer() 
+                print_stars()
+                print("Customer has been deleted.")
+            else: 
+                print("Ok, the customer has been kept. Please see below customer data for confirmation! ")
+            
             print_stars()
             print(customer.list_customers())
 
         elif choice == '9': 
-            # print_stars()
-            # print("Please see below video details.")
             customer.get_customer()
 
         elif choice == '10': 
@@ -183,9 +158,10 @@ def run_cli(play=True):
         
         elif choice =='11':
             print("Great! Let's check out a video for you!")
-            customer_id = input("Would you like to check out a video or check out for someone else? ")
-            if customer_id == "a video": 
-                customer_id = customer.selected_customer['id']
+            customer_id = input("What is your customer id? ")
+            answer = input("Would you like to check out a video or check out for someone else? ")
+            if answer == "a video": 
+                pass
             else: 
                 customer_id = input("What is that customer's id? ")
             video_id = input("What is the video id of the video that you want to rent? ")
@@ -196,9 +172,10 @@ def run_cli(play=True):
         
         elif choice =='12':
             print("Great! Let's check in the video for you!")
-            customer_id = input("Would you like to check in a video or check in for someone else? ")
-            if customer_id == "a video":
-                customer_id = customer.selected_customer['id']
+            customer_id = input("What is your customer id? ")
+            answer = input("Would you like to check in a video or check in for someone else? ")
+            if answer == "a video":
+                pass
             else: 
                 customer_id = input("What is that customer's id? ")
             video_id = input("What is the video id of the video that you want to return? ")
@@ -211,6 +188,39 @@ def run_cli(play=True):
             play=False
             print("\nThanks for using the Video store CLI!")
 
+        elif choice == '*':
+            select_by = input("What would you like to select by? Enter title or id: ")
+            if select_by== "title":
+                title = input("Which video title would you like to select? ")
+                print(video.get_video(title=title))
+            elif select_by=="id":
+                id = input("Which video id would you like to select? ")
+                if id.isnumeric(): 
+                    id = int(id)
+                    print(video.get_video(id=id))
+            else: 
+                print("Could not select. Please enter id or title")
+            
+            if video.selected_video: 
+                print_stars() 
+                print("Selected video: ", video.selected_video)
+        
+        elif choice == '$':
+            select_by = input("What would you like to select by? Enter name or id: ")
+            if select_by== "name":
+                name = input("What customer name would you like to enter? ")
+                print(customer.get_customer(name=name))
+            elif select_by=="id":
+                id = input("Which customer id would you like to select? ")
+                if id.isnumeric(): 
+                    id = int(id)
+                    print(customer.get_customer(id=id))
+            else: 
+                print("Could not select. Please enter id or name.")
+            
+            if customer.selected_customer: 
+                print_stars() 
+                print("Selected customer: ", customer.selected_customer)
 
 if __name__ == "__main__":
     run_cli()
