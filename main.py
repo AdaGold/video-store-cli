@@ -45,16 +45,36 @@ def make_choice(options, video, customer):
         choice = input("Make your selection using the option numbers 1-14: ")
     
     # if the choices need a video id, prompt user to select video with id 
-    if choice in ["2", "3"] and video.selected_video == None: 
-        print("You must select a video before updating it or deleting it.")
-        print("Let's select a video!")
-        choice = "5"
+    # if choice in ["2", "3"] and video.selected_video == None: 
+    #     print("You must select a video before updating it or deleting it.")
+    #     print("Let's select a video!")
+        # -------- shubha's suggestions, delete if breaks things -------- #
+        # select_by = input("Would you like to select by? Enter title or id: ")
+        # if select_by == "title": 
+        #     title = input("Which video title would you like to select? ")
+        #     video.get_video(title=title)
+        # elif select_by == "id": 
+        #     id = input("Which video id would you like to select? ")
+        #     if id.isnumeric(): 
+        #         id = int(id)
+        #         video.get_video(id=id)
+        # else: 
+        #     print("Could not select. Please enter id or title.")
+        
+        # if video.selected_video: 
+        #     print("Selected video: ", video.selected_video)
+        # make this into a helper function
+        # should this be a helper function in the class or in the main?
+        # prob main if it prints stuff out and takes input??? idk 
+        # -------- shubha's suggestions, delete if breaks things -------- #
+        # uncomment choice = 5 if it breaks 
+        # choice = "5"
     
     # if the choices need a customer id, prompt user to select customer with id 
-    if choice in ["7", "8"] and customer.selected_customer == None: 
-        print("You must select a customer before updating them or deleting them.")
-        print("Let's select a customer!")
-        choice = "9"
+    # if choice in ["7", "8"] and customer.selected_customer == None: 
+    #     print("You must select a customer before updating them or deleting them.")
+    #     print("Let's select a customer!")
+    #     choice = "9"
 
     # might not need a elif for 11 or 12
     # if the choices need a customer id, prompt user to select customer with id 
@@ -66,12 +86,55 @@ def make_choice(options, video, customer):
 
     return choice
 
+def select_video(video):
+    select_by = input("Would you like to select by? Enter title or id: ")
+    if select_by == "title": 
+        title = input("Which video title would you like to select? ")
+        video.get_video(title=title)
+    elif select_by == "id": 
+        id = input("Which video id would you like to select? ")
+        if id.isnumeric(): 
+            id = int(id)
+            video.get_video(id=id)
+    else: 
+        print("Could not select. Please enter id or title.")
+    
+    if video.selected_video: 
+        print("Selected video: ", video.selected_video)
+    else: 
+        print("ID not found")
+        return None
+
+    return video.selected_video
+
+def select_customer(customer):
+    select_by = input("Would you like to select by? Enter name or id: ")
+    if select_by == "name": 
+        name = input("Which customer name would you like to select? ")
+        customer.get_customer_by_id(name=name)
+    elif select_by == "id": 
+        id = input("Which customer id would you like to select? ")
+        if id.isnumeric(): 
+            id = int(id)
+            customer.get_customer_by_id(id=id)
+    else: 
+        print("Could not select. Please enter id or title.")
+    
+    if customer.selected_customer: 
+        print("Selected customer: ", customer.selected_customer)
+    else: 
+        print("ID not found")
+        return None
+
+    return customer.selected_customer
+
 def print_stars():
     print("**************************")
 
 def main(play=True):
     # print("WELCOME TO RETRO VIDEO STORE")
     print(welcome_message())
+    # print(blockbuster_header())
     # response = requests.get(BACKUP_URL + "/videos")
     # print(response.json())
 
@@ -89,8 +152,8 @@ def main(play=True):
         # get input and validate 
         choice = make_choice(options, video, customer)
 
-        video.print_selected()
-        customer.print_selected()
+        # video.print_selected() # do i need this still ?? 
+        # customer.print_selected()
 
         if choice =='1':
             print("Great! Let's add a new video.")
@@ -103,6 +166,28 @@ def main(play=True):
             print("Video added:", video_info) 
         
         elif choice =='2': 
+            # ----- made this into helper function --------#
+            # select_by = input("Would you like to select by? Enter title or id: ")
+            # if select_by == "title": 
+            #     title = input("Which video title would you like to select? ")
+            #     video.get_video(title=title)
+            # elif select_by == "id": 
+            #     id = input("Which video id would you like to select? ")
+            #     if id.isnumeric(): 
+            #         id = int(id)
+            #         video.get_video(id=id)
+            # else: 
+            #     print("Could not select. Please enter id or title.")
+            
+            # if video.selected_video: 
+            #     print("Selected video: ", video.selected_video)
+            # else: 
+            #     print("ID not found")
+            #     break
+            # ----- made this into helper function --------#
+            if select_video(video) is None:
+                break
+            print("------------------------------------")
             print(f"Great! Let's update the video: {video.selected_video}")
             title=input("What is the new title of the video? ")
             release_date=input("What is the new release date of the video? ")
@@ -110,9 +195,32 @@ def main(play=True):
             response = video.update_video(title=title, release_date=release_date, total_inventory=total_inventory)
             video_info = video.get_video(title=title, id=response["id"])
             print("Updated video:", video_info)
-            print(video.selected_video)
+            # this lines clears out the selected video after being done with the put request
+            video.selected_video = None
+            # print(video.selected_video)
 
         elif choice == '3':
+            # select_by = input("Would you like to select by? Enter title or id: ")
+            # if select_by == "title": 
+            #     title = input("Which video title would you like to select? ")
+            #     video.get_video(title=title)
+            # elif select_by == "id": 
+            #     id = input("Which video id would you like to select? ")
+            #     if id.isnumeric(): 
+            #         id = int(id)
+            #         video.get_video(id=id)
+            # else: 
+            #     print("Could not select. Please enter id or title.")
+            
+            # if video.selected_video: 
+            #     print("Selected video: ", video.selected_video)
+            # else: 
+            #     print("ID not found")
+            #     break
+            # ----- made this into helper function --------#
+            if select_video(video) is None:
+                break
+            print("------------------------------------")
             video.delete_video()
             print("Video has been deleted")
             print(video.list_videos())
@@ -120,24 +228,34 @@ def main(play=True):
         elif choice =='4': 
             print("Videos:")
             print_stars()
-            for video in video.list_videos(): 
-                print(video)
+            for each_video in video.list_videos(): 
+                print(each_video)
 
         elif choice == '5': 
-            select_by = input("Would you like to select by? Enter title or id: ")
-            if select_by == "title": 
-                title = input("Which video title would you like to select? ")
-                video.get_video(title=title)
-            elif select_by == "id": 
-                id = input("Which video id would you like to select? ")
-                if id.isnumeric(): 
-                    id = int(id)
-                    video.get_video(id=id)
-            else: 
-                print("Could not select. Please enter id or title.")
+            # select_by = input("Would you like to select by? Enter title or id: ")
+            # if select_by == "title": 
+            #     title = input("Which video title would you like to select? ")
+            #     video.get_video(title=title)
+            # elif select_by == "id": 
+            #     id = input("Which video id would you like to select? ")
+            #     if id.isnumeric(): 
+            #         id = int(id)
+            #         video.get_video(id=id)
+            # else: 
+            #     print("Could not select. Please enter id or title.")
             
-            if video.selected_video: 
-                print("Selected video: ", video.selected_video)
+            # if video.selected_video: 
+            #     print("Selected video: ", video.selected_video)
+                # try to do this to clear video after selected ... delete if it breaks
+                # yeah cant do this bc the others rely on it... for now. 
+                # try to get the other options not to rely on it by doing the logic in make choice 
+                # video.selected_video = None
+            
+            # video.print_selected()
+
+            select_video(video)
+
+# ---------------------customers---------------------- #
 
         elif choice == '6': 
             print("Great! Let's add a new customer.")
@@ -149,6 +267,9 @@ def main(play=True):
             print("Customer added:", customer_info) 
 
         elif choice == '7': 
+            if select_customer(customer) is None: 
+                break 
+            print("------------------------------------")
             print(f"Great! Let's update the customer: {customer.selected_customer}")
             name=input("What is the new name of the customer? ")
             postal_code=input("What is the new postal code of the customer? ")
@@ -156,36 +277,44 @@ def main(play=True):
             response = customer.update_customer(name=name, postal_code=postal_code, phone=phone)
             customer_info = customer.get_customer_by_id(name=name, id=response["id"])
             print("Updated customer:", customer_info)
-            print(customer.selected_customer)
+            customer.selected_customer = None
+            # print(customer.selected_customer)
 
         elif choice == '8':
+            if select_customer(customer) is None: 
+                break
+            print("------------------------------------")
             customer.delete_customer()
             print("Customer has been deleted")
             # print(customer.list_customers())
 
         elif choice == '9': 
-            select_by = input("Would you like to select by? Enter name or id: ")
-            if select_by == "name": 
-                name = input("Which customer name would you like to select? ")
-                customer.get_customer_by_id(name=name)
-            elif select_by == "id": 
-                id = input("Which customer id would you like to select? ")
-                if id.isnumeric(): 
-                    id = int(id)
-                    customer.get_customer_by_id(id=id)
-            else: 
-                print("Could not select. Please enter name or id.")
+            # select_by = input("Would you like to select by? Enter name or id: ")
+            # if select_by == "name": 
+            #     name = input("Which customer name would you like to select? ")
+            #     customer.get_customer_by_id(name=name)
+            # elif select_by == "id": 
+            #     id = input("Which customer id would you like to select? ")
+            #     if id.isnumeric(): 
+            #         id = int(id)
+            #         customer.get_customer_by_id(id=id)
+            # else: 
+            #     print("Could not select. Please enter name or id.")
             
-            if customer.selected_customer: 
-                print("Selected customer: ", customer.selected_customer)
+            # if customer.selected_customer: 
+            #     print("Selected customer: ", customer.selected_customer)
+            # customer.selected_customer = None
+            select_customer(customer)
 
         elif choice == '10':
             print("Customers:")
             print_stars()
-            for customer in customer.list_customers(): 
-                print(customer)
+            for each_customer in customer.list_customers(): 
+                print(each_customer)
+
 
         elif choice == '11': 
+            print(rental)
             print("You are checking out a video to a customer: ")
             video_id = input("Enter the video id: ")
             # check if it is a valid id 
@@ -200,15 +329,17 @@ def main(play=True):
             if customer_id.isnumeric():
                 customer_id = int(customer_id)
             # assign to selected_customer
+            print(f"test:{customer}")
             customer.selected_customer = customer.get_customer_by_id(id=customer_id)
             print(customer.selected_customer)
 
             # make a post request for checking out the id and plugging the instance of video and customer on there 
-            rental = rental.check_out_video(customer_id=customer_id, video_id=video_id)
-            print(f"Rental info: {rental}")
+            checked_out = rental.check_out_video(customer_id=customer_id, video_id=video_id)
+            print(f"Rental info: {checked_out}")
             print(f"{video.selected_video['title']} successfully checked out to {customer.selected_customer['name']}")
 
         elif choice == '12':
+            print(rental)
             print("You are checking in a video from a customer: ")
             video_id = input("Enter the video id: ")
             # check if it is a valid id 
@@ -226,8 +357,8 @@ def main(play=True):
             customer.selected_customer = customer.get_customer_by_id(id=customer_id)
             print(customer.selected_customer)
 
-            rental = rental.check_in_video(customer_id=customer_id, video_id=video_id)
-            print(f"Rental info: {rental}")
+            checked_in = rental.check_in_video(customer_id=customer_id, video_id=video_id)
+            print(f"Rental info: {checked_in}")
             print(f"{customer.selected_customer['name']} successfully checked in {video.selected_video['title']}")
 
         elif choice == '13': 

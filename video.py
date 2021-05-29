@@ -61,7 +61,8 @@ class Video:
             )
         print("response:", response)
         # not sure what next line is doing 
-        self.selected_video = response.json() # prints <Response [200]>
+        self.selected_video = None #response.json() # prints <Response [200]> 
+        # clear selected video = None
         return response.json()
 
     # delete a video 
