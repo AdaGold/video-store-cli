@@ -36,13 +36,13 @@ class Video:
                 self.selected_video = video
 
         if self.selected_video == None:
-            return "Could not find video by that name or id"
+            return "Could not find video by that title or id"
 
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
-    # update a video 
-    def update_video(self, title=None, release_date=None, total_inventory=None):
+    # edit a video 
+    def edit_video(self, title=None, release_date=None, total_inventory=None):
         if not title:
             title = self.selected_video["title"]
         if not release_date:
@@ -72,8 +72,8 @@ class Video:
         return response.json()
     
     # print selected video 
-    def print_selected(self):
-        if self.selected_video:
-            print(f"Video with id {self.selected_video['id']} is currently selected")
-        else:
-            print("There is no selected video.")
+    # def print_selected(self):
+    #     if self.selected_video:
+    #         print(f"Video with id {self.selected_video['id']} is currently selected")
+    #     else:
+    #         print("There is no selected video.")

@@ -26,5 +26,3 @@ class Rental:
 
         response = requests.post(self.url+"/rentals/check-in", json=query_params)
         return response.json()
-    
-    # get rental 
