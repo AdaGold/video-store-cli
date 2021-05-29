@@ -1,10 +1,11 @@
 import requests
 import datetime
 
+#one api wrapper class that would implement functions
+
 class CustomerRequests:
     def __init__(self, url="http://localhost:5000", selected_customer=None):
         self.url = url
-        #I dont understand what this attributes is/what is being giveh here for "selected_customer?"
         self.selected_customer = selected_customer
 
     def create_customer(self, name=None, postal_code=None, phone=None):
@@ -30,19 +31,18 @@ class CustomerRequests:
                 if name == customer["name"]:
                     id = customer["id"]
                     self.selected_customer = customer
-                elif name != customer["name"]:
-                    print("That name could not be found")
-                    #not sure how to handle the error that occurs when a name
-                    #is inputted that ahs no match in the database
 
             elif id == customer["id"]:
                 self.selected_customer = customer
+
+        if not self.selected_customer:
+            print("That customer name or id could not be found")
             
-            #return self.selected_customer
+        return self.selected_customer
             
-        response = requests.get(self.url+f"/customers/{id}")
-        #self.selected_customer = response.json()
-        return response.json()
+        # response = requests.get(self.url+f"/customers/{id}")
+        # #self.selected_customer = response.json()
+        # return response.json()
 
     def update_customer(self, name=None, postal_code=None, phone=None):
 
@@ -66,7 +66,6 @@ class CustomerRequests:
             json=query_params
         )
 
-        #print("Customer successfully updated:", response)
         self.selected_customer = response.json() 
         return response.json()
 

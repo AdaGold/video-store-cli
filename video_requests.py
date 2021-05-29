@@ -1,10 +1,8 @@
 import requests
-import datetime
 
-#talks to api/holds info about talking to api about videos
 
 class VideoRequests: 
-    def __init__(self, url="http://localhost:5000", selected_video=None, selected_customer=None): #so you can select customer with video?
+    def __init__(self, url="http://localhost:5000", selected_video=None, selected_customer=None): 
         self.url = url
         self.selected_video = selected_video
 
@@ -29,7 +27,6 @@ class VideoRequests:
         for video in self.list_all_videos():
     
             if title:
-            #if api can query by title then this for loop is not necessary
                 if video["title"] == title:
                     id = video["id"]
                     self.selected_video = video
@@ -37,17 +34,17 @@ class VideoRequests:
             elif id == video["id"]:
                 self.selected_video = video
         
-        #if we didnt have a route that connects to the API that does all of this work already,
-        #then we would do the above, otherwise all that is needed is these lines below
-        response = requests.get(self.url+f"/videos/{id}") #could also return video from line 29 becuase that is a get rewuest for the same thing
+        if not self.selected_video:
+            print("That video title or id could not be found")
+        
+        #return self.selected_video
+        
+        response = requests.get(self.url+f"/videos/{id}") 
         self.selected_video = response.json()
         return response.json()
     
 
     def update_video(self, title=None, release_date=None, total_inventory=None):
-        #should total_inventory default be 0?
-        #if I provide an id here can I just send the query_params to the endpoint with the id and then
-        #have the API do the work?
 
         if not title:
             title = self.selected_video["title"]
@@ -71,7 +68,6 @@ class VideoRequests:
 
         print("response:", response)
         self.selected_video = response.json()
-        #["video"] /Do I want this format?
         return response.json()
 
     def delete_video(self):
