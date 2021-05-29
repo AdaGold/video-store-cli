@@ -19,7 +19,7 @@ def print_stars():
 def valid_entry_customer(customer_list, select_by):
     if select_by == "name":
         name = input("Which customer name would you like to select? ")
-        customer_list.get_customer(name=name)
+        return customer_list.get_customer(name=name)
     elif select_by == "id":
         id = input("Which customer id would you like to select? ")
         if id.isnumeric():
@@ -60,7 +60,7 @@ def select_customer(customer_list):
     select_by = input("Would you like to select by? Enter name or id: ")
     result = valid_entry_customer(customer_list, select_by)
     if result:
-        if result == "Could not find video by that id or title.":
+        if result == "Could not find customer by that id or title.":
             select_customer(customer_list)
         else:
             customer_list.selected_customer = result
@@ -147,16 +147,14 @@ def run_cli(play=True):
             print("New video has been created:", response)
 
         elif choice == '3':
-            select_video(video_list)
             if not video_list.selected_video:
                 print("You must select a video you want to update")
                 print("Let's select a video!")
                 select_video(video_list)
-            if video_list.selected_video == None:
-                return "Could not find video by that title or id"
-            select_video(customer_list)
-            print(
-                f"Great! Let's update the video: {video_list.selected_video}")
+            update=input(f"Currely selected video is {video_list.selected_video}, is this the video you want to update?y/n ")
+            if update == "n":
+                select_video(video_list)
+            print(f"Great! Let's update the video: {video_list.selected_video}")
             title = input("What is the new title of your video? ")
             release_date = input(
                 "What is the new release_date of your video? ")
@@ -201,14 +199,12 @@ def run_cli(play=True):
                 print("You must select customer you want to update")
                 print("Let's select a customer!")
                 select_customer(customer_list)
-            if customer_list.selected_customer == None:
-                return "Could not find customer by that name or id"
-            select_customer(customer_list)
-            print(
-                f"Great! Let's update customer selected: {customer_list.selected_customer}")
+            update=input(f"Currely selected customer is {customer_list.selected_customer}, is this the customer you want to delete?y/n ")
+            if update == "n":
+                select_customer(customer_list)
+            print( f"Great! Let's update customer selected: {customer_list.selected_customer}")
             name = input("What is the new name of the customer? ")
-            postal_code = input(
-                "What is the new postal code of the customer? ")
+            postal_code = input("What is the new postal code of the customer? ")
             phone = input("What is the new phone number of the customer? ")
             response = customer_list.update_customer(
                 name=name, postal_code=postal_code, phone=phone)
@@ -220,9 +216,12 @@ def run_cli(play=True):
             if not customer_list.selected_customer:
                 print("You must select customer to delete")
                 select_customer(customer_list)
-            if customer_list.selected_customer == None:
-                return "Could not find customer by that name or id"
-            select_customer(customer_list)
+            update=input(f"Currely selected customer is {customer_list.selected_customer}, is this the customer you want to delete?y/n ")
+            if update == "n":
+                select_customer(customer_list)
+            # if customer_list.selected_customer == None:
+            #     return "Could not find customer by that name or id"
+            # select_customer(customer_list)
 
             customer_list.delete_customer()
 
