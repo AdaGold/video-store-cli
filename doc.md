@@ -41,6 +41,23 @@ def list_options():
         customer.postal_code = form_data["postal_code"]
         customer.phone = form_data["phone"]
 
+    "1": "List all videos", 
+        "2": "Create a new video",
+        "3": "Select a single video", 
+        "4": "Update a video", 
+        "5": "Delete a video", 
+        "6": "List all customers",
+        "7": "Create a new customer",
+        "8": "Select a single customer",
+        "9": "Update a customer",
+
+        "10": "Delete a customers",
+        "11": "Check OUT a video to a customer",
+        "12": "Check IN a video from a customer",
+        "13": "List all options",
+        "14": "Quit"
+
+        
     print_stars()
     print("Welcome to the Video Store CLI")
     print("These are the actions you can perform")

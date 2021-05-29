@@ -12,7 +12,7 @@ class CustomerList:
         return response.json()
 
     # CREATE A CUSTOMER -----------------------------------------------------------------------------
-    def create_customer(self,name="Default Name",postal_code="Default Postal_code",phone="Phone"):
+    def create_customer(self,name,postal_code, phone):
         query_params = {
             "name": name,
             "postal_code": postal_code,
@@ -22,7 +22,7 @@ class CustomerList:
         return response.json()
 
     # GET A SPECIFIC CUSTOMER BY NAME OR ID ----------------------------------------------------------
-    def get_customer(self, name=None, id=None):
+    def get_customer(self, id,  name=None):
         
         for customer in self.list_customers():
             if name:
@@ -36,7 +36,7 @@ class CustomerList:
         return response.json()
 
     # UPDATE A SPECIFIC CUSTOMER BY NAME OR ID--------------------------------------------------------
-    def update_customer(self,name=None,id=None):
+    def update_customer(self, id, name=None):
         if not name:
             name = self.selected_customer["name"]
         if not id:
@@ -66,12 +66,4 @@ class CustomerList:
         if self.selected_customer:
             print(f"Customer with id {self.selected_customer['id']} is currently selected\n")
 
-#     # DISPLAY MENU FOR CUSTOMER OPTIONS
-#     def menu(self):
-#         print("Choose from the list of options")
-#         print("1. Display all customer")
-#         print("2. Create a new customer")
-#         print("3. Display a customer")
-#         print("4. Update a customer")
-#         print("5. Delete a customer")
-#         print("6. Go back to main menu")
+#

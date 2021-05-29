@@ -7,7 +7,7 @@ class VideoList:
         self.selected_video = selected_video
     
     # CREATE A VIDEO -----------------------------------------------------------------------------
-    def create_video(self,title="Default Title",release_date="Default Release_Date",total_inventory="Total_Inventory"):
+    def create_video(self,title, release_date, total_inventory):
         query_params = {
             "title": title,
             "release_date": release_date,
@@ -22,7 +22,7 @@ class VideoList:
         return response.json()
 
     # GET A SPECIFIC VIDEOS BY TITLE OR ID ----------------------------------------------------------
-    def get_video(self, title=None, id=None):
+    def get_video(self, id, title=None):
         
         for video in self.list_videos():
             if title:
@@ -36,7 +36,7 @@ class VideoList:
         return response.json()
 
     # UPDATE A SPECIFIC VIDEO BY TITLE OR ID--------------------------------------------------------
-    def update_videos(self,title=None,id=None):
+    def update_videos(self,id, title=None):
         if not title:
             title = self.selected_video["title"]
         if not id:
