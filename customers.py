@@ -34,13 +34,13 @@ class Customers:
         for customer in self.list_customers():
             if name:
                 if customer["name"] == name:
-                    id = customer["customer_id"]
+                    id = customer["id"]
                     selected_customer = customer
             elif phone:
                 if customer["phone"] == phone:
-                    id = customer["custoomer_id"]
+                    id = customer["id"]
                     selected_customer == customer
-            elif id == customer["customer_id"]:
+            elif id == customer["id"]:
                 selected_customer = customer
 
         if selected_customer == None:
