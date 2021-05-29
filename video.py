@@ -70,6 +70,8 @@ def respond_video_choice(choice, cvr, main_menu_choice):
         print("All videos:")
         for video in cvr.list_videos():
             print(video)
+        print_stars()
+
     elif choice=='2':
         print("Great! Let's create a new video.")
         title=input("What is the title of your video? ") 
@@ -94,6 +96,7 @@ def respond_video_choice(choice, cvr, main_menu_choice):
 
         print_stars()
         print("New video:", response)
+        print_stars()
 
     elif choice=='3':
         response = select_a_video(cvr)
@@ -102,6 +105,7 @@ def respond_video_choice(choice, cvr, main_menu_choice):
             print("Selected video: ", response)
         else:
             print(response)
+        print_stars()
 
     elif choice=='4':
         selected_video = select_a_video(cvr)
@@ -131,6 +135,7 @@ def respond_video_choice(choice, cvr, main_menu_choice):
             print("Updated video:", response)
         else:
             print(selected_video)
+        print_stars()
 
     elif choice=='5':
         selected_video = select_a_video(cvr)
@@ -146,6 +151,7 @@ def respond_video_choice(choice, cvr, main_menu_choice):
                     print(video)
         else:
             print(selected_video)
+        print_stars()
 
     elif choice=='6':
         delete_all = input("Are you sure you want to delete all videos? Y/N:  ").lower()
@@ -156,10 +162,9 @@ def respond_video_choice(choice, cvr, main_menu_choice):
 
             print_stars()
             print("Deleted all videos.")
+        print_stars()
 
     else:
         main_menu_choice = get_main_menu_choice()
-
-    print_stars()
 
     return main_menu_choice

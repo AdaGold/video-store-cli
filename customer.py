@@ -18,6 +18,7 @@ def get_main_menu_choice():
         print(f"Option {choice_num}. {options[choice_num]}")
     print("\n**********************************\n")
     main_menu_choice = input("Make your selection using the option letter: ").lower()
+    print_stars()
 
     return main_menu_choice
 
@@ -77,6 +78,7 @@ def respond_customer_choice(choice, cvr, main_menu_choice):
         print("All customers:")
         for customer in cvr.list_customers():
             print(customer)
+        print_stars()
 
     elif choice=='2':
         print("Great! Let's create a new customer.")
@@ -87,6 +89,8 @@ def respond_customer_choice(choice, cvr, main_menu_choice):
 
         print_stars()
         print("New customer:", response)
+        print_stars()
+
     elif choice=='3':
         response = select_a_customer(cvr)
         if isinstance(response, dict):
@@ -94,6 +98,7 @@ def respond_customer_choice(choice, cvr, main_menu_choice):
             print("Selected customer: ", cvr.selected_customer)
         else:
             print(response)
+        print_stars()
 
     elif choice=='4':
         selected_customer = select_a_customer(cvr)
@@ -108,6 +113,8 @@ def respond_customer_choice(choice, cvr, main_menu_choice):
             print("Updated customer:", response)
         else:
             print(selected_customer)
+        print_stars()
+
     elif choice=='5':
         selected_customer = select_a_customer(cvr)
         if isinstance(selected_customer, dict):
@@ -124,6 +131,7 @@ def respond_customer_choice(choice, cvr, main_menu_choice):
                     print(customer)
         else:
             print(selected_customer)
+        print_stars()
 
     elif choice=='6':
         delete_all = input("Are you sure you want to delete all customers? Y/N:  ").lower()
@@ -134,10 +142,9 @@ def respond_customer_choice(choice, cvr, main_menu_choice):
 
             print_stars()
             print("Deleted all customers.")
+        print_stars()
 
     else:
         main_menu_choice = get_main_menu_choice()
-
-    print_stars()
 
     return main_menu_choice

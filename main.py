@@ -26,13 +26,11 @@ def main(play=True):
             main_menu_choice = respond_rental_choice(choice, cvr, main_menu_choice)
         elif main_menu_choice == "d":
             play=False
-            print_stars()
             print("Thanks for using the Video Store CLI!")
             print_stars()
         else:
-            print("\nInvalid option.\n")
-            main_menu_choice = input("Make your selection using valid option letters(A ~ E): ")
-
+            main_menu_choice = input("Invalid option. Make your selection using valid option letters(A ~ D): ")
+            print_stars()
 
 if __name__ == "__main__":
     main()

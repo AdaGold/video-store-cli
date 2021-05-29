@@ -9,7 +9,7 @@ def get_rental_choice():
         "3": "Back to main menu"
         }
     
-    print("\nThese are the actions you can perform: \n")
+    print("These are the actions you can perform: \n")
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")
 
@@ -49,6 +49,7 @@ def respond_rental_choice(choice, cvr, main_menu_choice):
                 print("View check-out info: ", cvr.selected_rental["Message"])
             else:
                 print("View check-out info: ", cvr.selected_rental)
+        print_stars()
 
     elif choice == "2":
         cvr.print_list_reference()            
@@ -70,10 +71,11 @@ def respond_rental_choice(choice, cvr, main_menu_choice):
                 print("View check-in info: ", cvr.selected_rental["message"])
             else:
                 print("View check-in info: ", cvr.selected_rental)
+        print_stars()
 
     else:
         main_menu_choice = get_main_menu_choice()
     
-    print_stars()
+    
 
     return main_menu_choice
