@@ -13,7 +13,7 @@ def list_options():
         "2": "edit a video", # tested and working
         "3": "delete a video", # tested and working
         "4": "get information about all videos",  # tested and working
-        "5": "get information about one video",  # todo
+        "5": "get information about one video",  # tested and working
         "6": "add a customer",  # todo
         "7": "edit a customer",  # todo
         "8": "delete a customer",  # todo
@@ -95,8 +95,7 @@ def run_cli(play=True):
             video_list.edit_video()
 
             print_stars()
-            
-            # todo: need to get the updated video
+            5# todo: need to get the updated video
             print("Updated video:", video_list.selected_video) 
             
 
@@ -117,22 +116,15 @@ def run_cli(play=True):
             print(video_list.list_video())
 
         elif choice == '5':
-            select_by = input(
-                "Would you like to select by title or id? Enter title or id: ")
-            if select_by == "title":
-                title = input("Which video title would you like to select? ")
-                video_list.get_video(title=title)
-            elif select_by == "id":
-                id = input("Which video id would you like to select? ")
-                if id.isnumeric():
-                    id = int(id)
-                    video_list.get_video(id=id)
-            else:
-                print("Could not select. Please enter title or id.")
-
+            id = input("Which video id would you like to select? ")
+            if id.isnumeric():
+                id = int(id)
+            video_list.selected_video = video_list.get_video(id=id)
             if video_list.selected_video:
                 print_stars()
                 print("Selected video: ", video_list.selected_video)
+            else:
+                print("can't find video")
 
         elif choice == '6':
             total_inventory = video_list.mark_complete()
