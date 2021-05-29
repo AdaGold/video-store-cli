@@ -6,7 +6,7 @@ from flask import json
 ##could also put a helper function for select video in main.py
 # 
 #  
-###below is becc'as code
+
 class Video_store:
     def __init__(self, URL = "https://retro-video-store-api.herokuapp.com", selected_video=None, selected_customer=None): #selected_customer=None, selected_rental=None ):
         self.url = URL
@@ -16,15 +16,18 @@ class Video_store:
 
     ########## video actions to do: edit, still need to decide which query params needed and how to edit (look at routes?)
     ##Check out video to customer: part of video requirements is to be able to check it out to customers, which is through rental routes
-    def check_out_video(self, video_id, customer_id):
+    def check_out_video(self, customer_id, video_id):
         query_params={
             "customer_id": customer_id,
             "video_id": video_id
         }
+        print(query_params)
+        print(self.url+"/rentals/check-out")
         response = requests.post(self.url+"/rentals/check-out", json = query_params)
+        
         return response
 
-    def check_in_video(self, video_id, customer_id):
+    def check_in_video(self, customer_id, video_id):
         query_params={
             "customer_id": customer_id,
             "video_id": video_id
