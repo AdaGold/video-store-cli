@@ -11,7 +11,7 @@ def list_options():
     options = {
         "1": "add a video",  # tested and working
         "2": "edit a video", # tested and working
-        "3": "delete a video",
+        "3": "delete a video", # tested and working
         "4": "get information about all videos",  # tested and working
         "5": "get information about one video",  # todo
         "6": "add a customer",  # todo
@@ -101,7 +101,9 @@ def run_cli(play=True):
             
 
         elif choice == '3':
-            video_list.delete_video()
+            id = input("What is the id of your video to delete? ")
+            
+            video_list.delete_video(id)
 
             print_stars()
             print("video has been deleted.")
