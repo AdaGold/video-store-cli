@@ -2,7 +2,7 @@ import requests
 import datetime
 
 class VideoStore:
-    def __init__(self, url="http://localhost:5000", current_customer=None, current_video=None, current_rental=None):
+    def __init__(self, url="https://nanditas-video-store-api.herokuapp.com", current_customer=None, current_video=None, current_rental=None):
         self.url = url
         self.current_customer = current_customer
         self.current_video = current_video

@@ -29,12 +29,10 @@ def handle_options(display=False, choice=False):
         options[choice][1]()
 
 def customer_list():
-    print_pattern()
     for customer in VIDEO_STORE.list_customers():
         display_customer(customer)
 
 def video_list():
-    print_pattern()
     for video in VIDEO_STORE.list_videos():
         display_video(video)
 
