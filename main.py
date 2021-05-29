@@ -29,9 +29,14 @@ def main(play=True):
 
 
             elif video_user_input == "3":
-                user_input = input("Please enter the ID of the video you would like to select:   ")
-                selected_video = video_store.get_single_video(id=int(user_input))
-                if selected_video:
+                user_input = title_or_id()
+                if user_input:
+                    selected_video = video_store.get_single_video(title=user_input, id=None)
+                else:
+                    user_input = input("Please enter the ID of the video you would like to select:   ")
+                    selected_video = video_store.get_single_video(id=int(user_input), title=None)
+        
+                if selected_customer:
                     print_video_info(selected_video)
             
             elif video_user_input == "4":
@@ -78,7 +83,6 @@ def main(play=True):
                     print_customer_info(selected_customer)
             
             elif customer_user_input == "4":
-                # user_input = name_or_id()
                 user_input = input("Please enter the ID of the customer you would like to select:   ")
                 selected_customer = video_store.get_single_customer(id=int(user_input))
                 
@@ -109,13 +113,16 @@ def main(play=True):
             elif rental_user_input == "2":
                 video_store.check_in_movie()
 
-            elif user_input == "3":
+            elif rental_user_input == "3":
                 video_id = input("Please enter the ID of the video:   ")
                 video_store.get_rental_list_by_video(int(video_id))
 
-            elif user_input == "4":
+            elif rental_user_input == "4":
                 customer_id = input("Please enter the ID of the customer:   ")
                 video_store.get_rental_list_by_customer(int(customer_id))
+
+            elif rental_user_input == "5":
+                video_store.is_overdue()
 
 
         elif user_input == "4":

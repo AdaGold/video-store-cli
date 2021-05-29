@@ -1,5 +1,7 @@
 import requests
 from print_functions import *
+from datetime import datetime
+
 
 
 URL = "http://localhost:5000"
@@ -25,6 +27,9 @@ def is_valid_zip(postal_code):
     if not postal_code.isnumeric():
         return False
     return True
+
+def how_many_days_late(due_date, today):
+    pass
 
 
 
@@ -243,6 +248,7 @@ class VideoStore:
             print_customer_info(customer)
             print(f"Video due date is {due_date}")
             print("\n")
+        
 
     def get_rental_list_by_customer(self, customer_id):
         rental_list = requests.get(self.url+f"/customers/{customer_id}/rentals")
@@ -256,6 +262,27 @@ class VideoStore:
             print_video_info(video_title)
             print(f"Video due date is {video_due_date}")
             print("\n")
+    
+    def is_overdue(self):
+        rental_list = requests.get(self.url+"/rentals")
+        overdue_list = []
+
+        today = datetime.now()
+        print(today)
+
+
+        for rental in rental_list.json():
+            due_date = datetime.strptime(rental["due_date"], "%a, %d %b %Y %H:%M:%S %Z")
+            print(due_date)
+            if due_date < today:
+                overdue_list.append(rental)
+        if not overdue_list:
+            print("There are no overdue movies in the database. ")
+        else:
+            for overdue_movie in overdue_list:
+                print_overdue_info(overdue_movie)
+        
+        
 
 
 

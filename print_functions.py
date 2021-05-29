@@ -41,6 +41,7 @@ def rental_menu_options():
     print("2:  Check In A Video")
     print("3:  Look Up Rentals by Video")
     print("4:  Look Up Rentals By Customer")
+    print("5:  View All Overdue Movies")
 
 
 def print_video_info(video):
@@ -68,3 +69,18 @@ def name_or_id():
         user_input = input("Please enter the name of the customer you would like to select:  ")
         return user_input.title()
     return False
+
+def title_or_id():
+    user_input = input("Would you like to search by title? Y/N   ")
+    if user_input.upper() == "Y":
+        user_input = input("Please enter the title of the movie you are looking for:   ")
+        return user_input.title()
+    return False
+
+
+def print_overdue_info(overdue_video):
+    print("\n")
+    print(f"Video ID: {overdue_video['video_id']}")
+    print(f"Customer ID: {overdue_video['customer_id']}")
+    print(f"Due Date:  {overdue_video['due_date']}")
+
