@@ -1,5 +1,6 @@
 import requests
 import datetime
+import pdb
 
 
 class Video:
@@ -38,6 +39,7 @@ class Video:
         return response.json()
 
     def update_video(self, title=None, release_date=None, total_inventory=None):
+        pdb.set_trace()
         if not title:
             title = self.selected_video["title"]
         if not release_date:
@@ -55,7 +57,7 @@ class Video:
             json=query_params
         )
         print("response:", response)
-        #
+        # now working with updated info:
         self.selected_video = response.json()["video"]
         return response.json()
 

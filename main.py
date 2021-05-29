@@ -2,6 +2,7 @@ import requests
 from video import Video
 from rental import Rental
 from customer import Customer
+import pdb
 
 BACKUP_URL = "http://127.0.0.1:5000"
 URL = "https://retro-video-store-api.herokuapp.com"
@@ -42,12 +43,13 @@ def list_options():
 ##########
 
 def make_choice(options, video, customer):
+    pdb.set_trace()
     valid_choices = options.keys()
     choice = None
     while choice not in valid_choices:
         print("What would you like to do? Select 13 to see all the options again...")
         choice = input("Make your selection using the option number: ")
-    if choice in ['2', '3', '7', '8', '11', '12'] and video.selected_video == None:
+    if choice in ['2', '3'] and video.selected_video == None:
         print("You must select a video before updating it, deleting it, checking it out, or checking it in.")
         print("Let's select a video!")
         choice = "4"
@@ -148,10 +150,11 @@ def main():
                 title = input("Which video title would you like to select? ")
                 video.get_video(title=title)
             elif select_by == "id":
+                # pdb.set_trace()
                 id = input("Which video id would you like to select? ")
                 if id.isnumeric():
                     id = int(id)
-                    video.get_video(id=id)
+                    video.selected_video = video.get_video(id=id)
             else:
                 print("Could not select. Please enter id or title.")
             if video.selected_video:
