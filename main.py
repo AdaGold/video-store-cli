@@ -143,8 +143,8 @@ def run_cli(play=True):
                 print(customer)
 
         elif choice=='6':
-            print("Great! Let's add a customer.")
-            name=input("What is the name of the customer?")
+            print("Great! Let's add a customer. ")
+            name=input("What is the name of the customer? ")
             postal_code=input("Enter postal_code: ")
             phone=input("Enter phone: ")
             response = customer.create_customer(name=name, postal_code=postal_code, phone=phone)
@@ -199,7 +199,7 @@ def run_cli(play=True):
             for choices in all_videos:
                 print(f"Id: {choices['id']},Title: {choices['title']}")
 
-            select_by = input("What would you like to select by? Enter either title or id: ")
+            select_by = input("What would you like to select by? Enter either 'title' or 'id': ")
             
             if select_by == "title":
                 title = input("which video title would you like to select? ")
@@ -227,11 +227,11 @@ def run_cli(play=True):
             for person in all_customers:
                 print(f"Id: {person['id']}, name: {person['name']}")
 
-            select_by = input("What would you like to select by? Enter either a name or an id: ")
+            select_by = input("What would you like to select by? Enter either 'name' or 'id': ")
             if select_by == "name":
                 customer_name = input("Which customer name would you like to select? ")
                 selected_customer=customer.get_customer(name=customer_name)
-                print(selected_customer)
+                print(video.selected_video)
                 customer_id=selected_customer["id"]
                 video_id=video.selected_video["id"]
                 # video_id = selected_customer["video_id"]
@@ -249,7 +249,7 @@ def run_cli(play=True):
                 print_stars()
                 #print("Selected customer: ", customer.get_customer(id=customer_id))
                 response = rental.check_out(customer_id,video_id)
-            print("Video successfully checked out! ", response)
+            print("Video successfully checked out! Rental info: ", response)
 
         elif choice == '12': #check in a video from customer
             print_stars()
@@ -287,7 +287,7 @@ def run_cli(play=True):
                 print(f'id:{person["id"]},name: {person["name"]}')
                 #print(f'ID: {customer['id']}, name: {customer['name']}')
             
-            select_by = input("What would you like to select by? Enter either a name or an ID: ")
+            select_by = input("What would you like to select by? Enter either 'name' or 'id': ")
             if select_by == "name":
                 customer_name = input("Which customer name would you like to select? ")
                 selected_customer = customer.get_customer(name=customer_name)
@@ -307,7 +307,7 @@ def run_cli(play=True):
                 print_stars()
                 #print("Selected customer: ", customer.selected_customer)
                 response = rental.check_in(customer_id, video_id)
-            print("Video sucessfully checked in! ", response)
+            print("Video sucessfully checked in! Rental Info: ", response)
 
         
 
