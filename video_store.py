@@ -10,8 +10,11 @@ class VideoStore:
             "customer_id": customer_id,
             "video_id": video_id,
         }
-
         response = requests.post(self.url+"/rentals/check-out", json=request_params)
+        
+        if not response:
+            return f"=== Error: Invalid ID ==="
+        
         return response.json()
 
     def check_in(self, customer_id, video_id):
@@ -19,20 +22,28 @@ class VideoStore:
             "customer_id": customer_id,
             "video_id": video_id,
         }
-
         response = requests.post(self.url+"/rentals/check-in", json=request_params)
+        
+        if not response:
+            return f"=== Error: Invalid ID ==="
+        
         return response.json()
-
+    
+    """
+    Start video-related methods
+    """
     def add_video(self, title, release_date, total_inventory):
-        request_params = {
-            "title": title,
-            "release_date": release_date,
-            "total_inventory": total_inventory,
-            "available_inventory": total_inventory
-        }
-
-        response = requests.post(self.url+"/videos", json=request_params)
-        return response.json()
+        try:
+            request_params = {
+                "title": title,
+                "release_date": release_date,
+                "total_inventory": total_inventory,
+                "available_inventory": total_inventory
+            }
+            response = requests.post(self.url+"/videos", json=request_params)
+            return response.json()
+        except ValueError:
+            return f"Unable to add video. Please complete all fields."
 
     def videos_index(self):
         response = requests.get(self.url+"/videos")
@@ -52,8 +63,6 @@ class VideoStore:
         except ValueError:  
             return f"=== Error: Video Not Found ==="
                     
-
-
     def update_video(self, id=None, title=None, release_date=None, total_inventory=None):
         try:
             video = requests.get(self.url+f"/videos/{id}")
@@ -74,7 +83,6 @@ class VideoStore:
             request_params["total_inventory"] = video_response.get("total_inventory")
 
         updated_video = requests.put(self.url+f"/videos/{id}", json=request_params)
-        
         return updated_video.json()
 
     def delete_video(self, id):
@@ -83,21 +91,28 @@ class VideoStore:
             return response.json()
         except ValueError:
             return f"=== Error: Video Not Found ==="
-
+    
+    """
+    Start customer-related methods
+    """
     def add_customer(self, name, postal_code, phone):
-        request_params = {
-            "name": name,
-            "postal_code": postal_code,
-            "phone": phone,
-        }
-
-        response = requests.post(self.url+"/customers", json=request_params)
-        return response.json()
-
+        try:
+            request_params = {
+                "name": name,
+                "postal_code": postal_code,
+                "phone": phone,
+            }
+            response = requests.post(self.url+"/customers", json=request_params)
+            return response.json()
+        except ValueError:
+            return f"Unable to add customer. Please complete all fields."
 
     def update_customer(self, id=None, name=None, postal_code=None, phone=None):
-        customer = requests.get(self.url+f"/customers/{id}")
-        customer_response = customer.json()
+        try:
+            customer = requests.get(self.url+f"/customers/{id}")
+            customer_response = customer.json()
+        except ValueError:
+            return f"=== Error: Customer Not Found ==="
 
         request_params = {
                 "name": name,
@@ -112,7 +127,6 @@ class VideoStore:
             request_params["phone"] = customer_response.get("phone")
 
         updated_customer = requests.put(self.url+f"/customers/{id}", json=request_params)
-        
         return updated_customer.json()
 
     def delete_customer(self, id):
