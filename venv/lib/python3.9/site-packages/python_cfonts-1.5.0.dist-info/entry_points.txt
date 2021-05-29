@@ -1,0 +1,3 @@
+[console_scripts]
+cfonts=cfonts.cli:main
+
