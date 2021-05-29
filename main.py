@@ -113,6 +113,11 @@ def run_cli():
 
     elif choice=='3':
         video = select_video(video_list)
+
+        if video:
+            if not video_list.selected_video:
+                print("Video not found.")
+                return
         
         print_stars()
         print(f"Selected video: {video}") 
@@ -121,6 +126,10 @@ def run_cli():
         video = select_video(video_list)
 
         if video:
+            if not video_list.selected_video:
+                print("Video not found.")
+                return
+
             print(f"Great! Let's update the task: {video_list.selected_video}")
 
             title=input("What is the new title of the selected video? ")
@@ -136,6 +145,10 @@ def run_cli():
         video = select_video(video_list)
         
         if video:
+            if not video_list.selected_video:
+                print("Video not found.")
+                return
+
             if video["available_inventory"] != video["total_inventory"]:
                 print("Available inventory does not match total inventory.  There may be customer(s) who are currently renting copies of this video.")
                 return
@@ -167,6 +180,11 @@ def run_cli():
     elif choice=='8':
         customer = select_customer(customer_list)
 
+        if customer:
+            if not customer_list.selected_customer:
+                print("Customer not found.")
+                return
+
         print_stars()
         print(f"Selected customer: {customer}")
     
@@ -174,6 +192,10 @@ def run_cli():
         customer = select_customer(customer_list)
 
         if customer:
+            if not customer_list.selected_customer:
+                print("Customer not found.")
+                return
+                
             if customer_list.selected_customer:
                 print(f"Great! Let's update the customer: {customer_list.selected_customer}")
                 
@@ -191,6 +213,10 @@ def run_cli():
 
         if customer:
         # Note from chats w/Becca & Chris: prompt user to delete each associated rental first (CLI) or delete rentals (instances of CustomerVideoRental) associated with customer (API)
+            if not customer_list.selected_customer:
+                print("Customer not found.")
+                return
+
             if customer["videos_checked_out_count"] > 0:
                 print("Customer has outstanding videos and cannot be deleted.")
                 return
