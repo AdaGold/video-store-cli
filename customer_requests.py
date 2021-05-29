@@ -1,7 +1,4 @@
 import requests
-import datetime
-
-#one api wrapper class that would implement functions
 
 class CustomerRequests:
     def __init__(self, url="http://localhost:5000", selected_customer=None):
@@ -39,10 +36,6 @@ class CustomerRequests:
             print("That customer name or id could not be found")
             
         return self.selected_customer
-            
-        # response = requests.get(self.url+f"/customers/{id}")
-        # #self.selected_customer = response.json()
-        # return response.json()
 
     def update_customer(self, name=None, postal_code=None, phone=None):
 

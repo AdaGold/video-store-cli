@@ -22,7 +22,6 @@ class VideoRequests:
         return response.json()
 
     def get_specific_video(self, title=None, id=None):
-        #you can do a get request with id number of video/can use it to get one specific task with a get request
         
         for video in self.list_all_videos():
     
@@ -37,12 +36,7 @@ class VideoRequests:
         if not self.selected_video:
             print("That video title or id could not be found")
         
-        #return self.selected_video
-        
-        response = requests.get(self.url+f"/videos/{id}") 
-        self.selected_video = response.json()
-        return response.json()
-    
+        return self.selected_video
 
     def update_video(self, title=None, release_date=None, total_inventory=None):
 
@@ -66,7 +60,6 @@ class VideoRequests:
             json=query_params
         )
 
-        print("response:", response)
         self.selected_video = response.json()
         return response.json()
 

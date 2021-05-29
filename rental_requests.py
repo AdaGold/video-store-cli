@@ -1,5 +1,4 @@
 import requests
-import datetime
 
 class RentalRequests:
     def __init__(self, url="http://localhost:5000", selected_rental=None):
