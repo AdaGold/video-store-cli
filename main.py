@@ -5,11 +5,11 @@ URL = "http://127.0.0.1:5000"
 BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 def print_divider():
-    print("\noOoOoOoOoOooOoOoOoOoOooOoOoOoOoOoOoOoOoO\n")
+    print("\noOoOoOoOoOooOoOoOoOoOooOoOoOoOoOoOoOoOoOoOoOoOoO\n")
 
 def main():
     print_divider()
-    print("✨✨✨WELCOME TO RETRO VIDEO STORE✨✨✨")
+    print("✨✨✨✨✨WELCOME TO RETRO VIDEO STORE✨✨✨✨✨")
     
 def list_options():
 
@@ -46,8 +46,10 @@ def make_choice(options, video_store):
     choice = None
 
     while choice not in valid_choices:
-        print("What would you like to do? Select 13 and 14 to quit to see all options again")
+        print("What would you like to do? Select 13 to see all options again or 14 to quit")
+        print("")
         choice = input("Make your selection using the option number: ")
+        print("")
 
     if choice in ['2','3'] and video_store.selected_video == None:
         print("You must select a video before updating it or deleting it")
@@ -78,17 +80,17 @@ def run_cli(play=True):
 
 ##### VIDEO CHOICES #####
         if choice == '1':
-            print("Creating a new video record: ")
+            print("Creating a new video record: \n")
             title = input("What is the title of your video? ")
             release_date = input("When was the release date of the video? ")
             total_inventory = input("How many videos with this title are in stock? ")
             response = video_store.create_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
             print_divider()
-            print("New video record created:", response["video"])
+            print("New video record created: \n", response["video"])
 
         elif choice == '2':
-            print(f"Updating video record: {video_store.selected_video}")
+            print(f"Updating video record: {video_store.selected_video} \n")
             title = input("What is the new title of video? ")
             release_date = input("What is the new release date of the video? ")
             response = video_store.update_video(title=title, release_date=release_date, total_inventory=total_inventory)
@@ -100,19 +102,19 @@ def run_cli(play=True):
             video_store.delete_video()
 
             print_divider()
-            print("Video record has been deleted.")
+            print("\nVideo record has been deleted.\n")
 
             print_divider()
             print(video_store.get_videos_list())
 
         elif choice == '4':
             print_divider()
-            print("Video Records: ")
+            print("Video Records: \n")
             for video in video_store.get_videos_list():
                 print(video)
 
         elif choice == '5':
-            select_by = input("Would you like to select by title or id: ")
+            select_by = input("Would you like to select by title or id: \n")
             if select_by == "title":
                 title = input("Which video title would you like to select? ")
                 video_store.get_single_video(title=title)
@@ -122,7 +124,7 @@ def run_cli(play=True):
                     id = int(id)
                     video_store.get_single_video(id=id)
             else:
-                print("Selection not valid. Please enter an id or title.")
+                print("Selection not valid. Please enter an id or title.\n")
             
             if video_store.selected_video:
                 print_divider()
@@ -130,7 +132,7 @@ def run_cli(play=True):
 
 ##### CUSTOMER CHOICES #####
         elif choice == '6':
-            print("Creating a new customer record: ")
+            print("Creating a new customer record: \n")
             name = input("What is the customer's name? ")
             postal_code = input("What is the customer's postal code? ")
             phone = input("What is the customer's phone number? ")
@@ -138,10 +140,10 @@ def run_cli(play=True):
             response = video_store.create_customer(name=name, postal_code=postal_code, phone=phone, registered_at=registered_at)
 
             print_divider()
-            print("New customer record created:", response["customer"])
+            print("New customer record created: ", response["customer"])
 
         elif choice == '7':
-            print(f"Updating customer record: {video_store.selected_video}")
+            print(f"Updating customer record: {video_store.selected_video} \n")
             name = input("What is the new customer's name? ")
             postal_code = input("What is the new customer's postal code? ")
             phone = input("What is the customer's new phone number? ")
@@ -154,13 +156,13 @@ def run_cli(play=True):
             video_store.delete_customer()
 
             print_divider()
-            print("Customer record has been deleted.")
+            print("Customer record has been deleted.\n")
 
             print_divider()
             print(video_store.get_customers_list())
 
         elif choice == '9':
-            select_by = input("Would you like to select by name or id: ")
+            select_by = input("Would you like to select by name or id: \n")
             if select_by == "name":
                 title = input("What is the customer's name that you would like to select? ")
                 video_store.get_single_customer(title=title)
@@ -170,7 +172,7 @@ def run_cli(play=True):
                     id = int(id)
                     video_store.get_single_customer(id=id)
             else:
-                print("Selection not valid. Please enter a customer's name or id.")
+                print("Selection not valid. Please enter a customer's name or id.\n")
             
             if video_store.selected_video:
                 print_divider()
@@ -184,7 +186,7 @@ def run_cli(play=True):
 ##### RENTAL CHOICES #####
         elif choice == '11':
             print_divider()
-            print("Checking out a video to a customer: ")
+            print("Checking out a video to a customer: \n")
 
             video_id = input("Please enter the video's id: ")
             if video_id.isnumeric():
@@ -201,11 +203,11 @@ def run_cli(play=True):
             check_out_video = video_store.check_out_video(customer_id, video_id)
             print(check_out_video)
                 
-            print("Selected video has been successfully checked out: ", video_store.selected_video)
+            print("\nSelected video has been successfully checked out: ", video_store.selected_video)
 
         elif choice == '12':
             print_divider()
-            print("Checking in a video from a customer: ")
+            print("Checking in a video from a customer: \n")
 
             customer_id = input("Please enter the customer's id: ")
             if customer_id.isnumeric():
@@ -222,7 +224,7 @@ def run_cli(play=True):
             check_in_video = video_store.check_in_video(customer_id, video_id)
             print(check_in_video)  
                 
-            print("Selected video has been successfully checked in: ", video_store.selected_video)     
+            print("\nSelected video has been successfully checked in: \n", video_store.selected_video)     
 
 ##### OTHER CHOICES #####        
         elif choice == '13':
@@ -234,7 +236,7 @@ def run_cli(play=True):
             play=False
             print_divider()
             print("\nThanks for using Video Store CLI!")
-            
+            print_divider()
 
 if __name__ == "__main__":
     main()
