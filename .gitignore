@@ -3,3 +3,6 @@
 
 # Ada Library Information
 *.ali
+
+# Added w Audrey 5/26/21, 8:43am
+venv/
