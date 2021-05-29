@@ -9,9 +9,6 @@ import requests
 #     print("WELCOME TO RETRO VIDEO STORE")
 #     pass
 
-
-
-
 # < ------------------------------- ADA PROVIDED --------------------------- >
 
 from blockbuster import Blockbuster
