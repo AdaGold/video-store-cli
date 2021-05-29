@@ -119,25 +119,24 @@ def main(play=True):
             video_id = input("Which video would you like to update? Please enter ID: ")
             if video_id.isnumeric():
                 video_id = int(video_id)
-            else:
-                print("Please enter valid id")
-            print(f"Great, let's update the video with ID: {video_id}")
-            title=input("What is the new title of the movie?  ")
-            release_date=input("Please enter a new release date: ")
-            if valid_release_date(release_date):
-                release_date = release_date
-            else:
-                release_date=input("Please enter a valid new date: ")
+                print(f"Great, let's update the video with ID: {video_id}")
+                title=input("What is the new title of the movie?  ")
+                release_date=input("Please enter a new release date: ")
                 if valid_release_date(release_date):
                     release_date = release_date
                 else:
-                    print("Oops, your entry is still invalid. Date will be stored as a default current date. You can update it later with option 2")
-                    release_date = str(datetime.now())
-            total_inventory=input("How many copies are there total? ")
-            
-            response = video_operations.update_video(video_id, title=title, release_date=release_date,total_inventory=total_inventory)
-            print_stars()
-            print(f"Successfully updated the video with ID: {response['id']} - title: {response['title']} - release date: {response['release_date']} - inventory: {response['total_inventory']}")
+                    release_date=input("Please enter a valid new date: ")
+                    if valid_release_date(release_date):
+                        release_date = release_date
+                    else:
+                        print("Oops, your entry is still invalid. Date will be stored as a default current date. You can update it later with option 2")
+                        release_date = str(datetime.now())
+                total_inventory=input("How many copies are there total? ")
+                response = video_operations.update_video(video_id, title=title, release_date=release_date,total_inventory=total_inventory)
+                print_stars()
+                print(f"Successfully updated the video with ID: {response['id']} - title: {response['title']} - release date: {response['release_date']} - inventory: {response['total_inventory']}")
+            else:
+                print("Id type is integer. Please enter valid id.")
 
         elif choice=='3':
             list_videos = video_operations.get_all_videos()
@@ -186,16 +185,15 @@ def main(play=True):
             customer_id = input("Which customer would you like to update? Please enter ID: ")
             if customer_id.isnumeric():
                 customer_id = int(customer_id)
+                print(f"Great! Let's update the customer with ID: {customer_id}")
+                name=input("What is the new name of your customer? ")
+                postal_code=input("What is the new postal code of your customer? ")
+                phone=input("Please write down a new phone number : ")
+                response = customer_operations.update_customer(customer_id, name=name, postal_code=postal_code,phone=phone)
+                print_stars()
+                print(f"Successfully updated the customer with ID: {response['id']} - name: {response['name']} - postal code: {response['postal_code']} - phone: {response['phone']}")
             else:
                 print("Id type is integer. Please enter valid id.")
-
-            print(f"Great! Let's update the customer with ID: {customer_id}")
-            name=input("What is the new name of your customer? ")
-            postal_code=input("What is the new postal code of your customer? ")
-            phone=input("Please write down a new phone number : ")
-            response = customer_operations.update_customer(customer_id, name=name, postal_code=postal_code,phone=phone)
-            print_stars()
-            print(f"Successfully updated the customer with ID: {response['id']} - name: {response['name']} - postal code: {response['postal_code']} - phone: {response['phone']}")
 
         elif choice=='8':
             list_customer = customer_operations.get_all_customers()
@@ -205,17 +203,16 @@ def main(play=True):
             if customer_id.isnumeric():
                 customer_id = int(customer_id)
                 customer_operations.delete_customer(customer_id)
+                print_stars()
+                print(f"Customer with ID {customer_id} has been deleted")
             else:
                 print("Id type is integer. Please enter valid id.")
-
-            print_stars()
-            print(f"Customer with ID {customer_id} has been deleted")
 
         elif choice=='9':
             print("Here are the customers:")
             list_customers = customer_operations.get_all_customers()
             for customer in list_customers:
-                print(f"Customer 9Id: {customer['id']}, name: {customer['name']}")
+                print(f"Customer Id: {customer['id']}, name: {customer['name']}")
 
             customer_id = input("Which customer id would you like to select? ")
             if customer_id.isnumeric():
