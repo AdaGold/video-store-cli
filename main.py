@@ -90,7 +90,8 @@ def run_cli(play=True):
         if choice=='4': #get information about all videos
             print_stars()
             for video in video.list_videos():
-                print(video)
+                print(f"Id: {video['id']},Title: {video['title']}")
+                #print(video)
         elif choice=='1': #add a video
             print("Great! Let's add a video.")
             title=input("What is the title of your video? ")
@@ -101,24 +102,27 @@ def run_cli(play=True):
             print_stars()
             print("New video:", video_info) 
             
-        elif choice=='5':
-            select_by = input("Would you like to select by? Enter 'title' or 'id': ")
-            if "title" ==select_by:
+        elif choice=='5': #select a video
+            select_by = input("What would you like to select by? Enter 'title' or 'id': ")
+            if select_by=="title":
+                
                 title = input("Which video title would you like to select? ")
+               
                 video.get_video(title=title)
-            elif "id" ==select_by:
+                
+            elif select_by=="id":
                 id = input("Which video id would you like to select? ")
                 if id.isnumeric():
                     id = int(id)
                     video.get_video(id=id)
             else:
                 print("Could not select. Please enter the words 'id' or 'title'.")
-            
+            # if selected_video:
             if video.selected_video:
                 print_stars()
                 print("Selected video: ", video.selected_video)
 
-        elif choice=='2':
+        elif choice=='2': #update a video
             print(f"Great! Let's update the video information: {video.selected_video}")
             title=input("What is the new title of your video? ")
             release_date=input("Enter Release Date:  ")
@@ -128,7 +132,7 @@ def run_cli(play=True):
             print_stars()
             print("Updated response:", response)
         
-        elif choice=='3':
+        elif choice=='3':#delete a video
             video.delete_video()
 
             print_stars()
@@ -140,7 +144,8 @@ def run_cli(play=True):
         elif choice=='10':
             print_stars()
             for customer in customer.list_customers():
-                print(customer)
+                print(f"Id: {customer['id']}, Name: {customer['name']}")
+                #print(customer)
 
         elif choice=='6':
             print("Great! Let's add a customer. ")
