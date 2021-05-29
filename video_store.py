@@ -89,7 +89,3 @@ def checkin(customer_id, video_id):
     }
     response = requests.post(URL+ "/rentals/check-in", json=query_params)
     return response.json()
-
-#         "11": "Check-out a video",
-#         "12": "Check-in a video",
-#         "13": "Quit"
