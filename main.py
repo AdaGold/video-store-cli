@@ -100,7 +100,6 @@ def video_tasks(choice):
         print("Video Inventory\n")
 
         response = video_store.videos_index()
-
         print(response)
 
     elif video_choice == 2:
@@ -112,7 +111,6 @@ def video_tasks(choice):
         title = input("Enter video title: ")
 
         response = video_store.get_one_video(id=id, title=title)
-
         print(response)
 
     elif video_choice == 3:
@@ -142,7 +140,6 @@ def video_tasks(choice):
         total_inventory = input("Total Inventory: ")
 
         response = video_store.update_video(id=id, title=title, release_date=release_date, total_inventory=total_inventory)
-        
         print(response)
 
     elif video_choice == 5:
@@ -153,7 +150,6 @@ def video_tasks(choice):
         confirm_id = input("Confirm video ID: \n")
 
         response = video_store.delete_video(confirm_id)
-        
         print(response)
 
 def customer_tasks(choice):
@@ -169,7 +165,6 @@ def customer_tasks(choice):
         phone = input("Enter customer phone #: ")
 
         response = video_store.get_one_customer(id=id, name=name, phone=phone)
-
         print(response)
 
     elif customer_choice == 2:
@@ -182,7 +177,6 @@ def customer_tasks(choice):
         postal_code = input("Enter customer zip code: ")
 
         response = video_store.add_customer(name=name, phone=phone, postal_code=postal_code)
-        
         print(response)
 
     elif customer_choice == 3:
@@ -199,7 +193,6 @@ def customer_tasks(choice):
         postal_code = input("Enter customer zip code: ")
 
         response = video_store.update_customer(id=id, name=name, phone=phone, postal_code=postal_code)
-        
         print(response)
 
     elif customer_choice == 4:
@@ -210,7 +203,6 @@ def customer_tasks(choice):
         confirm_id = input("Confirm customer ID: \n")
 
         response = video_store.delete_customer(confirm_id)
-
         print(response)
 
     elif customer_choice == 5:
@@ -219,7 +211,6 @@ def customer_tasks(choice):
         print("Customer List\n")
 
         response = video_store.customers_index()
-
         print(response)
 
 def check_out():
@@ -232,7 +223,6 @@ def check_out():
     video_id = input("Enter video ID: ")
 
     response = video_store.check_out(customer_id=customer_id, video_id=video_id)
-
     print(response)
 
 def check_in():
@@ -244,7 +234,6 @@ def check_in():
     video_id = input("Enter video ID: ")
 
     response = video_store.check_in(customer_id=customer_id, video_id=video_id)
-
     print(response)
 
 def run_cli(play=True):
