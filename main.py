@@ -53,10 +53,7 @@ def make_choice(options, video_list, customer_list, rental_list):
         print("What would you like to do? Select 13 to see all options again")
         choice = input("Make your selection using the option number: ")
 
-    # if choice in ['4','5','6','7'] and video_list.selected_video == None:
-    #     print("You must select a video before updating it, deleting it, marking it complete, or marking it incomplete.")
-    #     print("Let's select a video!")
-    #     choice = "3"
+   
     
     return choice
 
@@ -103,14 +100,13 @@ def run_cli(play=True):
         elif choice=='3':
             select_by = input("Would you like to select by TITLE or ID?: ")
             if select_by=="title":
-                title = input("What is the TITLE? ")
+                title = input("What is the video TITLE? ")
                 video_list.get_video(title=title)
             elif select_by=="id":
-                id = input("What is the ID? ")
+                id = input("What is the video ID? ")
                 if id.isnumeric():
                     id = int(id)
                     video_list.get_video(id=id)
-            
             else:
                 print("Could not find video. Please enter id or title.")
             
@@ -122,17 +118,20 @@ def run_cli(play=True):
 
         #4 UPDATE A VIDEO 
         elif choice=='4':
-            print(f"Great! Let's update the video: {video_list.selected_video}")
+            id = input("What's the ID number of the video you want to edit?")
+            print(f"Great! Let's update the video: {id}")
             title=input("What is the new title of your video? ")
-            description=input("What is the new description of your video? ")
-            response = video_list.update_video(title=title, description=description)
+            release_date=input("What is the new release_date of your video? ")
+            total_inventory=input("What is the total inventory? ")
+            response = video_list.update_video(id=id, title=title, release_date=release_date, total_inventory=total_inventory)
 
             print_stars()
-            print("Video now updated:", response["video"])
+            print("Video now updated:", response)
 
         #5 DELETE A VIDEO
         elif choice=='5':
-            video_list.delete_video()
+            id = input("What's the ID number of the video you want to delete?")
+            video_list.delete_video(id)
 
             print_stars()
             print("Video has been deleted.")
@@ -147,6 +146,7 @@ def run_cli(play=True):
             for customer in customer_list.list_customers():
                 print(customer)
 
+
         #7 CREATE A NEW CUSTOMER
         elif choice=='7':
             print("Great! Let's create a new customer.")
@@ -156,41 +156,32 @@ def run_cli(play=True):
             response = customer_list.create_customer(name=name, postal_code=postal_code, phone=phone)
 
             print_stars()
-            print("New customer:", response["customer"])
+            print("New customer:", response)
 
         #8 SELECT A SINGLE CUSTOMER
         elif choice=='8':
-            select_by = input("Would you like to select by? Enter name or id: ")
-            if select_by=="name":
-                name = input("Which customer would you like to select? ")
-                customer_list.get_customer(name=name)
-            elif select_by=="id":
-                id = input("Which customer id would you like to select? ")
-                if id.isnumeric():
-                    id = int(id)
-                    customer_list.get_customer(id=id)
-            else:
-                print("Could not find customer. Please enter id or title.")
+            id = input("What is the customer's ID? ")
+            customer = customer_list.get_customer(id=id)
             
-            if customer_list.selected_customer:
-                print_stars()
-                print("Selected customer: ", customer_list.selected_customer)
-
+            print_stars()
+            print("Selected customer: ", customer)
 
         #9 UPDATE A CUSTOMER 
         elif choice=='9':
-            print(f"Great! Let's update the customer: {customer_list.selected_customer}")
+            id = input("What is the customer's id? ")
+            print(f"Great! Let's update the customer: {id}")
             name=input("What is the updated name of your customer? ")
             postal_code=input("What is the updated postal code of your customer? ")
-            phone=("What is the updated phone numbner of your customer? ")
-            response = customer_list.update_customer(name=name, postal_code=postal_code, phone=phone)
+            phone=input("What is the updated phone numbner of your customer? ")
+            response = customer_list.update_customer(id=id, name=name, postal_code=postal_code, phone=phone)
 
             print_stars()
-            print("Customer now updated:", response["customer"])
+            print("Customer now updated:", response)
 
         #10 DELETE A CUSTOMER
         elif choice=='10':
-            customer_list.delete_customer()
+            id = input("What is the customer's id? ")
+            customer_list.delete_customer(id)
 
             print_stars()
             print("Customer has been deleted.")
@@ -200,11 +191,9 @@ def run_cli(play=True):
 
         #11 CHECK OUT A VIDEO
         elif choice == '11':
+            
             print("Great! Let's check out a video to a customer.")
-            customer = customer_list.get_customer(customer_list)
-            video_id = input("What is the video id? ")
-            if video_id == None:
-                return "Could not find video by that id"
+            customer_id = input("What is the customer's id? ")
             video_id = input("What is the video id? ")
             response = rentals_list.check_out_video(
                 customer_id=customer_id, video_id=video_id)
@@ -217,14 +206,17 @@ def run_cli(play=True):
             response = rentals_list.check_in_video(
                 customer_id=customer_id, video_id=video_id)
 
+        #13 LIST ALL OPTIONS
         elif choice == '13':
-            choice = make_choice(options)
+            list_options()
 
+        #14 QUIT
         elif choice == '14':
             play = False
             print("\nThank you for using the Retro Video Store CLI!")
 
-        print_stars()
+            print_stars()
+
 
 
 if __name__ == "__main__":

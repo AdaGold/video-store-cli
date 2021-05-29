@@ -22,41 +22,44 @@ class VideoList:
         return response.json()
 
     # GET A SPECIFIC VIDEOS BY TITLE OR ID ----------------------------------------------------------
-    def get_video(self, id, title=None):
+    def get_video(self, id=None, title=None):
         
         for video in self.list_videos():
             if title:
                 if  video["title"]==title:
                     self.selected_video = video
-            elif id == video["id"]:
-                self.selected_video = video
+            if id:
+                id = int(id)
+                if id == video["id"]:
+                    self.selected_video = video
         if self.selected_video == None:
             return "Could not find video by that title or id"
-        response = requests.get(self.url+f"/video/{id}")
+        response = requests.get(self.url+f"/videos/{self.selected_video['id']}")
+        print(response)
         return response.json()
 
     # UPDATE A SPECIFIC VIDEO BY TITLE OR ID--------------------------------------------------------
-    def update_videos(self,id, title=None):
+    def update_video(self,id, title, release_date, total_inventory):
         if not title:
             title = self.selected_video["title"]
         if not id:
             id = self.selected_video["id"]
 
         query_params = {
-        "title": title,
-        "id": id
+            "title": title,
+            "release_date": release_date,
+            "total_inventory": total_inventory
         }
         response = requests.put(
-            self.url+f"/videos/{self.selected_video['id']}",
+            self.url+f"/videos/{id}",
             json=query_params
             )
-        print("response:", response)
-        self.selected_video = response.json()["video"]
         return response.json()
 
     # DELETE A SPECIFIC VIDEO -------------------------------------------------------------------------
-    def delete_video(self):
-        response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
+    def delete_video(self, id):
+        
+        response = requests.delete(self.url+f"/videos/{id}")
         self.selected_video = None
         return response.json()
 

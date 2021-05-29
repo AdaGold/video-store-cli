@@ -22,41 +22,27 @@ class CustomerList:
         return response.json()
 
     # GET A SPECIFIC CUSTOMER BY NAME OR ID ----------------------------------------------------------
-    def get_customer(self, id,  name=None):
-        
-        for customer in self.list_customers():
-            if name:
-                if customer["name"]==name:
-                    self.selected_customer = customer
-            elif id == customer["id"]:
-                self.selected_customer = customer
-        if self.selected_customer == None:
-            return "Could not find customer by that name or id"
-        response = requests.get(self.url+f"/customer/{id}")
+    def get_customer(self, id):
+        response = requests.get(self.url+f"/customers/{id}")
         return response.json()
 
     # UPDATE A SPECIFIC CUSTOMER BY NAME OR ID--------------------------------------------------------
-    def update_customer(self, id, name=None):
-        if not name:
-            name = self.selected_customer["name"]
-        if not id:
-            id = self.selected_customer["id"]
+    def update_customer(self, id, name, postal_code, phone):
 
         query_params = {
-        "name": name,
-        "id": id
+            "name": name,
+            "postal_code": postal_code,
+            "phone": phone
         }
         response = requests.put(
-            self.url+f"/customers/{self.selected_customer['id']}",
+            self.url+f"/customers/{id}",
             json=query_params
             )
-        print("response:", response)
-        self.selected_customer = response.json()["customer"]
         return response.json()
 
     # DELETE A SPECIFIC CUSTOMER -------------------------------------------------------------------------
-    def delete_customer(self):
-        response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
+    def delete_customer(self, id):
+        response = requests.delete(self.url+f"/customers/{id}")
         self.selected_customer = None
         return response.json()
 
