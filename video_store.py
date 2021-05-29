@@ -2,7 +2,7 @@ import requests
 import datetime
 
 class VideoStore:
-    def __init__(self, url="http://localhost:5000", current_customer=None, current_video=None):
+    def __init__(self, url="http://localhost:5000", current_customer=None, current_video=None, current_rental=None):
         self.url = url
         self.current_customer = current_customer
         self.current_video = current_video
@@ -24,8 +24,9 @@ class VideoStore:
         return response.json()
 
     def get_customer(self, id=None, name=None, phone=None):
+        self.current_customer = None
         for customer in self.list_customers():
-            if id and customer["id"] == id:
+            if id and str(customer["id"]) == id:
                 self.current_customer = customer
             elif name and customer["name"] == name:
                 id = customer["id"]
@@ -34,7 +35,7 @@ class VideoStore:
                 id = customer["id"]
                 self.current_customer = customer
         if self.current_customer == None:
-            return "I'm sorry, we could not find a customer by that id, name, or phone"
+            return None
         response = requests.get(self.url+f"/customers/{id}")
         return response.json()
 
@@ -52,13 +53,11 @@ class VideoStore:
             }
         response = requests.put(self.url+f"/customers/{self.current_customer['id']}",
         json=query_params)
-        print("response:", response)
         self.current_customer = response.json()
         return response.json()
 
     def delete_customer(self):
         response = requests.delete(self.url+f"/customers/{self.current_customer['id']}")
-        self.current_customer = None
         return response.json()
 
     
@@ -71,6 +70,7 @@ class VideoStore:
             "total_inventory": total_inventory
         }
         response = requests.post(self.url+"/videos",json=query_params)
+        self.current_customer = response.json()
         return response.json()
 
     def list_videos(self):
@@ -78,6 +78,7 @@ class VideoStore:
         return response.json()
 
     def get_video(self, id=None, title=None):
+        self.current_video = None
         for video in self.list_videos():
             if id and str(video["id"]) == id:
                 self.current_video = video
@@ -85,7 +86,7 @@ class VideoStore:
                 id = video["id"]
                 self.current_video = video
         if self.current_video == None:
-            return "I'm sorry, we could not find a video by that id, or title"
+            return None
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
 
@@ -103,23 +104,51 @@ class VideoStore:
             }
         response = requests.put(self.url+f"/videos/{self.current_video['id']}",
         json=query_params)
-        #print("response:", response)
         self.current_video = response.json()
         return response.json()
 
     def delete_video(self):
         response = requests.delete(self.url+f"/videos/{self.current_video['id']}")
-        self.current_video = None
         return response.json()
 
 
-    #def checkout_video(self):
+#---------------------# RENTAL METHODS #---------------------#
 
-    #def checkin_video(self):
+    def checkout_video(self, customer_id, video_id):
+        query_params = {
+            "customer_id": customer_id,
+            "video_id": video_id
+            }
+        response = requests.post(self.url+f"/rentals/check-out", json=query_params)
+        return response.json()
+
+    def checkin_video(self, customer_id, video_id):
+        query_params = {
+            "customer_id": customer_id,
+            "video_id": video_id
+            }
+        response = requests.post(self.url+f"/rentals/check-in", json=query_params)
+        return response.json()
 
 
-    # Optional:
+#---------------------# OPTIONAL METHODS #---------------------#
 
-    # def list_customers_checked_out_videos(self):
+    def list_customer_rentals(self):
+        response = requests.get(self.url+f"/customers/{self.current_customer['id']}/rentals")
+        return response.json()
+    
+    def list_video_rentals(self):
+        response = requests.get(self.url+f"/videos/{self.current_video['id']}/rentals")
+        return response.json()
+    
+    def get_customer_rental_history(self):
+        response = requests.get(self.url+f"/customers/{self.current_video['id']}/history")
+        return response.json()
 
-    # def list_videos_current_customers(self):
+    def get_video_rental_history(self):
+        response = requests.get(self.url+f"/videos/{self.current_video['id']}/history")
+        return response.json()
+
+    def get_overdue_rentals(self):
+        response = requests.get(self.url+f"/rentals/overdue")
+        return response.json()
