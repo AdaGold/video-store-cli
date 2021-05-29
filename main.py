@@ -1,6 +1,6 @@
 from video_list import VideoList
 from customer_list import CustomerList
-
+from rental_list import RentalList
 
 def print_stars():
     print("\n**************************\n")
@@ -14,15 +14,15 @@ def list_options():
         "3": "delete a video",  # tested and working
         "4": "get information about all videos",  # tested and working
         "5": "get information about one video",  # tested and working
-        "6": "add a customer",  # todo
-        "7": "edit a customer",  # todo
-        "8": "delete a customer",  # todo
-        "9": "get information about one customer",  # todo
-        "10": "get information about all customers",  # todo
-        "11": "check out a video to a customer",  # todo
-        "12": "check in a video from a customer",  # todo
-        "13": "list all options",  # todo
-        "14": "Quit"  # todo
+        "6": "add a customer",  # tested and working
+        "7": "edit a customer",  # tested and working
+        "8": "delete a customer",  # tested and working
+        "9": "get information about one customer",  # tested and working
+        "10": "get information about all customers",  # tested and working
+        "11": "check out a video to a customer",  # tested and working
+        "12": "check in a video from a customer",  # tested and working
+        "13": "list all options",  # tested and working
+        "14": "Quit"  # tested and working
 
     }
 
@@ -57,7 +57,7 @@ def run_cli(play=True):
     customer_list = CustomerList(
         url="https://retro-video-store-api.herokuapp.com/")
     video_list = VideoList(url="https://retro-video-store-api.herokuapp.com/")
-
+    rental_list = RentalList(url="https://retro-video-store-api.herokuapp.com/")
     # print choices
     options = list_options()
 
@@ -137,11 +137,60 @@ def run_cli(play=True):
             print(f"Your customer has been created! id is {new_customer['id']}")
 
         elif choice == '7':
-            total_inventory = video_list.mark_incomplete()
+            id = input("What is the id of your customer? ")
+
+            print(f"Great! Let's update the customer with id {id}")
+            name = input("What is the new name of your customer? ")
+            postal_code = input(
+                "What is the new postal_code of your customer? ")
+            phone = input("What is the new phone?")
+
+            customer_list.selected_customer = {
+                "id": id,
+                "name": name,
+                "postal_code": postal_code,
+                "phone": phone
+            }
+
+            customer_list.edit_customer()
 
             print_stars()
-            print("Incomplete task: ", total_inventory["task"])
+            print("Updated customer:", customer_list.selected_customer)
 
+        elif choice == '8':
+            id = input("What is the id of your customer to delete? ")
+
+            customer_list.delete_customer(id)
+
+            print_stars()
+            print("customer has been deleted.")
+
+            print_stars()
+            print(customer_list.list_customer())
+        elif choice == '9':
+            id = input("Which customer id would you like to select? ")
+            if id.isnumeric():
+                id = int(id)
+            customer_list.selected_customer = customer_list.get_customer(id=id)
+            if customer_list.selected_customer:
+                print_stars()
+                print("Selected customer: ", customer_list.selected_customer)
+            else:
+                print("can't find customer")
+        elif choice == '10':
+            print_stars()
+            print("Getting all customers:")
+            print(customer_list.list_customer())
+        elif choice == '11':
+            customer_id = input("Which customer id would you like to select? ")
+            video_id = input("Which video id would you like to select? ")
+            print(rental_list.check_out(customer_id,video_id))
+        elif choice == '12':
+            customer_id = input("Which customer id would you like to select? ")
+            video_id = input("Which video id would you like to select? ")
+            print(rental_list.check_in(customer_id,video_id))
+            
+        elif choice == '13':
             list_options()
         elif choice == '14':
             play = False
