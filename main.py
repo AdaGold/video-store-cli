@@ -92,6 +92,8 @@ def run_cli():
     # list choices and get input
     choice = make_choice()
 
+# Customer Related Choices ---------------------------------------------------------------------------
+
     if choice =='1':
         print_stars()
         for video in video_list.list_videos():
