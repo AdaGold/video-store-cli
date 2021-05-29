@@ -10,8 +10,8 @@ def list_options():
 
     options = {
         "1": "add a video",  # tested and working
-        "2": "edit a video", # tested and working
-        "3": "delete a video", # tested and working
+        "2": "edit a video",  # tested and working
+        "3": "delete a video",  # tested and working
         "4": "get information about all videos",  # tested and working
         "5": "get information about one video",  # tested and working
         "6": "add a customer",  # todo
@@ -74,15 +74,16 @@ def run_cli(play=True):
             release_date = input("What is the release_date of your video? ")
             total_inventory = input(
                 "What is the total_inventory of your video? ")
-            video_list.add_video(
+            new_video = video_list.add_video(
                 title=title, release_date=release_date, total_inventory=total_inventory)
-
+            print(f"Your video has been created! id is {new_video['id']}")
         elif choice == '2':
             id = input("What is the id of your video? ")
 
             print(f"Great! Let's update the video with id {id}")
             title = input("What is the new title of your video? ")
-            release_date = input("What is the new release_date of your video? ")
+            release_date = input(
+                "What is the new release_date of your video? ")
             total_inventory = input("What is the new total_inventory?")
 
             video_list.selected_video = {
@@ -95,13 +96,12 @@ def run_cli(play=True):
             video_list.edit_video()
 
             print_stars()
-            5# todo: need to get the updated video
-            print("Updated video:", video_list.selected_video) 
-            
+            5  # todo: need to get the updated video
+            print("Updated video:", video_list.selected_video)
 
         elif choice == '3':
             id = input("What is the id of your video to delete? ")
-            
+
             video_list.delete_video(id)
 
             print_stars()
@@ -127,10 +127,14 @@ def run_cli(play=True):
                 print("can't find video")
 
         elif choice == '6':
-            total_inventory = video_list.mark_complete()
-
-            print_stars()
-            print("Completed task: ", total_inventory["video"])
+            print("Great! Let's add a new customer.")
+            name = input("What is the name of your customer? ")
+            postal_code = input("What is the postal_code of your customer? ")
+            phone = input(
+                "What is the phone of your customer? ")
+            new_customer = customer_list.add_customer(
+                name=name, postal_code=postal_code, phone=phone)
+            print(f"Your customer has been created! id is {new_customer['id']}")
 
         elif choice == '7':
             total_inventory = video_list.mark_incomplete()
