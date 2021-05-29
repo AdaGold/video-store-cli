@@ -239,19 +239,17 @@ def run_cli(play=True):
         elif choice == '11':
             print("Great! Let's check out a video to a customer.")
             customer = get_customer(customer_list)
-            video_id = input("What is the video id? ")
-            if video_id == None:
-                return "Could not find video by that id"
-            video_id = input("What is the video id? ")
+            video = get_video(video_list)
             response = rentals_list.check_out_video(
-                customer_id=customer_id, video_id=video_id)
+                customer_id=customer["id"], video_id=video["id"])
 
         elif choice == '12':
             print("Great! Let's check in a video from a customer.")
-            customer_id = input("What is the customer id? ")
-            video_id = input("What is the video id? ")
+            customer = get_customer(customer_list)
+            video = get_video(video_list)
             response = rentals_list.check_in_video(
-                customer_id=customer_id, video_id=video_id)
+                customer_id=customer["id"], video_id=video["id"])
+            print("Video has been check-in")
 
         elif choice == '13':
             list_options()
@@ -263,12 +261,21 @@ def run_cli(play=True):
 
 
 def get_customer(customer_list):
-    customer_id = input("What is the customer id? ")
-    customer = customer_list.get_customer(id=customer_id)
+    customer_id_input = input("What is the customer id? ")
+    customer = customer_list.get_customer(id=customer_id_input)
     if customer == "Could not find customer by that name or id":
         print("Could not find customer by that id")
         return get_customer(customer_list)
     return customer
+
+def get_video(video_list):
+    video_id_input = input("What is the video id? ")
+    video = video_list.get_video(id=video_id_input)
+    if video == "Could not find video by that name or id":
+        print("Could not find video by that id")
+        return get_video(video_list)
+    return video
+        
 
 
 if __name__ == "__main__":

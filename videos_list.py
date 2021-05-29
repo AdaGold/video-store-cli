@@ -22,15 +22,15 @@ class VideoList:
         return response.json()
 
     def get_video(self,id, title=None): 
+        id = int(id)
         
         for video in self.list_videos():
-            if title:
-                if video["title"]==title:
+            if title and video["title"]==title:
                     id = video["id"]
                     self.selected_video = video
             if id == video["id"]:
                 self.selected_video = video
-
+        print(self.selected_video)
         if self.selected_video == None:
             return "Could not find video by that name or id"
 
