@@ -16,7 +16,7 @@ def print_stars():
     print("\n**************************\n")
 
 def list_options():
-
+    #add option where every customer action requires you to select a customer within that action. 
     options = {
         "1": "List all videos in stock", 
         "2": "Create a new video record",
@@ -27,7 +27,11 @@ def list_options():
         "7": "List all options",
         "8": "Quit",
         "9": "Rent out a video",
-        "10": "Return a video"
+        "10": "Return a video",
+        "1": "List all customers", 
+        "2": "Add a new video customer",
+        "4": "Update a customer", 
+        "5": "Delete a customer",
         }
 
     print_stars()
