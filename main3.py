@@ -8,36 +8,80 @@ def print_stars():
     print("\n**************************\n")
 
 
-def list_options():
+def main_menu():
+    menu = {
+        "*": "List all options",
+        "1": "Video Management", 
+        "2": "Customer Management",
+        "3": "Rental Management (video check-ins/outs)", 
+        "END" : "Quit"        
+    }
 
+    print_stars()
+    print("WELCOME TO STELLA'S RETRO VIDEO STOR.")
+    print("Please select from the following main menu.")
+    print_stars()
+    
+    for item_num in menu:
+        print(f"Option {item_num}: {menu[item_num]}")
+
+    print_stars()
+    return menu
+
+def video_management (): 
     options = {
         "*": "List all options",
         "1": "Add a video", 
         "2": "Edit a video",
         "3": "Delete a video", 
-        "4": "Get information about all videos", 
-        "5": "Get information about one video", 
-        "6": "Add a customer",
-        "7": "Edit a customer",
-        "8": "Delete a customer",
-        "9": "Get information about all customers",
-        "10": "Get information about one customers",
-        "11": "Check out a video to a customer",
-        "12": "Check in a video from a customer",
-        "END" : "End operations and quit"
+        "4": "Get information of all videos", 
+        "5": "Get information of one video", 
+        "Main": "Return to main menu",
+        "END": "Quit"
         }
-
-    print_stars()
-    print("WELCOME TO STELLA'S RETRO VIDEO STORE")
-    print("Please select from the following menu.")
-    print_stars()
     
     for choice_num in options:
-        print(f"Option {choice_num}: {options[choice_num]}")
+        print(f"Option {choice_num}. {options[choice_num]}")
 
     print_stars()
     return options
 
+def video_management (): 
+    options = {
+        "*": "List all options",
+        "1": "Add a customer",
+        "2": "Edit a customer",
+        "3": "Delete a customer",
+        "4": "Get information of all customers",
+        "5": "Get information of one customers",
+        "Main": "Return to main menu",
+        "END" : "Quit"
+        }
+    
+    for choice_num in options:
+        print(f"Option {choice_num}. {options[choice_num]}")
+
+    print_stars()
+    return options
+
+def rental_management (): 
+    options = {
+        "*": "List all options",
+        "1": "Check out a video to a customer",
+        "2": "Check in a video from a customer",
+        "Main": "Return to main menu",
+        "END" : "Quit"
+        }
+    
+    for choice_num in options:
+        print(f"Option {choice_num}. {options[choice_num]}")
+
+    print_stars()
+    return options
+
+
+
+def 
 
 def select_choice(options, video_store):
     valid_choices = options.keys()
