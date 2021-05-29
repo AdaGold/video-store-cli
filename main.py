@@ -287,8 +287,10 @@ def main(play=True):
 
             print("")
             checked_in = rental.check_in_video(customer_id=customer_id, video_id=video_id)
+            customer_info = customer.get_customer_by_id(id=customer_id)
+            video_info = video.get_video(id=video_id)
             print(f"Rental info: \n{checked_in}")
-            print(f"{customer.selected_customer['name']} successfully checked in {video.selected_video['title']}!")
+            print(f"{video_info['title']} successfully checked in {customer_info['name']}!")
 
 # ---------------------etc---------------------- #
 
