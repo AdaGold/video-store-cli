@@ -39,12 +39,12 @@ def list_options():
     return options
 
 
-def select_choice(options, video_store):
+def make_choice(options, video_store):
     valid_choices = options.keys()
     choice = None
 
     while choice not in valid_choices:
-        print("What would you like to do? Select * to see all options. Select End to quit.")
+        print("What would you like to do? Select * to see all options. Select END to quit.")
         choice = input("Make your selection using the option number: ")
     return choice
 
@@ -56,7 +56,7 @@ def run_cli(play=True):
     options = list_options()
 
     while play==True:
-        choice = select_choice(options, video_store)
+        choice = make_choice(options, video_store)
 
         if choice=="*":
             list_options()
@@ -68,7 +68,7 @@ def run_cli(play=True):
             new_release_date = input("Release Date: ")
             new_total_inventory = input("Total Inventory: ")
             response = video_store.add_video(title=new_title, release_date=new_release_date, total_inventory=new_total_inventory)
-            print(f"New video #{response['id']} has been added.")
+            print("New video created, id# ", response["id"])
 
         #Option 2: edit a video 
         elif choice=='2':
@@ -106,7 +106,7 @@ def run_cli(play=True):
             postal_code = input("Postal Code: ")
             phone = input("Phone: ")
             response = video_store.add_customer(name=name, postal_code=postal_code, phone=phone)
-            print(f"Customer #{response['id']} has been added.")
+            print("New customer created, id# ", response["id"])
 
         #Option 7: edit a customer
         elif choice=='7':
@@ -123,21 +123,21 @@ def run_cli(play=True):
             delete_id = input("Enter the customer ID to delete: ")
             if delete_id.isnumeric():
                 video_store.delete_customer(id=delete_id)
-                print(f"Customer id #{delete_id} has been deleted.")
+                print(f"Customer #{delete_id} has been deleted.")
 
-        #Option 9: get information about all customers
+        #Option 9: get information of all customers
         elif choice=="9":
             for customer in video_store.list_all_customers():
                 print(customer)
 
-        #Option 10: get information about one customer
+        #Option 10: get information of one customer
         elif choice=="10":
             customer_id = input("Enter the customer ID to view information: ")
             if customer_id.isnumeric():
                 customer = video_store.get_customer(id=customer_id)
                 print(customer)
 
-        # Option 11: check out a video to a customer
+        # Option 11: check out a video
         elif choice == "11":
             print("Checking out a video.")
             video_id = input("Enter the video id: ")
@@ -146,10 +146,10 @@ def run_cli(play=True):
             if customer_id == None or video_id == None:
                 print("No record found. Please enter valid information.")
             else:
-                rental = video_store.checkout_video_to_customer(customer_id=customer_id, video_id=video_id)
-                print(f"Video #{video_id} has been checked out to customer #{customer_id}.")
+                rental = video_store.checkout_video(customer_id=customer_id, video_id=video_id)
+                print(f"Check-out completed! Video #{video_id} has been checked out to customer #{customer_id}.")
 
-         # Option 12: check in a video from a customer
+         # Option 12: check in a video
         elif choice == "12":
             print("Checking in a video")
             video_id = input("Enter the video id: ")
@@ -158,8 +158,8 @@ def run_cli(play=True):
             if video_id == None or customer_id == None:
                 print("No record found. Please enter valid information.")
             else:
-                return_rental = video_store.checkin_video_from_customer(customer_id=customer_id, video_id=video_id)
-                print(f"Video #{video_id} has been returned from customer #{customer_id}.")
+                check_in = video_store.checkin_video(customer_id=customer_id, video_id=video_id)
+                print(f"Check-in completed! Video #{video_id} has been returned from customer #{customer_id}.")
 
         elif choice=="END":
             play=False
