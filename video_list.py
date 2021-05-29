@@ -21,18 +21,7 @@ class VideoList:
         response = requests.get(self.url+"/videos")
         return response.json()
 
-    def get_video(self, title=None, id=None):
-
-        for video in self.list_video():
-            if title:
-                if video["title"] == title:
-                    id = video["id"]
-                    self.selected_video = video
-            elif id == video["id"]:
-                self.selected_video = video
-
-        if self.selected_video == None:
-            return "Could not find video by that name or id"
+    def get_video(self, id):
 
         response = requests.get(self.url+f"/videos/{id}")
         return response.json()
@@ -52,9 +41,9 @@ class VideoList:
         self.selected_video = response.json()
         return response.json()
 
-    def delete_video(self):
-        response = requests.delete(
-            self.url+f"/videos/{self.selected_video['id']}")
+    #pass in id directly
+    def delete_video(self, id):
+        response = requests.delete(self.url+f"/videos/{id}")
         self.selected_video = None
         return response.json()
 
