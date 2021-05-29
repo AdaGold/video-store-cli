@@ -107,4 +107,48 @@ class Video_store:
         self.selected_video = None
         return response.json()
     #################################################### end video actions
+
+    #List customers
+    def list_customers(self): 
+        response = requests.get(self.url+"/customers")
+        return response.json()
+
+    #Customer create, edit, delete
+    def create_customer(self, name= "Default name", phone= "000-000-0000", postal_code= "00000"):
+
+        query_params = {
+            "name": name,
+            "phone": phone,
+            "postal_code": postal_code,
+        }
+        response = requests.post(self.url+"/customers",json=query_params)
+        return response.json()
+
+    def update_customer(self,customer_id=None,name=None, phone=None, postal_code=None): 
+        if not customer_id:
+            customer_id = self.selected_customer["id"]
+        if not name:
+            name = self.selected_customer["name"]
+        if not phone:
+            phone = self.selected_customer["phone"]
+        if not postal_code:
+            postal_code = self.selected_customer["postal_code"]
+
+        query_params = {
+            "name": name,
+            "phone": phone,
+            "postal_code": postal_code,
+        }
+        
+        response = requests.put(
+            self.url+f"/customers/{self.selected_customer['id']}",
+            json=query_params
+            )
+        print("response:", response) #add ansi color codes here?
+        self.selected_video = response.json()
+        return response.json()
     
+    def delete_customer(self): #delete a customer
+        response = requests.delete(self.url+f"/customers/{self.selected_customer['id']}")
+        self.selected_video = None
+        return response.json()
