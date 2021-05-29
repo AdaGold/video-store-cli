@@ -1,8 +1,4 @@
 import video_store
-
-
-# def main():
-#     print("WELCOME TO RETRO VIDEO STORE")
         
 def print_stars():
     print("*********************")
@@ -11,7 +7,7 @@ def make_choice(options):
     valid_choices = options.keys()
     choice = None
     while choice not in valid_choices:
-        print("What would you like to do? Select 12 to see all options again")
+        print("What would you like to do? Select 14 to see all options again")
         choice = input("Make your selection using the option number: ")
     return choice
 
@@ -30,7 +26,8 @@ def print_main_menu():
         "10": "List all customers",
         "11": "Check-out a video",
         "12": "Check-in a video",
-        "13": "Quit"
+        "13": "Quit",
+        "14": "View options again!"
         }
 
     print_stars()
@@ -40,6 +37,8 @@ def print_main_menu():
 
     for choice_num in options:
         print(f"Option {choice_num}. {options[choice_num]}")
+    print_stars()
+    print_stars()
     print_stars()
 
     return options
@@ -57,10 +56,59 @@ def main(play=True):
             print_stars()
             response = updating_video()
             print(f"Video updated! {response}")
-            
-        
+        elif choice == '3':
+            print_stars()
+            response = delete_video()
+            print(f"Video delete! {response}")
+        elif choice == '4':
+            print_stars()
+            response = list_videos()
+            print(f"All the videos: ")
+            for video in response:
+                print(video)
+        elif choice == '5':
+            print_stars()
+            response = get_one_video()
+            print(f"Video requested!: {response}")
+        elif choice == '6':
+            print_stars()
+            response = add_new_customer()
+            print(f"New Customer Added!: {response}")
+        elif choice == '7':
+            print_stars()
+            response = update_a_customer()
+            print(f"Customer updated! {response}")
+        elif choice == '8':
+            print_stars()
+            response = delete_a_customer()
+            print(f"Customer deleted!! {response}")
+        elif choice == '9':
+            print_stars()
+            response = get_one_customer()
+            print(f"Customer!: {response}")
+        elif choice == '10':
+            print_stars()
+            response = list_all_customer()
+            print(f"All the customers!")
+            for custoner in response:
+                print(video)
+        elif choice == '11':
+            print_stars()
+            response = checkout_video()
+            print(f"Checked out!: {response}")
+        elif choice == '12':
+            print_stars()
+            response = checkin_video()
+            print(f"Checked back in!: {response}")
+        elif choice == '13':
+            print_stars()
+            print_stars()
+            play=False
+            print("\nThanks for coming to the Retro Video Store!")
+        elif choice == '14':
+            options = print_main_menu()
+        print_stars()
                 
-    return "the end!!"
 
 
 
@@ -80,6 +128,73 @@ def updating_video():
     total_inventory = input("What is the starting inventory of the video? ")
     response = video_store.edit_video(title=title, release_date=release_date, total_inventory=total_inventory, video_id=video_id)
     return response
+
+def delete_video():
+    print("Sure thing! Let get rid of this rejected video!")
+    video_id = input("What is the video id? ")
+    response = video_store.delete_video(video_id=video_id)
+    return response
+
+def list_videos():
+    print("Alrighty!! Lets see our inventory!!")
+    response = video_store.list_all_videos()
+    return response
+
+def get_one_video():
+    print("Interested in just video? OK!!")
+    video_id = input("What is the video id? ")
+    response = video_store.get_video(video_id=video_id)
+    return response
+
+def add_new_customer():
+    print("Cool!! Lets add a new customer")
+    name = input("What is the name of this new customer? ")
+    postal_code = input("What is the postal code of this new customer? ")
+    phone = input("What is this customers' phone number? ")
+    response = video_store.add_customer(name=name, postal_code=postal_code, phone=phone)
+    return response
+
+def update_a_customer():
+    print("Lets update this puppy!!")
+    customer_id = input("What is the customers' id? ")
+    name = input("What is the updated name of this customer? ")
+    postal_code = input("What is the updated postal code of this customer? ")
+    phone = input("What is this customers' updated phone number? ")
+    response = video_store.edit_customer(customer_id=customer_id, name=name, postal_code=postal_code, phone=phone)
+    return response
+
+def delete_a_customer():
+    print("Let remove this customer!!")
+    customer_id = input("What is the customers' id? ")
+    response = video_store.delete_customer(customer_id=customer_id)
+    return response
+
+def get_one_customer():
+    print("Let's get just one customer? OK!!")
+    customer_id = input("What is the customer id? ")
+    response = video_store.get_customer(customer_id=customer_id)
+    return response
+
+def list_all_customer():
+    print("Lets see all the customers!")
+    response = video_store.list_customers()
+    return response
+
+def checkout_video():
+    print("Whooyee! You're checking a video out!")
+    customer_id = input("What is the customers' id that is checking out the video? ")
+    video_id = input("What is the video id of the video being checked out? ")
+    response = video_store.checkout(customer_id=customer_id, video_id=video_id)
+    return response
+
+def checkin_video():
+    print("Alrightyyy! I hope you liked the video! Let's check it back in!")
+    customer_id = input("What is the customers' id? ")
+    video_id = input("What is the video id of the video being checked back in? ")
+    response = video_store.checkin(customer_id=customer_id, video_id=video_id)
+    return response
+
+
 
 if __name__ == "__main__":
     main()
