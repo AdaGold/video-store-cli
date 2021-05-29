@@ -1,7 +1,7 @@
 import requests
 import datetime
 
-class Customer:
+class CustomerList:
     def __init__(self, url="http://localhost:5000", selected_customer=None):
         self.url = url
         self.selected_customer = selected_customer
@@ -66,12 +66,12 @@ class Customer:
         if self.selected_customer:
             print(f"Customer with id {self.selected_customer['id']} is currently selected\n")
 
-    # DISPLAY MENU FOR CUSTOMER OPTIONS
-    def menu(self):
-        print("Choose from the list of options")
-        print("1. Display all customer")
-        print("2. Create a new customer")
-        print("3. Display a customer")
-        print("4. Update a customer")
-        print("5. Delete a customer")
-        print("6. Go back to main menu")
+#     # DISPLAY MENU FOR CUSTOMER OPTIONS
+#     def menu(self):
+#         print("Choose from the list of options")
+#         print("1. Display all customer")
+#         print("2. Create a new customer")
+#         print("3. Display a customer")
+#         print("4. Update a customer")
+#         print("5. Delete a customer")
+#         print("6. Go back to main menu")

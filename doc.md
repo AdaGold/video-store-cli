@@ -19,7 +19,7 @@ def print_stars():
 def list_options():
 
     options = {
-        "1": "Create a video", 
+        "1": "Create a video", done
         "2": "Update selected video",
         "3": "Delete selected video", 
         "4": "List all options", 
@@ -36,6 +36,10 @@ def list_options():
         "15": "Quit",
         
         }
+
+        customer.name = form_data["name"]
+        customer.postal_code = form_data["postal_code"]
+        customer.phone = form_data["phone"]
 
     print_stars()
     print("Welcome to the Video Store CLI")
