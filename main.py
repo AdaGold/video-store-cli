@@ -110,7 +110,7 @@ def run_cli(play=True):
                
                 video.get_video(title=title)
                 
-            elif select_by=="id":
+            elif select_by=="id" or select_by == "ID" or select_by == "Id":
                 id = input("Which video id would you like to select? ")
                 if id.isnumeric():
                     id = int(id)
@@ -121,7 +121,10 @@ def run_cli(play=True):
             if video.selected_video:
                 print_stars()
                 print("Selected video: ", video.selected_video)
-
+            else:
+                print("\nInvalid id or title entry,\nplease check video list to make sure video is in inventory.\nSelect option 4 for inventory info\nOr select option 1 to add this video to inventory")
+                
+        
         elif choice=='2': #update a video
             print(f"Great! Let's update the video information: {video.selected_video}")
             title=input("What is the new title of your video? ")
@@ -159,11 +162,11 @@ def run_cli(play=True):
             print("New customer:", customer_info)
 
         elif choice=='9':
-            select_by = input("Would you like to select by? Enter name or id: ")
+            select_by = input("Would you like to select by? Enter 'name' or 'id': ")
             if select_by=="name":
                 name = input("Which customer name would you like to select? ")
                 customer.get_customer(name=name)
-            elif select_by=="id":
+            elif select_by=="id" or select_by == "ID" or select_by == "Id":
                 id = input("Which customer id would you like to select? ")
                 if id.isnumeric():
                     id = int(id)
@@ -174,6 +177,9 @@ def run_cli(play=True):
             if customer.selected_customer:
                 print_stars()
                 print("Selected customer: ", customer.selected_customer)
+
+            else:
+                print("\nInvalid id or name entry,\nplease check customer list to make sure customer exists.\nSelect option 10 for customer list info\nOr select option 6 to add this customer")
 
         elif choice=='7':
             print(f"Great! Let's update the customer information: {customer.selected_customer}")
