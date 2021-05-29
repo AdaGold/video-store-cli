@@ -155,6 +155,7 @@ def main(play=True):
             print_stars()
             for video in video_operations.get_all_videos():
                 print(video)
+
         elif choice=='5':
             print("Here are the videos:")
             list_videos = video_operations.get_all_videos()
@@ -178,6 +179,7 @@ def main(play=True):
             response = customer_operations.create_customer(name=name, postal_code=postal_code,phone=phone)
             print_stars()
             print(f"Here is the ID of new customer: {response['id']}")
+
         elif choice=='7':
             list_customer = customer_operations.get_all_customers()
             for customer in list_customer:
@@ -227,6 +229,7 @@ def main(play=True):
             print_stars()
             for customer in customer_operations.get_all_customers():
                 print(customer)
+
         elif choice=='11':
             customer_id=input("Starting a rental procedure. Please enter a customer id: ")
             video_id=input("Please enter a video id: ")
@@ -241,6 +244,7 @@ def main(play=True):
             call_bar()
             response = rental_operations.check_out(customer_id=customer_id, video_id=video_id)
             print(f"*** Calling the shots! Selected video id {video_id} has been checked out! ")
+
         elif choice=='12':
             customer_id=input("Starting a return procedure. Please enter a customer id: ")
             video_id=input("Please enter a video id: ")
@@ -256,6 +260,7 @@ def main(play=True):
             response = rental_operations.check_in(customer_id=customer_id, video_id=video_id)
             print("Here is the updated return report:", response)
             print(f"*** Thank you customer id {customer_id}! Selected video id {video_id} has been checked in! ***")
+            
         elif choice =='*':
             list_options()
         elif choice=='#':
