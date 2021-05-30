@@ -183,8 +183,19 @@ def run_cli(play=True):
         elif choice == "9":
             print("I'll need some more information about the customer you'd like to add.")
             name = input("What is the customer's name? ")
-            phone = input("What is the customer's phone number (in format xxx-xxx-xxxx)? ")
-            postal_code = input("What is the customer's postal code? ")
+
+            phone_match = False
+            while not phone_match:
+                phone = input("Please enter customer phone number in format 'xxx-xxx-xxxx': ")
+                phone_match = re.match('^\d{3}-\d{3}-\d{4}$', phone)
+
+            postal_match = False
+            while not postal_match:
+                postal_code = input("What is the customer's postal code? ")
+                postal_match = re.match('^\d{5}$', postal_code)
+                if not postal_match:
+                    print("Postal code must be 5 digits")
+
             response = customers.add_customer(name=name, phone=phone, postal_code=postal_code)
             print_stars()
             print("Customer added: ", response)
@@ -192,8 +203,19 @@ def run_cli(play=True):
         elif choice == "10":
             id = input("What is the id of the customer you'd like to update? ")
             name = input("What is the customer's name? ")
-            postal_code = input("What is the customer's postal code? ")
-            phone = input("What is the customer's phone number (format xxx-xxx-xxxx)? ")
+
+            phone_match = False
+            while not phone_match:
+                phone = input("Please enter customer phone number in format 'xxx-xxx-xxxx': ")
+                phone_match = re.match('^\d{3}-\d{3}-\d{4}$', phone)
+
+            postal_match = False
+            while not postal_match:
+                postal_code = input("What is the customer's postal code? ")
+                postal_match = re.match('^\d{5}$', postal_code)
+                if not postal_match:
+                    print("Postal code must be 5 digits")
+                    
             response = customers.update_customer(id=id, name=name, phone=phone, postal_code=postal_code)
 
             print_stars()
