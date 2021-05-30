@@ -39,7 +39,7 @@ class Customers:
             elif phone:
                 if customer["phone"] == phone:
                     id = customer["id"]
-                    selected_customer == customer
+                    selected_customer = customer
             elif id == customer["id"]:
                 selected_customer = customer
 

@@ -1,5 +1,6 @@
 import requests
 import pyfiglet
+import re
 # import itertools, threading, time, sys
 from customers import Customers
 from videos import Videos
@@ -167,7 +168,10 @@ def run_cli(play=True):
                 else:
                     print("Please enter a number!")
             elif select_by == "phone":
-                phone = input("Please enter customer phone number in format 'xxx-xxx-xxxx': ")
+                match = False
+                while not match:
+                    phone = input("Please enter customer phone number in format 'xxx-xxx-xxxx': ")
+                    match = re.match('^\d{3}-\d{3}-\d{4}', phone)
                 response = customers.get_customer(phone=phone)
             else:
                 print("You must type 'id', 'name', or 'phone'!")
