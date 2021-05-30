@@ -28,10 +28,11 @@ def list_options():
         "8": "Quit",
         "9": "Rent out a video",
         "10": "Return a video",
-        "1": "List all customers", 
-        "2": "Add a new video customer",
-        "4": "Update a customer", 
-        "5": "Delete a customer",
+        "11": "List all customers", 
+        "12": "Add a new video customer",
+        "13": "Update selected customer", 
+        "14": "Delete selected customer",
+        "15": "Select a customer"
         }
 
     print_stars()
@@ -56,9 +57,15 @@ def make_choice(options, video_store):
         choice = input("Make your selection using the option number: ")
 
     if choice in ['4','5'] and video_store.selected_video == None:
-        print("You must select a video before updating it, deleting it, checking it out, or checking back in.")
+        print("You must select a video before updating or deleting it")
         print("Let's select a video!")
         choice = "3"
+
+    elif choice in ['13', '14'] and video_store.selected_customer == None:
+        print("You must select a customer before updating or deleting it")
+        print("Let's select a customer!")
+        choice = "15"
+
     
     return choice
 
@@ -118,6 +125,7 @@ def run_cli(play=True):
 
             print_stars()
             print("video:", response)
+
         elif choice=='5':
             video_store.delete_video()
 
@@ -155,6 +163,56 @@ def run_cli(play=True):
             print(response) 
             print_stars()
 
+        # "11": "List all customers", 
+        elif choice =='11':
+            print_stars()
+            for customer in video_store.list_customers():
+                print(customer)
+        # "12": "Add a new customer",
+        elif choice =='12':
+            print("Great! Let's add a new customer.")
+            name=input("What is the name of customer?")
+            phone=input("Please add customer's phone number ->")
+            postal_code=input("Please add customer's postal code ->")
+            response = video_store.create_customer(name=name, phone=phone, postal_code= postal_code)
+
+            print_stars()
+            print("New customer:", response)
+        # "13": "Update a customer", 
+        elif choice =='13':
+            print(f"Great! Let's update the customer {video_store.selected_customer}'s record")
+            name=input("What is the new name of customer?")
+            phone=input("Please add customer's new phone number ->")
+            postal_code=input("Please add customer's new postal code ->")
+            response = video_store.update_customer(name=name, phone=phone, postal_code= postal_code)
+
+            print_stars()
+            print("Customer:", response)
+        # "14": "Delete a customer",
+        elif choice == '14':
+            video_store.delete_customer()
+
+            print_stars()
+            print("Customer has been deleted.")
+
+            print_stars()
+
+        elif choice == '15':
+            select_by = input("Would you like to select your cutomer by? Enter name or id: ")
+            if select_by=="name":
+                title = input("Which customer would you like to select by name? ")
+                video_store.get_customer(customer=customer)
+            elif select_by=="id":
+                customer_id = input("Which customer id would you like to select? ")
+                if customer_id.isnumeric():
+                    customer_id = int(customer_id)
+                    video_store.get_video(customer_id=customer_id)
+            else:
+                print("Could not select. Please enter id or name.")
+            
+            if video_store.selected_customer:
+                print_stars()
+                print("Selected customer: ", video_store.selected_customer)
 
         print_stars()
 

@@ -113,6 +113,23 @@ class Video_store:
         response = requests.get(self.url+"/customers")
         return response.json()
 
+    #get one customer's information
+    def get_customer(self, name=None, customer_id=None):
+        
+        for customer in self.list_customers():
+            if name:
+                if customer["name"]==name:
+                    customer_id = customer["id"]
+                    self.selected_customer = customer
+            elif int(customer_id) == customer["id"]:
+                self.selected_customer = customer
+        
+        if self.selected_customer == None:
+            return "Could not find that customer in our records"
+
+        response = requests.get(self.url+f"/customers/{customer_id}")
+        return response.json()
+
     #Customer create, edit, delete
     def create_customer(self, name= "Default name", phone= "000-000-0000", postal_code= "00000"):
 
