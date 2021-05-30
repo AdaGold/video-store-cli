@@ -16,7 +16,6 @@ def print_stars():
     print("\n**************************\n")
 
 def list_options():
-    #add option where every customer action requires you to select a customer within that action. 
     options = {
         "1": "List all videos in stock", 
         "2": "Create a new video record",
@@ -29,7 +28,7 @@ def list_options():
         "9": "Rent out a video",
         "10": "Return a video",
         "11": "List all customers", 
-        "12": "Add a new video customer",
+        "12": "Add a new customer",
         "13": "Update selected customer", 
         "14": "Delete selected customer",
         "15": "Select a customer"
@@ -46,7 +45,6 @@ def list_options():
     print_stars()
 
     return options
-
 
 def make_choice(options, video_store):
     valid_choices = options.keys()
@@ -66,23 +64,18 @@ def make_choice(options, video_store):
         print("Let's select a customer!")
         choice = "15"
 
-    
     return choice
 
 def run_cli(play=True):
 
-    #initialize video
-    video_store = Video_store(URL) ##put url here if you can't find it ya silly
+    video_store = Video_store(URL)
     
-    # print choices
     options = list_options()
 
     while play==True:
 
-        # get input and validate
+        
         choice = make_choice(options, video_store)
-
-        #video_store.print_selected()
 
         if choice=='1':
             print_stars()
@@ -163,12 +156,12 @@ def run_cli(play=True):
             print(response) 
             print_stars()
 
-        # "11": "List all customers", 
+        
         elif choice =='11':
             print_stars()
             for customer in video_store.list_customers():
                 print(customer)
-        # "12": "Add a new customer",
+        
         elif choice =='12':
             print("Great! Let's add a new customer.")
             name=input("What is the name of customer?")
@@ -178,7 +171,7 @@ def run_cli(play=True):
 
             print_stars()
             print("New customer:", response)
-        # "13": "Update a customer", 
+         
         elif choice =='13':
             print(f"Great! Let's update the customer {video_store.selected_customer}'s record")
             name=input("What is the new name of customer?")
@@ -188,7 +181,7 @@ def run_cli(play=True):
 
             print_stars()
             print("Customer:", response)
-        # "14": "Delete a customer",
+        
         elif choice == '14':
             video_store.delete_customer()
 
@@ -206,7 +199,7 @@ def run_cli(play=True):
                 customer_id = input("Which customer id would you like to select? ")
                 if customer_id.isnumeric():
                     customer_id = int(customer_id)
-                    video_store.get_video(customer_id=customer_id)
+                    video_store.get_customer(customer_id=customer_id)
             else:
                 print("Could not select. Please enter id or name.")
             
