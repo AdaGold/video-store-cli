@@ -5,15 +5,42 @@ from video_store import Video_store
 URL = "https://retro-video-store-api.herokuapp.com"
 
 def main():
-    print("WELCOME TO RETRO VIDEO STORE")
-    pass
+    print(u"\u001b[34;1mWELCOME TO BRICKBUSTER\u001b[0m")
+    #pass
 
 
 if __name__ == "__main__":
     main()
 
 def print_stars():
-    print("\n**************************\n")
+    
+        print("______________________________________________________________________")
+        print(u"\u001b[41m___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|__")
+        print("_|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|")
+        print("___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|__")
+        print("_|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|___|\u001b[0m")
+        
+    
+def houston_we():
+            print("                                  _______                     ")
+            print("         _________       .----''''       ''''----.            ")
+            print("        :______.-':      :  .-----------------.  :             ")
+            print("        | ______  |      | :                   : |             ")
+            print("        |:______B:|      | |   Little Error:   | |             ")
+            print("        |:______B:|      | |                   | |             ")
+            print("        |:______B:|      | |  Item  not        | |             ")
+            print("        |         |      | |  found.           | |             ")
+            print("        |:_____:  |      | |                   | |             ")
+            print("        |    ==   |      | :                   : |             ")
+            print("        |       O |      :  '-----------------'  :             ")
+            print("        |       o |      :'-----...______...-----'             ")
+            print("        |       o |-._.-i_____/'             \._               ")
+            print("        |'-.____o_|   '-.     '-...______...-'  `-._           ")
+            print("        :_________:      `.____________________   `-.___.-.    ")
+            print("                         .'.eeeeeeeeeeeeeeeeee.'.      :___:   ")
+            print("            fsc        .'.eeeeeeeeeeeeeeeeeeeeee.'.            ")
+            print("                      :____________________________:           ")
+
 
 def list_options():
     options = {
@@ -35,12 +62,13 @@ def list_options():
         }
 
     print_stars()
-    print("Welcome")
-    print("These are the actions you can perform")
+    print(u"\u001b[34m                    Good to see You")
+    print("          These are the actions you can perform\u001b[0m")
     print_stars()
+    #houston_we()
     
     for choice_num in options:
-        print(f"Option {choice_num}. {options[choice_num]}")
+        print(f"\u001b[34mOption {choice_num}. {options[choice_num]}\u001b[0m")
 
     print_stars()
 
@@ -146,6 +174,8 @@ def run_cli(play=True):
             customer_id = input("Which customer is renting today? (please provide customer id)")
             video_id = input("Which video would they like to rent? (please provide video id)" )
             response = video_store.check_out_video(int(customer_id), int(video_id))
+            if response != 200:
+                houston_we()
             print(response) 
             print_stars()
 
