@@ -5,7 +5,7 @@ from video_store_customers import Customer
 from video_store_rentals import Rental
 
 URL = "http://127.0.0.1:5000"
-BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
+BACKUP_URL = "https://chill-time-video-store.herokuapp.com"
 
 def print_stars():
     print("\n**************************\n")
@@ -62,9 +62,9 @@ def make_choice(options, video, customer):
 def run_cli(play=True):
     
     #initialize video
-    video = Video()
-    customer = Customer()
-    rental = Rental()
+    video = Video(url=BACKUP_URL)
+    customer = Customer(url=BACKUP_URL)
+    rental = Rental(url=BACKUP_URL)
 
     #print choices 
     options = list_options() 
