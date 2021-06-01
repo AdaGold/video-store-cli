@@ -159,10 +159,8 @@ def check_response(response):
         return True
     elif response.status_code == 404:
         print()
-        print('Resource not found, please try again.')
-        print()
+        print('-- !!! Resource not found, please try again !!! --')
     else:
         print()
-        print('Something went wrong, please try again.')
-        print()
+        print('-- !!! Something went wrong, please try again !!! --')
     return False
