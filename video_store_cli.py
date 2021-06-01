@@ -10,15 +10,16 @@ def get_option(n):
             quit()
         elif is_integer(option) and int(option) in range(1, n + 1):
             return option
-        option = input("Sorry, that's not a valid option. Please try again.").lower()
+        option = input("Sorry, that's not a valid option. Please try again. ").lower()
 
 
 def get_id(resource):
     resource_id = input(f"Please provide the {resource}'s id: ")
-    if not is_integer(resource_id):
-        print("Please provide an integer.")
-        get_option(resource)
-    return resource_id
+    while True:
+        if is_integer(resource_id):
+            return resource_id
+        else:
+            resource_id = input("Please provide an integer. ")
 
 
 def is_integer(n):
