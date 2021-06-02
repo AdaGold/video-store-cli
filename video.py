@@ -1,7 +1,7 @@
 import requests
 import datetime
 
-class Videos:
+class Video:
     def __init__(self, URL="https://retro-video-store-api.herokuapp.com", selected_video=None):
         self.url = URL
         self.selected_video = selected_video
@@ -55,5 +55,5 @@ class Videos:
 
     def delete_video(self):
         response = requests.delete(self.url+f"/videos/{self.selected_video['id']}")
-    self.selected_video = None
-    return response.json()
+        self.selected_video = None
+        return response.json()
