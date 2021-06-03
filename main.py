@@ -1,11 +1,8 @@
 from video_store import VideoStore
 
-URL = "http://127.0.0.1:5000"
-BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 def main():
-    print("WELCOME TO THE RETRO VIDEO STORE")
-
+    print("\nWELCOME TO THE RETRO VIDEO STORE")
 
 if __name__ == "__main__":
     main()
@@ -48,7 +45,6 @@ def list_options():
     return options
 
 
-# def make_choice(options, video_store):
 def make_choice(options):
     valid_choices = options.keys()
     choice = input("\nPlease select option: ")
@@ -75,7 +71,7 @@ def select_customer(video_store):
 def run_cli(play = True):
 
     #initialize video_store
-    video_store = VideoStore(url=BACKUP_URL)
+    video_store = VideoStore()
     
     # print choices
     options = list_options()
@@ -129,12 +125,16 @@ def run_cli(play = True):
         
         # Choice 4: list one video
         elif choice == "4":
-            video_id = input("Enter video id: ")
+            video = input("Please enter video title or id: ")
 
-            if video_id == None:
+            if video == None:
                 return "This video has not been found"
 
-            response = video_store.list_one_video(id=video_id)
+            elif video.isalpha():
+                response = video_store.list_one_video(title=video)
+            elif video.isdigit():
+                response = video_store.list_one_video(id=int(video))
+
             print_stars()
             print(response)
 
@@ -267,6 +267,4 @@ def run_cli(play = True):
         print_stars()
 
 run_cli()
-
-
 

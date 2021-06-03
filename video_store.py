@@ -1,8 +1,11 @@
 import requests
 
+URL = "https://retro-video-store-api.herokuapp.com"
+
+
 # VideoStore class talks to the server
 class VideoStore:
-    def __init__(self, url="https://retro-video-store-api.herokuapp.com", selected_video=None, selected_customer=None):
+    def __init__(self, url=URL, selected_video=None, selected_customer=None):
         self.url = url
         self.selected_video = selected_video
         self.selected_customer = selected_customer
@@ -53,19 +56,21 @@ class VideoStore:
 
     # LIST ONE VIDEO
     def list_one_video(self, title=None, id=None):
+
+        self.selected_video = None 
             
         for video in self.list_all_videos():
             if title:
-                if video["title"]==title:
+                if title == video["title"]:
                     id = video["id"]
                     self.selected_video = video
-            elif id == video["id"]:
+            elif id == int(video["id"]):
                 self.selected_video = video
-            else:
-                return "Could not find any video by that title or id"
+        
+        if self.selected_video == None:
+            return "Could not find any video by that title or id"
 
-        response = requests.get(self.url+f"/videos/{id}")
-        return response.json()
+        return self.selected_video
 
 
     # LIST ALL VIDEOS
@@ -116,7 +121,9 @@ class VideoStore:
 
     # LIST ONE CUSTOMER
     def list_one_customer(self, name=None, id=None):  
-            
+
+        self.selected_customer = None 
+
         for customer in self.list_all_customers():
             if name:
                 if name == customer["name"]:
@@ -124,11 +131,11 @@ class VideoStore:
                     self.selected_customer = customer
             elif id == int(customer["id"]):
                 self.selected_customer = customer
-            else:
-                return "Could not find any customer by that name or id"
+            
+        if self.selected_customer == None:
+            return "Could not find any customer by that name or id"
 
-        response = requests.get(self.url+f"/customers/{id}")
-        return response.json()
+        return self.selected_customer
 
 
     # LIST ALL CUSTOMERS
