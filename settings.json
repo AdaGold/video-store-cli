@@ -1,0 +1,15 @@
+{
+    "python.pythonPath": "venv/bin/python",
+    "python.formatting.autopep8Args": ["--max-line-length", "120", "--experimental"],
+    "python.formatting.yapfArgs": ["--style", "{based_on_style: chromium, indent_width: 20}"],
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "100"
+    ],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+}
