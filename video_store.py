@@ -1,5 +1,6 @@
 import requests
 import datetime
+from flask import json
 
 class VideoStore():
     def __init__(self, url="http://localhost:5000", selected_video=None, selected_customer=None):
@@ -13,32 +14,32 @@ class VideoStore():
         if choice:
             print(f"You have selected #{choice}\n")
 
-#1 - got 500 internal server error
-    def create_video(self, title, release_date, available_inventory=None):
+#1 
+    def create_video(self, title, release_date, total_inventory):
         query_params = {
             "title": title,
             "release_date": release_date,
-            "available_inventory": available_inventory
+            "total_inventory": total_inventory
         }
         video_url = self.url+"/videos"
         print(f"about to send request to {video_url}")
-        response = requests.post(video_url,data=query_params)
+        response = requests.post(video_url,json=query_params)
         print(response)
-        if response.status_code == 200:
-            return response.json()
+        # if time allows: check for: if response.status_code == 200:
+        return response.json()
         # else: 
 
 
 #2 - got 500 internal server error
-    def edit_video(self, title, release_date, available_inventory):
+    def edit_video(self, title, release_date, total_inventory):
         request_body = {
             "title": title,
             "release_date": release_date,
-            "available_inventory": available_inventory
+            "total_inventory": total_inventory
         }
         video_url = self.url+"/videos/"+str(self.selected_video["id"])
         print(f"about to send request to {video_url}")
-        response = requests.put(video_url,data=request_body)
+        response = requests.put(video_url,json=request_body)
         print(response)
         # if time allows: check for: if response.status_code == 200:
         return response.json()
@@ -103,13 +104,37 @@ class VideoStore():
         self.selected_customer = response.json()
         return response.json()   
 
+#11 
+    def check_out(self, video_id, customer_id):
+        query_params = {
+            "video_id": video_id,
+            "customer_id": customer_id
+        }
+        response = requests.post(self.url+f"/rentals/check-out", json=query_params)
+        return response
 
-#11 post req to api 
-# video_store.save(name=name, postal_code=postal_code, phone=phone)
+#12 
+    def check_in(self, video_id, customer_id):
+        query_params = {
+            "video_id": video_id,
+            "customer_id": customer_id
+        }
+        response = requests.post(self.url+f"/rentals/check-in", json=query_params)
+        return response
 
-# video_store.customer.check_out(video_id=video.id, customer_id=customer.id)
 
 
+        # query_params = {
+        #     "title": title,
+        #     "release_date": release_date,
+        #     "available_inventory": available_inventory
+        # }
+        # video_url = self.url+"/videos"
+        # print(f"about to send request to {video_url}")
+        # response = requests.post(video_url,data=query_params)
+        # print(response)
+        # # if time allows: check for: if response.status_code == 200:
+        # return response.json()
 
 
     # def update_task(self,title=None,description=None):

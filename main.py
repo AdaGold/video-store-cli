@@ -56,11 +56,11 @@ def main(play=True):
             print(f"Let's add a new video")
             title = input("What is the name of the movie? ")
             release_date = input("When was the movie released? ")
-            available_inventory = input("How many copies of this video do we have? ")
-            response = video_store.create_video(title=title, release_date=release_date, available_inventory=available_inventory )
+            total_inventory = input("How many copies of this video do we have? ")
+            response = video_store.create_video(title=title, release_date=release_date, total_inventory=total_inventory )
 
             print_stars()
-            print("New movie:", response["title"])
+            print("New movie:", response)
 
         if choice == "2":
             print(f"Let's EDIT a video. ")
@@ -69,8 +69,8 @@ def main(play=True):
             print("Current movie information: ", original_video_response)
             title=input("What is the correct title? ")
             release_date=input("What is the correct release date? ")
-            available_inventory=input("What is the correct inventory? ")
-            response = video_store.edit_video(title=title, release_date=release_date, available_inventory=available_inventory)
+            total_inventory=input("What is the correct inventory? ")
+            response = video_store.edit_video(title=title, release_date=release_date, total_inventory=total_inventory)
 
             print_stars()
             print("Updated movie: ", response)
@@ -170,7 +170,7 @@ def main(play=True):
                 customer_id = int(customer_id)
                 customer = video_store.get_customer_by_id(id=customer_id)
             
-            if not customer_id.isnumeric() or not video_store.selected_customer:
+            elif not customer_id.isnumeric() or not video_store.selected_customer:
                 print("Please enter a valid numerical id. ")
 
             video_id = input("What is the id of the video being checked out? ")
@@ -178,22 +178,22 @@ def main(play=True):
                 video_id = int(video_id)
                 video = video_store.get_video_by_id(id=video_id)
             
-            if not video_id.isnumeric() or not video_store.video:
+            elif not video_id.isnumeric() or not video_store.video:
                 print("Please enter a valid numerical id. ")            
 
-            result = video_store.customer.check_out(video_id=video.id, customer_id=customer.id)
+            result = video_store.check_out(video_id=video_id, customer_id=customer_id)
     
             print(f"You checkout has been successful: {result}")
 
         if choice == "12":
-            print(f"Let's check inm a video from a customer. ")
+            print(f"Let's check in a video from a customer. ")
             print_stars()
             customer_id = input("What is the id of the customer who would like to return their video? ")
             if customer_id.isnumeric():
                 customer_id = int(customer_id)
                 customer = video_store.get_customer_by_id(id=customer_id)
             
-            if not customer_id.isnumeric() or not video_store.selected_customer:
+            elif not customer_id.isnumeric() or not video_store.selected_customer:
                 print("Please enter a valid numerical id. ")
 
             video_id = input("What is the id of the video being checked in? ")
@@ -201,12 +201,12 @@ def main(play=True):
                 video_id = int(video_id)
                 video = video_store.get_video_by_id(id=video_id)
             
-            if not video_id.isnumeric() or not video_store.video:
+            elif not video_id.isnumeric() or not video_store.video:
                 print("Please enter a valid numerical id. ")            
 
-            result = video_store.customer.check_out(video_id=video.id, customer_id=customer.id)
+            result = video_store.check_in(video_id=video_id, customer_id=customer_id)
             #delete rental?
-            print(f"You checkout has been successful: {result}")
+            print(f"You checkin has been successful: {result}")
 
         if choice == "13":
             play=False
