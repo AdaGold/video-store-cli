@@ -33,7 +33,6 @@ def make_choice(options, video_store):
     valid_choices = options.keys()
     choice = None
     while choice not in valid_choices:
-        # print("What would you like to do? Select 9 to see all options again")
         choice = input("Make your selection using the option number: ")
     return choice
 
@@ -95,7 +94,6 @@ def main(play=True):
 
 
         if choice == "5":
-            # print(f"Let's get information about: {video_store.selected_video} ")
             print(f"Let's get information about a video. ")
             print_stars()
             id = input("What is the id of the movie you would like information about? ")
@@ -205,8 +203,7 @@ def main(play=True):
                 print("Please enter a valid numerical id. ")            
 
             result = video_store.check_in(video_id=video_id, customer_id=customer_id)
-            #delete rental?
-            print(f"You checkin has been successful: {result}")
+            print(f"You check-in has been successful: {result}")
 
         if choice == "13":
             play=False

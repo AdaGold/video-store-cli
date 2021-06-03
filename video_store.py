@@ -9,8 +9,6 @@ class VideoStore():
         self.selected_customer = selected_customer
     
     def print_selected(self, choice):
-            #     if self.choice:
-            # print(f"You have selected #{self.choice}\n")
         if choice:
             print(f"You have selected #{choice}\n")
 
@@ -30,7 +28,7 @@ class VideoStore():
         # else: 
 
 
-#2 - got 500 internal server error
+#2 
     def edit_video(self, title, release_date, total_inventory):
         request_body = {
             "title": title,
@@ -121,52 +119,3 @@ class VideoStore():
         }
         response = requests.post(self.url+f"/rentals/check-in", json=query_params)
         return response
-
-
-
-        # query_params = {
-        #     "title": title,
-        #     "release_date": release_date,
-        #     "available_inventory": available_inventory
-        # }
-        # video_url = self.url+"/videos"
-        # print(f"about to send request to {video_url}")
-        # response = requests.post(video_url,data=query_params)
-        # print(response)
-        # # if time allows: check for: if response.status_code == 200:
-        # return response.json()
-
-
-    # def update_task(self,title=None,description=None):
-    #     if not title:
-    #         title = self.selected_task["title"]
-    #     if not description:
-    #         description = self.selected_task["description"]
-
-    #     query_params = {
-    #     "title": title,
-    #     "description": description
-    #     #"completed_at": self.selected_task["is_complete"]
-    #     }
-    #     response = requests.put(
-    #         self.url+f"/tasks/{self.selected_task['id']}",
-    #         json=query_params
-    #         )
-    #     print("response:", response)
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
-
-
-    
-    # def mark_complete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_complete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
-
-    # def mark_incomplete(self):
-    #     response = requests.patch(self.url+f"/tasks/{self.selected_task['id']}/mark_incomplete")
-    #     self.selected_task = response.json()["task"]
-    #     return response.json()
-
-
-
