@@ -5,7 +5,6 @@ BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 def main():
     print("WELCOME TO THE RETRO VIDEO STORE")
-    pass
 
 
 if __name__ == "__main__":
@@ -13,53 +12,36 @@ if __name__ == "__main__":
 
 
 ##############################
-from video_store import VideoStore
 
 def print_stars():
     print("\n**************************\n")
 
 def list_options():
-
-    # options = {
-    #     "1": "List all videos", 
-    #     "2": "Create a video",
-    #     "3": "Select a video", 
-    #     "4": "Update selected video", 
-    #     "5": "Delete selected video", 
-    #     "6": "List all customers",
-    #     "7": "Create a customer",
-    #     "8": "Select a customer",
-    #     "9": "Update selected customer",
-    #     "10": "Delete selected customers",
-    #     "11": "Check out selected video to a customer",
-    #     "12": "Check in selected video from a customer",
-    #     "13": "List all options",
-    #     "14": "Quit"
-    #     }
     
     options = {
         "1": "add a video",
         "2": "edit a video",
         "3": "delete a video",
-        "4": "get information about one video",
-        "5": "get information about all videos",
+        "4": "list one video",
+        "5": "list all videos",
         "6": "add a customer",
         "7": "edit a customer",
         "8": "delete a customer",
-        "9": "get information about one customer",
-        "10": "get information about all customers",
+        "9": "list one customer",
+        "10": "list all customers",
         "11": "check-out a video to a customer",
         "12": "check-in a video from a customer",
-        "13": "List all options",
-        "14": "Quit"
+        "13": "list all videos checked-out by customer",
+        "14": "list all customers who checked-out a specific video",
+        "15": "list all options",
+        "16": "quit"
     }
 
     print_stars()
-    print("These are the actions you can perform")
+    print("These are the available options")
     print_stars()
     
     for number in options:
-        # print(f"Option {number}. {options[number]}")
         print(f"Option {number}: {(options[number]).title()}")
 
     print_stars()
@@ -69,17 +51,11 @@ def list_options():
 # def make_choice(options, video_store):
 def make_choice(options):
     valid_choices = options.keys()
-    # choice = None
     choice = input("\nPlease select option: ")
 
     while choice not in valid_choices:
-        print("Please select 13 to see all options again")
+        print("Please select 15 to see all options again")
         choice = input("Make your selection using the option number: ")
-
-    # if choice in ['4','5','6','7'] and video_store.selected_task == None:
-    #     print("You must select a task before updating it, deleting it, marking it complete, or marking it incomplete.")
-    #     print("Let's select a task!")
-    #     choice = "3"
     
     return choice
 
@@ -107,10 +83,7 @@ def run_cli(play = True):
     while play == True:
 
         # get input and validate
-        # choice = make_choice(options, video_store)
         choice = make_choice(options)
-
-        # video_store.print_selected()
 
         # Choice 1: add a video
         if choice == '1':
@@ -125,10 +98,19 @@ def run_cli(play = True):
         # Choice 2: edit a video
         elif choice == '2':
             video = select_video(video_store)
+
+            if video == None:
+                return "This video has not been found"
+
             title = input("What is the new title of the video? ")
             release_date = input("What is the new release_date of the video? ")
             total_inventory = input("What is the new inventory of the video? ")
-            response = video_store.update_video(title=title, release_date=release_date, total_inventory=total_inventory)
+
+            response = video_store.update_video(
+                title=title, 
+                release_date=release_date, 
+                total_inventory=total_inventory
+            )
 
             print_stars()
             print("Updated video:", response["title"])
@@ -136,17 +118,22 @@ def run_cli(play = True):
         # Choice 3: delete a video
         elif choice == '3':
             video = select_video(video_store)
+
+            if video == None:
+                return "This video has not been found"
+
             video_store.delete_video()
 
             print_stars()
             print("Video has been deleted")
-
-            print_stars()
-            list_options()
         
         # Choice 4: list one video
         elif choice == "4":
             video_id = input("Enter video id: ")
+
+            if video_id == None:
+                return "This video has not been found"
+
             response = video_store.list_one_video(id=video_id)
             print_stars()
             print(response)
@@ -154,7 +141,8 @@ def run_cli(play = True):
         # Choice 5: list all videos
         if choice == '5':
             print_stars()
-            print("List all videos")
+            print("The video list is: ")
+
             for video in video_store.list_all_videos():
                 print(video)
         
@@ -171,18 +159,29 @@ def run_cli(play = True):
         # Choice 7: edit a customer
         elif choice == '7':
             customer = select_customer(video_store)
+
+            if customer == None:
+                return "This customer has not been found"
+
             name = input("What is the new name of the customer? ")
             postal_code = input("What is the new postal code of the customer? ")
             phone = input("What is the new phone number of the customer? ")
-            response = video_store.create_customer(name=name, postal_code=postal_code, phone=phone)   
+            response = video_store.create_customer(
+                name=name, 
+                postal_code=postal_code, 
+                phone=phone
+            )   
 
             print_stars()
-            # print("Updated customer:", response["name"])
             print("Updated customer:", name)
 
         # Choice 8: delete a customer
         elif choice == '8':
             customer = select_customer(video_store)
+
+            if customer == None:
+                return "This customer has not been found"
+
             video_store.delete_customer()
 
             print_stars()
@@ -193,45 +192,74 @@ def run_cli(play = True):
 
         # Choice 9: list one customer
         elif choice == '9':
-            customer_id = input("Enter customer id: ")
-            response = video_store.list_one_customer(id=customer_id)
+            customer = input("Please enter customer name or id: ")
+
+            if customer == None:
+                return "This customer has not been found"
+
+            elif customer.isalpha():
+                response = video_store.list_one_customer(name=customer)
+            elif customer.isdigit():
+                response = video_store.list_one_customer(id=int(customer))
+
             print_stars()
             print(response)
 
         # Choice 10: list all customers
         elif choice == '10':
             print_stars()
-            print("List all customers")
+            print("The list of customers is: ")
+
             for customer in video_store.list_all_customers():
                 print(customer)
         
         # Choice 11: check out a video to a customer
         elif choice == '11':
-            # customer_id = input("Enter customer id: ")
-            # video_id = input("Enter video_id: ")
-            # # print(f"The customer is {video_store.selected_customer}")
-            # rental = video_store.check_out_video(customer_id = customer["id"], video_id = video["id"])
-            # # rental = video_store.check_out_video()
-            # # rental = video_store.check_out_video(customer_id=customer_id, video_id=video_id)
-            # print(f"Video {rental[video_id]} has been checked_out to customer {rental[customer_id]}")
-
             customer = select_customer(video_store)
             video = select_video(video_store)
-            print(f"The customer is {video_store.selected_customer}")
+
+            if customer == None or video == None:
+                return "Please verify customer and/or video information"
+
             rental = video_store.check_out_video(customer_id = customer["id"], video_id = video["id"])
             print(f"Video {rental['video_id']} has been checked_out to customer {rental['customer_id']}")
 
         # Choice 12: check in a video from a customer
         elif choice == '12':
-            pass
+            customer = select_customer(video_store)
+            video = select_video(video_store)
 
-        # Choice 13: list all options
+            if customer == None or video == None:
+                return "Please verify customer and/or video information"
+
+            rental = video_store.check_in_video(customer_id = customer["id"], video_id = video["id"])
+            print(f"Video {rental['video_id']} has been checked_in to customer {rental['customer_id']}")
+
+        # Choice 13: list all videos checked out to a specific customer
         elif choice == '13':
+            customer = select_customer(video_store)
+
+            if customer == None:
+                return "This customer has not been found"
+
+            response = video_store.checked_out_videos_by_customer(customer["id"])
+
+        # Choice 14: list all customers who checked-out a specific video
+        elif choice == '14':
+            video = select_video(video_store)
+
+            if video == None:
+                return "This video has not been found"
+
+            response = video_store.customers_checked_out_this_video(video["id"])
+
+        # Choice 15: list all options
+        elif choice == '15':
             print_stars()
             list_options()
 
-        # Choice 14: quit
-        elif choice == '14':
+        # Choice 16: quit
+        elif choice == '16':
             play = False
             print_stars()
             print("\nThanks for using the Video Store CLI!")

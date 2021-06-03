@@ -53,23 +53,18 @@ class VideoStore:
 
     # LIST ONE VIDEO
     def list_one_video(self, title=None, id=None):
-        
-        # if self.selected_id == None:
-        #     return "Could not find video by that title or id"
             
         for video in self.list_all_videos():
             if title:
                 if video["title"]==title:
                     id = video["id"]
-                    print(f"The id on line 63 is {id}")
                     self.selected_video = video
             elif id == video["id"]:
                 self.selected_video = video
-                print(f"the video id is {id}")
+            else:
+                return "Could not find any video by that title or id"
 
         response = requests.get(self.url+f"/videos/{id}")
-        print(response.text)
-        print(f"The id is {id}")
         return response.json()
 
 
@@ -108,7 +103,6 @@ class VideoStore:
             self.url+f"/customers/{self.selected_customer['id']}",
             json=query_params
             )
-        # print("response:", response)
         self.selected_customer = response.json()["customer"]
         return response.json()
 
@@ -121,18 +115,17 @@ class VideoStore:
 
 
     # LIST ONE CUSTOMER
-    def list_one_customer(self, name=None, id=None):
-        
-        # if self.selected_id == None:
-        #     return "Could not find customer by that name or id"
+    def list_one_customer(self, name=None, id=None):  
             
         for customer in self.list_all_customers():
             if name:
-                if customer["name"]==name:
+                if name == customer["name"]:
                     id = customer["id"]
                     self.selected_customer = customer
-            elif id == customer["id"]:
+            elif id == int(customer["id"]):
                 self.selected_customer = customer
+            else:
+                return "Could not find any customer by that name or id"
 
         response = requests.get(self.url+f"/customers/{id}")
         return response.json()
@@ -149,26 +142,35 @@ class VideoStore:
         query_params = {
             "customer_id": customer_id,
             "video_id": video_id
-            # "customer_id": self.selected_customer['id'],
-            # "video_id": self.selected_video['id']
         }
-        response = requests.post(self.url+"/rentals/check-out", json=query_params)
+        response = requests.post(self.url + "/rentals/check-out", json=query_params)
         print(response.text)
         return response.json()
 
 
     # CHECK-IN VIDEO
-    def check_in_video(self):
+    def check_in_video(self, customer_id, video_id):
         query_params = {
-            "customer_id": self.selected_customer.id,
-            "video_id": self.selected_video.id
+            "customer_id": customer_id,
+            "video_id": video_id
         }
-        response = requests.post(self.url+"/rentals/check-in", json=query_params)
+        response = requests.post(self.url + "/rentals/check-in", json=query_params)
         return response.json()
 
 
-    # def print_selected(self):
-    #     if self.selected_video:
-    #         print(f"Video with id {self.selected_video['id']} is currently selected\n")
+    # CHECKED-OUT VIDEOS PER CUSTOMER
+    def checked_out_videos_by_customer(self, customer_id):
+        response = requests.get(self.url + f"/customers/{customer_id}/rentals")
+        print(response.text)
+        return response.json()
+
+
+    # CUSTOMERS WHO CHECKED-OUT SPECIFIC VIDEO
+    def customers_checked_out_this_video(self, video_id):
+        response = requests.get(self.url + f"/videos/{video_id}/rentals")
+        print(response.text)
+        return response.json()
+
+    
 
 
