@@ -1,5 +1,8 @@
 # Object file
 *.o
-
+.vscode
+venv
+__pycache__
+.DS_Store
 # Ada Library Information
 *.ali
