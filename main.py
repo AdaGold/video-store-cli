@@ -2,8 +2,9 @@ import requests
 from customer import Customer
 from video import Video
 
-# URL = "http://127.0.0.1:5000"
-# BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
+# URL = "http://localhost:5000"
+URL = "http://127.0.0.1:5000"
+BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 
 # def main():
@@ -66,8 +67,8 @@ def make_choice(options):
 def run_cli(play=True):
 
     #initialize 
-    customer = Customer(url="https://localhost:5000/")
-    video = Video(url="https://localhost:5000/")
+    customer = Customer(url="https://localhost:5000/customers")
+    video = Video(url="https://localhost:5000/videos")
 
     while play==True:
 
