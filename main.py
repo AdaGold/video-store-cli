@@ -10,7 +10,7 @@ BACKUP_URL = "https://retro-video-store-api.herokuapp.com"
 
 
 def print_stars():
-    print("\n**************************\n")
+    print("\n*************************\n")
 
 
 def list_options():

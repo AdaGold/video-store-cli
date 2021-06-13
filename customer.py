@@ -17,7 +17,6 @@ class Customer:
 
         return response.json()
 
-
     def update_customer(self, customer_id=None, name=None, postal_code=None, phone_number=None):
         
         if not name:
