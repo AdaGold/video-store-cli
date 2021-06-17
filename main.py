@@ -78,8 +78,7 @@ def create_a_customer():
     choice = {"name": name, "postal_code": postal_code, "phone": phone}
     response = requests.post(f"{BACKUP_URL}/customers", json = choice)
     response = response.json()
-    print(f"Customer {response['name']} was successfully created with id {response['id']}")
-    # print statement has keyerror i haven't resolved
+    print(f"Customer {name} was successfully created with id {response['id']}")
 
 def update_a_customer():
     id = input("Please enter the id of the customer you would like to update:  ")
